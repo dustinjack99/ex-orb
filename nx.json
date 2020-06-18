@@ -25,6 +25,18 @@
     "ex-orb-e2e": {
       "tags": [],
       "implicitDependencies": ["ex-orb"]
+    },
+    "material": {
+      "tags": []
+    },
+    "core-data": {
+      "tags": []
+    },
+    "ui-toolbar": {
+      "tags": []
+    },
+    "ul-login": {
+      "tags": []
     }
   }
 }
