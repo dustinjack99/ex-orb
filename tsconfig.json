@@ -16,7 +16,10 @@
     "skipDefaultLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@ex-orb/material": ["libs/material/src/index.ts"]
+      "@ex-orb/material": ["libs/material/src/index.ts"],
+      "@ex-orb/core-data": ["libs/core-data/src/index.ts"],
+      "@ex-orb/ui-toolbar": ["libs/ui-toolbar/src/index.ts"],
+      "@ex-orb/ul-login": ["libs/ul-login/src/index.ts"]
     }
   },
   "exclude": ["node_modules", "tmp"]

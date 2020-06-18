@@ -28,6 +28,15 @@
     },
     "material": {
       "tags": []
+    },
+    "core-data": {
+      "tags": []
+    },
+    "ui-toolbar": {
+      "tags": []
+    },
+    "ul-login": {
+      "tags": []
     }
   }
 }
