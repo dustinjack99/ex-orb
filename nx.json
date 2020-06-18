@@ -25,6 +25,9 @@
     "ex-orb-e2e": {
       "tags": [],
       "implicitDependencies": ["ex-orb"]
+    },
+    "material": {
+      "tags": []
     }
   }
 }
