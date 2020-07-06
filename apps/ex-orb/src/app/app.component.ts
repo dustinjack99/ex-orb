@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'ex-orb';
+  title = 'ExOrb';
+
+  links = [
+    { path: '/', icon: 'home', title: 'Home' },
+    { path: '/planets', icon: 'brightness_low', title: 'Planets' },
+  ];
 }
