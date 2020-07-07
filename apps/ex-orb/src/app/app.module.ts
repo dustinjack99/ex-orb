@@ -5,9 +5,11 @@ import { MaterialModule } from '../../../../libs/material/src/index';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HomeModule } from './home/home.module';
-import { PlanetSearchModule } from './planet-search/planet-search.module';
+import { PlanetMapModule } from './planet-map/planet-map.module';
 import { AppRoutingModule } from './app-routing.module';
 import { UlLoginModule } from '@ex-orb/ul-login';
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,9 +17,11 @@ import { UlLoginModule } from '@ex-orb/ul-login';
     BrowserModule,
     NxModule.forRoot(),
     BrowserAnimationsModule,
+    HttpClientModule,
+    FormsModule,
     MaterialModule,
     HomeModule,
-    PlanetSearchModule,
+    PlanetMapModule,
     UlLoginModule,
     AppRoutingModule,
   ],
