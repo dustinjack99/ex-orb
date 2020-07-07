@@ -4,7 +4,7 @@
         <mat-card>
             <mat-card-header>
                 <mat-card-title>
-                    <h1>Planets</h1>
+                    <h1>Exoplanets</h1>
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content>
@@ -18,6 +18,8 @@
                         <p mat-line>
                             {{planet.pl_bmasse}}
                         </p>
+                        <p>Longitude: {{planet.st_glon}}</p>
+                        <p>Latitude: {{planet.st_glat}}</p>
                         <button mat-icon-button>
                             <mat-icon>close</mat-icon>
                         </button>
@@ -32,16 +34,20 @@
             <mat-card-header>
                 <mat-card-title>
                     <h1>
-                        <span *ngIf="selectedPlanet; else elseBlock">
+                        <span *ngIf="selectedPlanet.pl_name; else elseBlock">
                             {{selectedPlanet.pl_name}}
                         </span>
 
-                        <ng-template #elseBlock>Select a Planet</ng-template>
+                        <ng-template #elseBlock>Planet Stats</ng-template>
                     </h1>
                 </mat-card-title>
             </mat-card-header>
-            <form>
+            <form (submit)="savePlanet(selectedPlanet)">
                 <mat-card-content>
+                    <mat-form-field class="full-width">
+                        <input matInput placeholer="Title" [(ngModel)]="selectedPlanet.pl_name" type="text"
+                            name="title">
+                    </mat-form-field>
                     <pre>{{selectedPlanet | json}}</pre>
                 </mat-card-content>
                 <mat-card-actions>
