@@ -8,6 +8,7 @@ import { HomeModule } from './home/home.module';
 import { PlanetSearchModule } from './planet-search/planet-search.module';
 import { AppRoutingModule } from './app-routing.module';
 import { UlLoginModule } from '@ex-orb/ul-login';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent],
@@ -15,6 +16,7 @@ import { UlLoginModule } from '@ex-orb/ul-login';
     BrowserModule,
     NxModule.forRoot(),
     BrowserAnimationsModule,
+    HttpClientModule,
     MaterialModule,
     HomeModule,
     PlanetSearchModule,

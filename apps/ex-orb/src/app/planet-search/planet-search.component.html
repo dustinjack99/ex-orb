@@ -13,10 +13,10 @@
                 <mat-list>
                     <mat-list-item (click)="selectProject(project)" *ngFor="let project of projects">
                         <h3 mat-line>
-                            {{project.title}}
+                            {{project.pl_name}}
                         </h3>
                         <p mat-line>
-                            {{project.details}}
+                            {{project.pl_bmasse}}
                         </p>
                         <button mat-icon-button>
                             <mat-icon>close</mat-icon>

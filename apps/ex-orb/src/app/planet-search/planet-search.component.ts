@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PlanetSearchService, PlanetSearch } from '@ex-orb/core-data';
 
 @Component({
   selector: 'ex-orb-planet-search',
@@ -6,39 +7,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./planet-search.component.scss'],
 })
 export class PlanetSearchComponent implements OnInit {
-  projects = [
-    {
-      id: '1',
-      title: 'Project One',
-      details: 'This is a sample project',
-      percentComplete: 20,
-      approved: false,
-    },
-    {
-      id: '2',
-      title: 'Project Two',
-      details: 'This is a sample project',
-      percentComplete: 40,
-      approved: false,
-    },
-    {
-      id: '3',
-      title: 'Project Three',
-      details: 'This is a sample project',
-      percentComplete: 100,
-      approved: true,
-    },
-  ];
+  selectedProject: PlanetSearch;
+  projects: PlanetSearch[];
 
-  selectedProject;
+  constructor(private planetSearchService: PlanetSearchService) {}
 
-  constructor() {}
-
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.getPlanets();
+  }
 
   selectProject(project) {
     this.selectedProject = project;
     console.log('selected project', project);
+  }
+
+  getPlanets() {
+    this.planetSearchService
+      .all()
+      .subscribe((result: any) => (this.projects = result));
   }
 
   cancel() {
