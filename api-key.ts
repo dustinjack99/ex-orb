@@ -5,7 +5,7 @@ const query =
 
 //NOTES ON DATA//
 
-//pl_hostname = planet's start
+//pl_hostname = planet's star
 //pl_name = planet name
 //pl_pnum = # of planet's in system
 //pl_orbper = Time in days (earth) for planet to orbit host star

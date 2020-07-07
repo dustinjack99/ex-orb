@@ -1,10 +1,10 @@
 import { NgModule } from '@angular/core';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { PlanetSearchService } from './planet-search/planet-search.service';
+import { PlanetMapService } from './planet-search/planet-search.service';
 
 @NgModule({
   imports: [CommonModule, HttpClientModule],
-  providers: [PlanetSearchService],
+  providers: [PlanetMapService],
 })
 export class CoreDataModule {}

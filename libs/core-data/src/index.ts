@@ -1,5 +1,5 @@
-import { PlanetSearchService } from './lib/planet-search/planet-search.service';
+import { PlanetMapService } from './lib/planet-search/planet-search.service';
 
-export { PlanetSearchService } from './lib/planet-search/planet-search.service';
+export { PlanetMapService } from './lib/planet-search/planet-search.service';
 export { CoreDataModule } from './lib/core-data.module';
-export { PlanetSearch } from './lib/planet-search/planet-search';
+export { PlanetMap } from './lib/planet-search/planet-search';

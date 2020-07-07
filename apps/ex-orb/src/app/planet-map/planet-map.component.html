@@ -11,12 +11,12 @@
                 <!-- <pre>{{projects | json}}</pre> -->
 
                 <mat-list>
-                    <mat-list-item (click)="selectProject(project)" *ngFor="let project of projects">
+                    <mat-list-item (click)="selectPlanet(planet)" *ngFor="let planet of planets$ | async">
                         <h3 mat-line>
-                            {{project.pl_name}}
+                            {{planet.pl_name}}
                         </h3>
                         <p mat-line>
-                            {{project.pl_bmasse}}
+                            {{planet.pl_bmasse}}
                         </p>
                         <button mat-icon-button>
                             <mat-icon>close</mat-icon>
@@ -32,17 +32,17 @@
             <mat-card-header>
                 <mat-card-title>
                     <h1>
-                        <span *ngIf="selectedProject; else elseBlock">
-                            {{selectedProject.title}}
+                        <span *ngIf="selectedPlanet; else elseBlock">
+                            {{selectedPlanet.pl_name}}
                         </span>
 
-                        <ng-template #elseBlock>Select a Project</ng-template>
+                        <ng-template #elseBlock>Select a Planet</ng-template>
                     </h1>
                 </mat-card-title>
             </mat-card-header>
             <form>
                 <mat-card-content>
-                    <!-- <pre>{{selectedProject | json}}</pre> -->
+                    <pre>{{selectedPlanet | json}}</pre>
                 </mat-card-content>
                 <mat-card-actions>
                     <button type="submit" mat-button color="primary">Save</button>
