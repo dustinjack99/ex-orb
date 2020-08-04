@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PlanetMapService, PlanetMap } from '@ex-orb/core-data';
 import { Observable } from 'rxjs';
+import L from 'leaflet';
 
 @Component({
   selector: 'ex-orb-planet-search',
@@ -15,6 +16,7 @@ export class PlanetMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPlanets();
+    this.renderMap(this.planets$);
     this.resetPlanet();
   }
 
@@ -40,6 +42,23 @@ export class PlanetMapComponent implements OnInit {
     this.selectPlanet(emptyPlanet);
   }
 
+  renderMap(planets) {
+    const map = L.map('map', {
+      crs: L.CRS.Simple,
+    });
+
+    const bounds = [
+      [0, 0],
+      [100, 400],
+    ];
+
+    planets.map((planet) => {
+      const newPlanet = L.latLng([planet.st_glat, planet.st_glon]);
+      newPlanet.addTo(map);
+    });
+
+    map.fitBounds(bounds);
+  }
   // sortPlanets(planets) {
   //   planets.sort((a, b) => {
   //     return b.st_glat - a.st_glat;
