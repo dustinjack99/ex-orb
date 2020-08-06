@@ -16,7 +16,7 @@ export class PlanetMapComponent implements OnInit {
 
   ngOnInit(): void {
     this.getPlanets();
-    this.renderMap(this.planets$);
+    // this.renderMap(this.planets$);
     this.resetPlanet();
   }
 
@@ -42,23 +42,23 @@ export class PlanetMapComponent implements OnInit {
     this.selectPlanet(emptyPlanet);
   }
 
-  renderMap(planets) {
-    const map = L.map('map', {
-      crs: L.CRS.Simple,
-    });
+  // renderMap(planets) {
+  //   const map = L.map('map', {
+  //     crs: L.CRS.Simple,
+  //   });
 
-    const bounds = [
-      [0, 0],
-      [100, 400],
-    ];
+  //   const bounds = [
+  //     [0, 0],
+  //     [100, 400],
+  //   ];
 
-    planets.map((planet) => {
-      const newPlanet = L.latLng([planet.st_glat, planet.st_glon]);
-      newPlanet.addTo(map);
-    });
+  //   planets.map((planet) => {
+  //     const newPlanet = L.latLng([planet.st_glat, planet.st_glon]);
+  //     newPlanet.addTo(map);
+  //   });
 
-    map.fitBounds(bounds);
-  }
+  //   map.fitBounds(bounds);
+  // }
   // sortPlanets(planets) {
   //   planets.sort((a, b) => {
   //     return b.st_glat - a.st_glat;

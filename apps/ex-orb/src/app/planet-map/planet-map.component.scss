@@ -1,7 +1,8 @@
 .container {
+  border: 1px solid red;
   display: flex;
   flex-direction: column;
-  border: 1px solid red;
+  height: 1000px;
 }
 
 mat-list {
