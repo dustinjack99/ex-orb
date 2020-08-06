@@ -2,14 +2,12 @@ const express = require('express');
 const app = express();
 const bodyParser = require('body-parser');
 const http = require('http');
-const axios = require('axios');
 // const mongoose = require('mongoose');
 // const router = require('./Backend/routes/routes-api');
 const router = require('express').Router();
 const PORT = process.env.PORT || 7777;
 const server = http.createServer(app);
 const path = require('path');
-const fs = require('fs');
 
 // Serve Static assests if in production
 // if (process.env.NODE_ENV === 'production') {
