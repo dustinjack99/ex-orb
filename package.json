@@ -7,6 +7,7 @@
     "postinstall": "node ./decorate-angular-cli.js && ngcc --properties es2015 browser module main --first-only --create-ivy-entry-points",
     "nx": "nx",
     "start": "ng serve",
+    "db": "nodemon server",
     "build": "ng build",
     "test": "ng test",
     "lint": "nx workspace-lint && ng lint",
@@ -44,7 +45,11 @@
     "@ngrx/store": "^9.2.0",
     "@nrwl/angular": "9.4.4",
     "@nrwl/nx": "^7.8.7",
+    "body-parser": "^1.19.0",
+    "express": "^4.17.1",
     "leaflet": "^1.6.0",
+    "mongodb": "^3.6.0",
+    "mongoose": "^5.9.27",
     "rxjs": "~6.5.4",
     "zone.js": "^0.10.2"
   },
@@ -65,10 +70,22 @@
     "eslint": "6.8.0",
     "jest": "25.2.3",
     "jest-preset-angular": "8.1.2",
+    "nodemon": "^2.0.4",
     "prettier": "2.0.4",
     "ts-jest": "25.2.1",
     "ts-node": "~7.0.0",
     "tslint": "~6.0.0",
     "typescript": "~3.8.3"
-  }
+  },
+  "description": "## future devNote - look into leaflet.js if you don't build the gamemap yourself",
+  "main": "decorate-angular-cli.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dustinjack99/ex-orb.git"
+  },
+  "author": "",
+  "bugs": {
+    "url": "https://github.com/dustinjack99/ex-orb/issues"
+  },
+  "homepage": "https://github.com/dustinjack99/ex-orb#readme"
 }

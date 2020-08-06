@@ -1,3 +1,10 @@
+.container {
+  border: 1px solid red;
+  display: flex;
+  flex-direction: column;
+  height: 1000px;
+}
+
 mat-list {
   height: 200px;
   overflow: auto;
@@ -7,4 +14,8 @@ mat-list {
   height: 500px;
   width: 500px;
   border: 1px solid red;
+}
+
+.selectedPlanet {
+  position: absolute;
 }

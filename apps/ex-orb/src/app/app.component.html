@@ -17,7 +17,7 @@
 </mat-toolbar>
 
 <mat-sidenav-container>
-    <mat-sidenav #sidenav mode="side" opened class="app-sidenav">
+    <mat-sidenav #sidenav mode="over" class="app-sidenav">
         <nav>
             <a mat-button class="nav-link" *ngFor="let link of links" [routerLink]="link.path"
                 routerLinkAvctive="active">
