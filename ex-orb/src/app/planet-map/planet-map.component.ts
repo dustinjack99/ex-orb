@@ -9,7 +9,7 @@ import L from 'leaflet';
   styleUrls: ['./planet-map.component.scss'],
 })
 export class PlanetMapComponent implements OnInit {
-  selectedPlanet: PlanetMap;
+  selectedPlanet;
   planets$;
 
   constructor() {}
@@ -26,7 +26,7 @@ export class PlanetMapComponent implements OnInit {
   }
 
   resetPlanet() {
-    const emptyPlanet: PlanetMap = {
+    const emptyPlanet = {
       pl_bmasse: 0,
       pl_edelink: '',
       pl_hostname: '',
@@ -67,7 +67,7 @@ export class PlanetMapComponent implements OnInit {
   // }
 
   getPlanets() {
-    this.planets$ = this.planetMapService.all();
+    // this.planets$ = this.planetMapService.all();
   }
 
   savePlanet(planet) {
