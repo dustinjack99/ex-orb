@@ -1,14 +1,14 @@
-version: '3.4'
+version: "3.4"
 
 services:
   web:
     # Azure Container Registry Image
-    # image: 'teetimedock.azurecr.io/tee-time'
+    image: "teetimedock.azurecr.io/ex-orb"
     # Dev Image
-    image: ex-orb
+    # image: ex-orb
     build: .
     ports:
-      - '4200:4200'
+      - "4200:4200"
     links:
       - db
 
@@ -18,4 +18,4 @@ services:
     # Dev Image
     image: mongo
     ports:
-      - '27017:27017'
+      - "27017:27017"

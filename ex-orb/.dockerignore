@@ -1,4 +1,4 @@
-/node_modules
-/Frontend/client/node_modules
+node_modules
 npm-debug.log
 README.md
+.git

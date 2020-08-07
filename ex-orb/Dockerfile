@@ -1,8 +1,9 @@
-FROM node:12.18-alpine
+FROM node:12.18-alpine As builder
 # ENV NODE_ENV production
 WORKDIR /usr/src/app
-COPY ["package.json", "package-lock.json*", "npm-shrinkwrap.json*", "./"]
+COPY ["package.json", "package-lock.json*", "./"]
 RUN npm install 
 COPY . .
-EXPOSE 4200
-CMD ["npm", "start"]
+RUN npm run build --production
+FROM nginx:1.15.8-alpine
+COPY --from=builder /usr/src/app/dist/ex-orb/ /usr/share/nginx/html
