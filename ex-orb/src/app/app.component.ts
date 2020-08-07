@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
 
 @Component({
-  selector: 'app-root',
+  selector: 'ex-orb-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.scss']
+  styleUrls: ['./app.component.scss'],
 })
 export class AppComponent {
-  title = 'ex-orb';
+  title = 'ExOrb';
+
+  links = [
+    { path: '/', icon: 'home', title: 'Home' },
+    { path: '/planets', icon: 'brightness_low', title: 'Planets' },
+  ];
 }
