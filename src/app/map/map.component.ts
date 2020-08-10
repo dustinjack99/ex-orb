@@ -16,9 +16,6 @@ export class MapComponent implements OnInit {
 
   ngOnInit(): void {
     const starMap = this.canvas.nativeElement;
-
-    starMap.width = window.innerWidth;
-    starMap.height = window.innerHeight;
     console.log(starMap);
   }
 }
