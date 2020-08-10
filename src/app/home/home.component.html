@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>
+      {{title}}
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <span [style.color]="themeColor">Some Colored Text!</span>
+    <mat-form-field class="example-full-width">
+      <mat-label>Enter Color</mat-label>
+      <input matInput [(ngModel)]="themeColor">
+    </mat-form-field>
+  </mat-card-content>
+</mat-card>
