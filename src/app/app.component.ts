@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -8,9 +9,14 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Ex-Orb';
   links = [
+    { path: '/', icon: 'map', title: 'Map' },
     { path: '/commands', icon: 'home', title: 'Commands' },
     { path: '/holdings', icon: 'view_list', title: 'Holdings' },
   ];
 
-  constructor() {}
+  constructor(private router: Router) {}
+
+  logout() {
+    this.router.navigateByUrl('/login');
+  }
 }

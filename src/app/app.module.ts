@@ -12,6 +12,7 @@ import { CommandsService } from './shared/services/commands.service';
 import { MapService } from './shared/services/map.service';
 import { CommandsComponent } from './commands/commands.component';
 import { HoldingsComponent } from './holdings/holdings.component';
+import { MapComponent } from './map/map.component';
 
 @NgModule({
   imports: [
@@ -22,7 +23,7 @@ import { HoldingsComponent } from './holdings/holdings.component';
     MaterialModule,
     HttpClientModule,
   ],
-  declarations: [AppComponent, CommandsComponent, HoldingsComponent],
+  declarations: [AppComponent, CommandsComponent, HoldingsComponent, MapComponent],
   providers: [PlanetsService, CommandsService, MapService],
   bootstrap: [AppComponent],
 })
