@@ -27,7 +27,7 @@ p {
   flex-wrap: wrap;
 }
 
-.container [class*='col'] {
+.container [class*="col"] {
   padding: 10px;
   flex: 1;
 }
@@ -43,7 +43,7 @@ p {
   border-bottom: 2px solid #673ab7;
 }
 
-app-root {
+ex-orb-root {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -243,8 +243,10 @@ mat-card-actions {
   }
 
   .ig-xpro2 {
-    -webkit-filter: contrast(1.3) brightness(0.8) sepia(0.3) saturate(1.5) hue-rotate(-20deg);
-    filter: contrast(1.3) brightness(0.8) sepia(0.3) saturate(1.5) hue-rotate(-20deg);
+    -webkit-filter: contrast(1.3) brightness(0.8) sepia(0.3) saturate(1.5)
+      hue-rotate(-20deg);
+    filter: contrast(1.3) brightness(0.8) sepia(0.3) saturate(1.5)
+      hue-rotate(-20deg);
   }
 
   .ig-willow {
@@ -253,8 +255,10 @@ mat-card-actions {
   }
 
   .ig-walden {
-    -webkit-filter: sepia(0.35) contrast(0.9) brightness(1.1) hue-rotate(-10deg) saturate(1.5);
-    filter: sepia(0.35) contrast(0.9) brightness(1.1) hue-rotate(-10deg) saturate(1.5);
+    -webkit-filter: sepia(0.35) contrast(0.9) brightness(1.1) hue-rotate(-10deg)
+      saturate(1.5);
+    filter: sepia(0.35) contrast(0.9) brightness(1.1) hue-rotate(-10deg)
+      saturate(1.5);
   }
 
   .ig-valencia {
@@ -278,13 +282,17 @@ mat-card-actions {
   }
 
   .ig-rise {
-    -webkit-filter: saturate(1.4) sepia(0.25) hue-rotate(-15deg) contrast(0.8) brightness(1.1);
-    filter: saturate(1.4) sepia(0.25) hue-rotate(-15deg) contrast(0.8) brightness(1.1);
+    -webkit-filter: saturate(1.4) sepia(0.25) hue-rotate(-15deg) contrast(0.8)
+      brightness(1.1);
+    filter: saturate(1.4) sepia(0.25) hue-rotate(-15deg) contrast(0.8)
+      brightness(1.1);
   }
 
   .ig-nashville {
-    -webkit-filter: sepia(0.4) saturate(1.5) contrast(0.9) brightness(1.1) hue-rotate(-15deg);
-    filter: sepia(0.4) saturate(1.5) contrast(0.9) brightness(1.1) hue-rotate(-15deg);
+    -webkit-filter: sepia(0.4) saturate(1.5) contrast(0.9) brightness(1.1)
+      hue-rotate(-15deg);
+    filter: sepia(0.4) saturate(1.5) contrast(0.9) brightness(1.1)
+      hue-rotate(-15deg);
   }
 
   .ig-mayfair {
@@ -313,13 +321,17 @@ mat-card-actions {
   }
 
   .hefe {
-    -webkit-filter: contrast(1.3) sepia(0.3) saturate(1.3) hue-rotate(-10deg) brightness(0.95);
-    filter: contrast(1.3) sepia(0.3) saturate(1.3) hue-rotate(-10deg) brightness(0.95);
+    -webkit-filter: contrast(1.3) sepia(0.3) saturate(1.3) hue-rotate(-10deg)
+      brightness(0.95);
+    filter: contrast(1.3) sepia(0.3) saturate(1.3) hue-rotate(-10deg)
+      brightness(0.95);
   }
 
   .ig-earlybird {
-    -webkit-filter: sepia(0.4) saturate(1.6) contrast(1.1) brightness(0.9) hue-rotate(-10deg);
-    filter: sepia(0.4) saturate(1.6) contrast(1.1) brightness(0.9) hue-rotate(-10deg);
+    -webkit-filter: sepia(0.4) saturate(1.6) contrast(1.1) brightness(0.9)
+      hue-rotate(-10deg);
+    filter: sepia(0.4) saturate(1.6) contrast(1.1) brightness(0.9)
+      hue-rotate(-10deg);
   }
 
   .ig-brannan {
@@ -328,7 +340,8 @@ mat-card-actions {
   }
 
   .ig-amaro {
-    -webkit-filter: hue-rotate(-10deg) contrast(0.9) brightness(1.1) saturate(1.5);
+    -webkit-filter: hue-rotate(-10deg) contrast(0.9) brightness(1.1)
+      saturate(1.5);
     filter: hue-rotate(-10deg) contrast(0.9) brightness(1.1) saturate(1.5);
   }
 
@@ -344,7 +357,7 @@ mat-toolbar {
     0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12);
   z-index: 900;
 
-  >.mat-mini-fab {
+  > .mat-mini-fab {
     margin-right: 10px;
   }
 
