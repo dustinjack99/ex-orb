@@ -1,0 +1,76 @@
+<div class="planet-containers">
+    <div class="planet-list">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Planet Data
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+                <mat-list>
+                    <mat-list-item *ngFor="let planet of planets" (click)="selectPlanet(planet)">
+                        <h3 matLine>
+
+                            {{planet.title}}
+                        </h3>
+                        <p matLine>{{planet.description}}</p>
+                        <button mat-icon-button color="warn"
+                            (click)='deletePlanet(planet.id);$event.stopImmediatePropagation()'>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-list>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="planet-details">
+        <mat-card *ngIf="currentPlanet.id">
+            <mat-card-header>
+                <mat-card-title>
+                    Edit Planet
+                </mat-card-title>
+            </mat-card-header>
+            <!-- ANGULAR CREATES A FORM CONTROLLER WHEN YOU WRAP IN A FORM -->
+            <form #form="ngForm" (submit)="savePlanet(currentPlanet)">
+
+                <mat-card-content>
+
+                    <mat-form-field>
+                        <input matInput required placeholder="Title" type="text" name="title"
+                            [(ngModel)]="currentPlanet.title">
+                    </mat-form-field>
+                    <mat-form-field>
+                        <input matInput placeholder="Description" type="text" name="description"
+                            [(ngModel)]="currentPlanet.description">
+                    </mat-form-field>
+                    <section>
+                        <h4>{{currentPlanet.percentComplete}}</h4>
+                        <mat-slider class="full-width" min="0" max="100" name="percentComplete" thumbLabel
+                            [(ngModel)]="currentPlanet.percentComplete">
+
+
+                        </mat-slider>
+                    </section>
+
+                    <section>
+                        <h3>In Holdings</h3>
+                        <mat-slide-toggle name="favorite" [(ngModel)]="currentPlanet.favorite">
+
+                        </mat-slide-toggle>
+                    </section>
+
+                </mat-card-content>
+                <mat-card-actions>
+                    <button [disabled]="form.invalid" type="submit" mat-button color="primary">Submit</button>
+                    <button type="button" mat-button (click)='cancel()'>Cancel</button>
+                    <!-- COURSE ACTIONS -->
+
+                </mat-card-actions>
+            </form>
+
+        </mat-card>
+    </div>
+</div>
