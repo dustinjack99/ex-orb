@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { CommandsService } from '../shared/services/commands.service';
 
 @Component({
   selector: 'app-home',
@@ -8,19 +9,13 @@ import { Component, OnInit } from '@angular/core';
 export class HomeComponent implements OnInit {
   title = 'Commands';
   currentCommand = null;
-  commandList = [
-    { title: 'Scan', flavor: 'Scanning Planet Resources...' },
-    { title: 'Explore', flavor: 'Probing Star System...' },
-    { title: 'Parlay', flavor: 'Send Envoys to Planet Leadership...' },
-    { title: 'Supply', flavor: 'Sending trade ships to surface...' },
-    { title: 'Harvest', flavor: 'Harvesting biomass and precious metals...' },
-    { title: 'Conquer', flavor: 'War has come to ${planet name}' },
-    { title: 'Tech Card', flavor: 'THIS WILL PULL UP TECH CARD HAND' },
-  ];
+  commandList = null;
 
-  constructor() {}
+  constructor(private commandService: CommandsService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.commandList = this.commandService.all();
+  }
 
   selectLesson(command) {
     console.log('select fired', command);

@@ -9,6 +9,8 @@ import { MaterialModule } from './material.module';
 import { HomeComponent } from './home/home.component';
 import { CoursesComponent } from './courses/courses.component';
 import { FormsModule } from '@angular/forms';
+import { PlanetsService } from './shared/services/planets.service';
+import { CommandsService } from './shared/services/commands.service';
 
 @NgModule({
   imports: [
@@ -20,7 +22,7 @@ import { FormsModule } from '@angular/forms';
     HttpClientModule,
   ],
   declarations: [AppComponent, HomeComponent, CoursesComponent],
-  providers: [],
+  providers: [PlanetsService, CommandsService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

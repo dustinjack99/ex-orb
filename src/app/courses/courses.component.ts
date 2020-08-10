@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PlanetsService } from '../shared/services/planets.service';
 
 @Component({
   selector: 'app-courses',
@@ -7,41 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CoursesComponent implements OnInit {
   currentPlanet = null;
-
+  planets = null;
   //this will eventually be the API call
   // OR this could be your current planetary holding
   // now that I think about it, this list should be
   // your current planetary holdings, that way we
   // wont have to populate all planets at once;
-  planets = [
-    {
-      id: 1,
-      title: 'Terra',
-      description:
-        'Abundant life and liquid water. Birthplace of homo sapien sapiens.',
-      percentComplete: 26,
-      favorite: true,
-    },
-    {
-      id: 2,
-      title: 'Mars',
-      description: 'Red planet with solid water at poles.',
-      percentComplete: 26,
-      favorite: true,
-    },
-    {
-      id: 3,
-      title: 'Venus',
-      description: 'Barren, heated rock with valuable gases in atmosphere.',
-      percentComplete: 26,
-      favorite: true,
-    },
-  ];
 
-  constructor() {}
+  constructor(private planetService: PlanetsService) {}
 
   ngOnInit(): void {
     this.resetSelectPlanet();
+    this.planets = this.planetService.all();
   }
 
   resetSelectPlanet() {
@@ -62,11 +40,16 @@ export class CoursesComponent implements OnInit {
   }
 
   deletePlanet(planet) {
+    this.planetService.delete(planet);
     console.log(planet + 'deleted');
   }
 
-  savePlanet() {
-    console.log('planet saved');
+  savePlanet(planet) {
+    if (planet.id) {
+      this.planetService.update(planet);
+    } else {
+      this.planetService.create(planet);
+    }
   }
 
   selectPlanet(planet) {

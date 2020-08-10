@@ -34,7 +34,7 @@
                 </mat-card-title>
             </mat-card-header>
             <!-- ANGULAR CREATES A FORM CONTROLLER WHEN YOU WRAP IN A FORM -->
-            <form #form="ngForm" (submit)="savePlanet()">
+            <form #form="ngForm" (submit)="savePlanet(currentPlanet)">
 
                 <mat-card-content>
 
@@ -46,8 +46,21 @@
                         <input matInput placeholder="Description" type="text" name="description"
                             [(ngModel)]="currentPlanet.description">
                     </mat-form-field>
+                    <section>
+                        <h4>{{currentPlanet.percentComplete}}</h4>
+                        <mat-slider class="full-width" min="0" max="100" name="percentComplete" thumbLabel
+                            [(ngModel)]="currentPlanet.percentComplete">
 
 
+                        </mat-slider>
+                    </section>
+
+                    <section>
+                        <h3>In Holdings</h3>
+                        <mat-slide-toggle name="favorite" [(ngModel)]="currentPlanet.favorite">
+
+                        </mat-slide-toggle>
+                    </section>
 
                 </mat-card-content>
                 <mat-card-actions>
