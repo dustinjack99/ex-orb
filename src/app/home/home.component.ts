@@ -6,20 +6,24 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent implements OnInit {
-  title = 'Hello Workshop';
-  themeColor = 'blue';
-  courseLessons = [
-    { title: 'Hello Angular' },
-    { title: 'Component Fundamentals' },
-    { title: 'Template Driven Forms' },
-    { title: 'Angular Services' },
-    { title: 'Server Communication' },
-    { title: 'Component Driven Architecture' },
-    { title: 'Angular Routing' },
-    { title: 'Unit Testing Fundamentals' },
+  title = 'Commands';
+  currentCommand = null;
+  commandList = [
+    { title: 'Scan', flavor: 'Scanning Planet Resources...' },
+    { title: 'Explore', flavor: 'Probing Star System...' },
+    { title: 'Parlay', flavor: 'Send Envoys to Planet Leadership...' },
+    { title: 'Supply', flavor: 'Sending trade ships to surface...' },
+    { title: 'Harvest', flavor: 'Harvesting biomass and precious metals...' },
+    { title: 'Conquer', flavor: 'War has come to ${planet name}' },
+    { title: 'Tech Card', flavor: 'THIS WILL PULL UP TECH CARD HAND' },
   ];
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  selectLesson(command) {
+    console.log('select fired', command);
+    this.currentCommand = command;
+  }
 }

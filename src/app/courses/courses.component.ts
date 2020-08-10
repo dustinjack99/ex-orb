@@ -3,22 +3,44 @@ import { Component, OnInit } from '@angular/core';
 @Component({
   selector: 'app-courses',
   templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss']
+  styleUrls: ['./courses.component.scss'],
 })
 export class CoursesComponent implements OnInit {
-  courses = [
+  currentPlanet = null;
+  planets = [
     {
       id: 1,
-      title: 'Angular 9 Fundamentals',
-      description: 'Learn the fundamentals of Angular 9',
+      title: 'Terra',
+      description:
+        'Abundant life and liquid water. Birthplace of homo sapien sapiens.',
       percentComplete: 26,
-      favorite: true
-    }
+      favorite: true,
+    },
+    {
+      id: 2,
+      title: 'Mars',
+      description: 'Red planet with solid water at poles.',
+      percentComplete: 26,
+      favorite: true,
+    },
+    {
+      id: 3,
+      title: 'Venus',
+      description: 'Barren, heated rock with valuable gases in atmosphere.',
+      percentComplete: 26,
+      favorite: true,
+    },
   ];
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  selectPlanet(planet) {
+    this.currentPlanet = planet;
   }
 
+  deletePlanet(planet) {
+    console.log(planet + 'deleted');
+  }
 }

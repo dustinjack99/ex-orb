@@ -1,34 +1,51 @@
-<div class="courses-containers">
-    <div class="courses-list">
-        <mat-card>
-        <mat-card-header>
-            <mat-card-title>
-            Course List
-            </mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-
-            <!-- COURSES LIST -->
-
-        </mat-card-content>
-        </mat-card>
-    </div>
-
-    <div class="course-details">
+<div class="planet-containers">
+    <div class="planet-list">
         <mat-card>
             <mat-card-header>
                 <mat-card-title>
-                    Select Course
+                    Planet Data
                 </mat-card-title>
             </mat-card-header>
             <mat-card-content>
-            
-            <!-- COURSE FORM -->
+
+                <mat-list>
+                    <mat-list-item *ngFor="let planet of planets" (click)="selectPlanet(planet)">
+                        <h3 matLine>
+
+                            {{planet.title}}
+                        </h3>
+                        <p matLine>{{planet.description}}</p>
+                        <button mat-icon-button color="warn"
+                            (click)='deletePlanet(planet.id);$event.stopImmediatePropagation()'>
+                            <mat-icon>delete</mat-icon>
+                        </button>
+                    </mat-list-item>
+                </mat-list>
+
+            </mat-card-content>
+        </mat-card>
+    </div>
+
+    <div class="planet-details">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title>
+                    Select Planet
+                </mat-card-title>
+            </mat-card-header>
+            <mat-card-content>
+
+                <pre *ngIf="currentPlanet">
+
+                    {{currentPlanet | json}}
+                </pre>
+
+
 
             </mat-card-content>
             <mat-card-actions>
 
-            <!-- COURSE ACTIONS -->
+                <!-- COURSE ACTIONS -->
 
             </mat-card-actions>
         </mat-card>
