@@ -6,11 +6,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MaterialModule } from './material.module';
-import { HomeComponent } from './home/home.component';
-import { CoursesComponent } from './courses/courses.component';
 import { FormsModule } from '@angular/forms';
 import { PlanetsService } from './shared/services/planets.service';
 import { CommandsService } from './shared/services/commands.service';
+import { MapService } from './shared/services/map.service';
+import { CommandsComponent } from './commands/commands.component';
+import { HoldingsComponent } from './holdings/holdings.component';
 
 @NgModule({
   imports: [
@@ -21,8 +22,8 @@ import { CommandsService } from './shared/services/commands.service';
     MaterialModule,
     HttpClientModule,
   ],
-  declarations: [AppComponent, HomeComponent, CoursesComponent],
-  providers: [PlanetsService, CommandsService],
+  declarations: [AppComponent, CommandsComponent, HoldingsComponent],
+  providers: [PlanetsService, CommandsService, MapService],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

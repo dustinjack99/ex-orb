@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommandsService } from '../shared/services/commands.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+  selector: 'ex-orb-commands',
+  templateUrl: './commands.component.html',
+  styleUrls: ['./commands.component.scss'],
 })
-export class HomeComponent implements OnInit {
+export class CommandsComponent implements OnInit {
   title = 'Commands';
   currentCommand = null;
   commandList = null;

@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { PlanetsService } from '../shared/services/planets.service';
 
 @Component({
-  selector: 'app-courses',
-  templateUrl: './courses.component.html',
-  styleUrls: ['./courses.component.scss'],
+  selector: 'ex-orb-holdings',
+  templateUrl: './holdings.component.html',
+  styleUrls: ['./holdings.component.scss'],
 })
-export class CoursesComponent implements OnInit {
+export class HoldingsComponent implements OnInit {
   currentPlanet = null;
   planets = null;
   //this will eventually be the API call
