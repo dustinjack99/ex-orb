@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { MapService, Planet } from '../shared/services/map.service';
 import { Observable } from 'rxjs';
 import { PlanetsService } from '../shared/services/planets.service';
-// import { defaultMaxListeners } from 'stream';
 
 @Component({
   selector: 'ex-orb-map',
@@ -18,6 +17,7 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService) {}
 
   ngOnInit() {
+    // Sets Maps Galactic Coordinates onto Canvas Map
     const mapBounds = {
       minGlon: -5,
       maxGlon: 365,
@@ -47,42 +47,43 @@ export class MapComponent implements OnInit {
     map.width = dimensions.width;
     map.height = dimensions.height;
 
+    //Planet Class
+    function Planet(x, y, radius) {
+      this.x = x;
+      this.y = y;
+      this.radius = radius;
+
+      this.draw = () => {
+        c.beginPath();
+        c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+        c.strokeStyle = 'blue';
+        c.stroke();
+      };
+    }
+
+    //Mouse Position on Canvas Star Map
+    let mouse = {
+      x: undefined,
+      y: undefined,
+    };
+
+    map.addEventListener('mousemove', (e) => {
+      mouse.x = e.x;
+      mouse.y = e.y;
+      console.log(mouse);
+    });
+
+    //Service Mapping planets onto Star Map
     this.mapService.all().subscribe((response) => {
       this.mapPlanets = response;
       this.mapPlanets.map((planet) => {
         let x = getX(planet.st_glon);
         let y = getY(planet.st_glat);
-        let dx = 4;
-        let dy = 4;
-        const radius = 5;
+        let radius = 3;
 
-        c.beginPath();
-        c.arc(x, y, radius, 0, Math.PI * 2, false);
-        c.strokeStyle = 'blue';
-        c.stroke();
+        let newPlanet = new Planet(x, y, radius);
+        newPlanet.draw();
       });
-
-      // const animate = () => {
-      //   requestAnimationFrame(animate);
-      //   c.clearRect(0, 0, innerWidth, innerHeight);
-
-      //   c.beginPath();
-      //   c.arc(x, y, radius, 0, Math.PI * 2, false);
-      //   c.strokeStyle = 'blue';
-      //   c.stroke();
-
-      //   if (x + radius > innerWidth || x - radius < 0) {
-      //     dx = -dx;
-      //   }
-      //   if (y + radius > innerHeight || y - radius < 0) {
-      //     dy = -dy;
-      //   }
-
-      //   x += dx;
-      //   y += dy;
-      // };
-
-      // animate();
     });
   }
 
