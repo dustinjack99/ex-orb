@@ -18,42 +18,71 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService) {}
 
   ngOnInit() {
+    const mapBounds = {
+      minGlon: -5,
+      maxGlon: 365,
+      minGlat: -95,
+      maxGlat: 95,
+    };
+
+    const dimensions = {
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+
+    const getX = (x) => {
+      let position =
+        (x - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+      return dimensions.width * position;
+    };
+
+    const getY = (y) => {
+      let position =
+        (y - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+      return dimensions.height * position;
+    };
+
+    const map = this.canvas.nativeElement;
+    const c = map.getContext('2d');
+    map.width = dimensions.width;
+    map.height = dimensions.height;
+
     this.mapService.all().subscribe((response) => {
       this.mapPlanets = response;
-      console.log(this.mapPlanets);
-
-      const map = this.canvas.nativeElement;
-      const c = map.getContext('2d');
-      map.width = window.innerWidth;
-      map.height = window.innerHeight;
-
-      let x = 200;
-      let y = 200;
-      let dx = 4;
-      let dy = 4;
-      const radius = 30;
-
-      const animate = () => {
-        requestAnimationFrame(animate);
-        c.clearRect(0, 0, innerWidth, innerHeight);
+      this.mapPlanets.map((planet) => {
+        let x = getX(planet.st_glon);
+        let y = getY(planet.st_glat);
+        let dx = 4;
+        let dy = 4;
+        const radius = 5;
 
         c.beginPath();
         c.arc(x, y, radius, 0, Math.PI * 2, false);
         c.strokeStyle = 'blue';
         c.stroke();
+      });
 
-        if (x + radius > innerWidth || x - radius < 0) {
-          dx = -dx;
-        }
-        if (y + radius > innerHeight || y - radius < 0) {
-          dy = -dy;
-        }
+      // const animate = () => {
+      //   requestAnimationFrame(animate);
+      //   c.clearRect(0, 0, innerWidth, innerHeight);
 
-        x += dx;
-        y += dy;
-      };
+      //   c.beginPath();
+      //   c.arc(x, y, radius, 0, Math.PI * 2, false);
+      //   c.strokeStyle = 'blue';
+      //   c.stroke();
 
-      animate();
+      //   if (x + radius > innerWidth || x - radius < 0) {
+      //     dx = -dx;
+      //   }
+      //   if (y + radius > innerHeight || y - radius < 0) {
+      //     dy = -dy;
+      //   }
+
+      //   x += dx;
+      //   y += dy;
+      // };
+
+      // animate();
     });
   }
 
