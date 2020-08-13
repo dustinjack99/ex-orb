@@ -120,8 +120,8 @@ export class MapComponent implements OnInit {
       }
 
       this.mapStars.map((star) => {
-        let x = getX(star.st_glat);
-        let y = getY(star.st_glon);
+        let x = getX(star.st_elat);
+        let y = getY(star.st_elon);
         let radius = 3;
         let starStats = {
           name: star.pl_hostname,
