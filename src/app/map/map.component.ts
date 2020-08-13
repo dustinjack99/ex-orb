@@ -25,10 +25,10 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     // Sets Maps Galactic Coordinates onto Canvas Map
     const mapBounds = {
-      minGlon: -5,
-      maxGlon: 365,
-      minGlat: -95,
-      maxGlat: 95,
+      minGlon: 0,
+      maxGlon: 360,
+      maxGlat: 90,
+      minGlat: -90,
     };
 
     const dimensions = {
@@ -38,14 +38,15 @@ export class MapComponent implements OnInit {
 
     const getX = (x) => {
       let position =
-        (x - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
-      return Math.floor(dimensions.width * position);
+        (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+      return dimensions.width * position;
     };
 
     const getY = (y) => {
+      let yPI = y * Math.PI;
       let position =
-        (y - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
-      return Math.floor(dimensions.height * position);
+        (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+      return dimensions.height * position;
     };
 
     const map = this.svg.nativeElement;
@@ -119,8 +120,8 @@ export class MapComponent implements OnInit {
       }
 
       this.mapStars.map((star) => {
-        let x = getX(star.st_glon);
-        let y = getY(star.st_glat);
+        let x = getX(star.st_glat);
+        let y = getY(star.st_glon);
         let radius = 3;
         let starStats = {
           name: star.pl_hostname,
