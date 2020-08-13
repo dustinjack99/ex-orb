@@ -84,7 +84,7 @@ export class MapComponent implements OnInit {
         star.addEventListener(
           'click',
           (this.alertPlanets = () => {
-            console.log(this.planets);
+            console.log(this.planets.map((planet) => planet));
             // console.log(th)
           })
         );
