@@ -15,12 +15,9 @@ import { PlanetsService } from '../shared/services/planets.service';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  mapPlanets = new Array<Planet>();
+  mapStars = new Array();
 
-  // @ViewChild('canvas', { static: true })
   @ViewChild('svg', { static: true })
-  // @ViewChild('svgImg', { static: true })
-  // canvas: ElementRef<HTMLCanvasElement>;
   svg: ElementRef<SVGElement>;
 
   constructor(private mapService: MapService) {}
@@ -64,83 +61,80 @@ export class MapComponent implements OnInit {
     svgImg.setAttribute('width', `${dimensions.width}`);
     svgImg.setAttribute('preserveAspectRatio', 'none');
     svgImg.setAttribute('href', '../../assets/starCoordlarge.jpg');
-    svgImg.setAttribute('transform', 'rotate(-90s)');
+    // svgImg.setAttribute('transform', 'rotate(-90s)');
 
     map.appendChild(svgImg);
-    // const map = this.canvas.nativeElement;
-    // const c = map.getContext('2d');
-    // map.width = dimensions.width;
-    // map.height = dimensions.height;
 
-    //Planet Class
-    function Planet(x, y, radius) {
-      this.x = x;
-      this.y = y;
-      this.radius = radius;
-
+    //Star Class
+    function Star(starStats) {
+      this.x = starStats.x;
+      this.y = starStats.y;
+      this.radius = starStats.r;
+      this.planets = starStats.planets;
+      this.alertPlanets = () => {};
       this.draw = () => {
-        // c.beginPath();
-        // c.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-        // c.strokeStyle = 'blue';
-        // c.stroke();
-        const planet = document.createElementNS(
+        const star = document.createElementNS(
           'http://www.w3.org/2000/svg',
           'circle'
         );
-        planet.setAttribute('cx', `${this.x}`);
-        planet.setAttribute('cy', `${this.y}`);
-        planet.setAttribute('r', `${this.radius}`);
-        planet.setAttribute('fill', `red`);
-        planet.addEventListener('mouseover', function (e) {
-          console.log(e.target);
-        });
-        console.log(planet);
-        map.appendChild(planet);
+        star.setAttribute('cx', `${this.x}`);
+        star.setAttribute('cy', `${this.y}`);
+        star.setAttribute('r', `${this.radius}`);
+        star.setAttribute('fill', `red`);
+        star.addEventListener(
+          'click',
+          (this.alertPlanets = () => {
+            console.log(this.planets.map((planet) => planet));
+            // console.log(th)
+          })
+        );
+        // console.log(star);
+        map.appendChild(star);
       };
     }
 
-    //Mouse Position on Canvas Star Map
-    let mouse = {
-      x: undefined,
-      y: undefined,
-    };
-
-    const planetCoords = [];
-
-    // map.addEventListener('mousemove', (e) => {
-    //   mouse.x = e.x;
-    //   mouse.y = e.y;
-    //   // console.log(mouse);
-
-    //   for (let i = 0; i < planetCoords.length; i++) {
-    //     let dx = mouse.x - planetCoords[i].x;
-    //     let dy = mouse.y - planetCoords[i].y;
-
-    //     if (dx * dx + dy * dy < planetCoords[i].r * planetCoords[i].r) {
-    //       console.log('lets see if this works');
-    //     }
-    //   }
-    // });
-
     //Service Mapping planets onto Star Map
     this.mapService.all().subscribe((response) => {
-      this.mapPlanets = response;
-      this.mapPlanets.map((planet) => {
-        let x = getX(planet.st_glon);
-        let y = getY(planet.st_glat);
+      this.mapStars = response;
+
+      function getIndexes(res, starName) {
+        let indexes = [],
+          i;
+        for (i = 0; i < res.length; i++) {
+          if (res[i].pl_hostname === starName) {
+            indexes.push(i);
+          }
+        }
+        return indexes;
+      }
+
+      function getPlanets(res, indexes) {
+        let planets = [];
+        // console.log(indexes);
+        for (let i = 0; i < indexes.length; i++) {
+          let numI = indexes[i];
+          planets.push(res[numI]);
+        }
+        return planets;
+      }
+
+      this.mapStars.map((star) => {
+        let x = getX(star.st_glon);
+        let y = getY(star.st_glat);
         let radius = 3;
-        let planetCoord = {
+        let starStats = {
+          name: star.pl_hostname,
           x: x,
           y: y,
           r: radius,
+          planets: getPlanets(response, getIndexes(response, star.pl_hostname)),
         };
 
-        planetCoords.push(planetCoord);
+        // console.log(starStats);
 
-        let newPlanet = new Planet(x, y, radius);
-        newPlanet.draw();
+        const newStar = new Star(starStats);
+        newStar.draw();
       });
-      console.log(planetCoords);
     });
   }
 
