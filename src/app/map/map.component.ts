@@ -27,6 +27,23 @@ export class MapComponent implements OnInit {
     starBox.style.display = 'none';
   }
 
+  zoomIn() {
+    const map = document.querySelector('svg');
+    const viewBox = map.viewBox.baseVal;
+
+    map.addEventListener('click', (e) => {
+      e.stopPropagation();
+      console.log(e.x);
+      console.log(e.y);
+    });
+    // viewBox.x = viewBox.x + viewBox.width / 4;
+    // viewBox.y = viewBox.y + viewBox.height / 4;
+    // viewBox.width = viewBox.width / 2;
+    // viewBox.height = viewBox.height / 2;
+
+    console.log(viewBox);
+  }
+
   ngOnInit() {
     // const disBtn = document.querySelector('dismissBtn');
     // const zoomBtn = document.querySelector('zoomBtn');

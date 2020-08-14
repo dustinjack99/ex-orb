@@ -84,23 +84,7 @@ export function makeMap(svg) {
   starMap.addEventListener('click', (e) => {
     e = event || window.event;
     const stars = document.querySelectorAll('.star');
-    let currentZoom = starMap.getAttribute('viewBox');
-
-    const radius = document.querySelector('.star').getAttribute('r');
-    const pos = logMouse(e);
-
-    console.log(currentZoom);
-    console.log(radius);
-    // stars.forEach((star) =>
-    //   star.setAttribute('r', `${currentZoom - currentZoom * 0.1}`)
-    // );
-    // starMap.setAttribute(
-    //   'viewBox',
-    //   `${pos.x} ${pos.y} ${dimensions.width - dimensions.width * 0.1} ${
-    //     dimensions.height - dimensions.height * 0.1
-    //   }`
-    // );
-    // console.log(pos);
+    stars.forEach((star) => star.setAttribute('r', `0.5%`));
   });
   starMap.appendChild(svgImg);
 
