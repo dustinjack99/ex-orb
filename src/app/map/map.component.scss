@@ -6,3 +6,23 @@ svg {
 .star:hover {
   color: blue;
 }
+
+#starBox {
+  border-radius: 8px;
+  color: slategray;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  // align-content: center;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  mat-card-actions {
+    align-self: center;
+    padding-bottom: 10px;
+  }
+
+  ul {
+    margin-top: 15px;
+  }
+}

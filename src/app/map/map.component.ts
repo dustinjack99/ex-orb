@@ -1,22 +1,13 @@
-import {
-  Component,
-  OnInit,
-  ViewChild,
-  ElementRef,
-  ViewChildren,
-} from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   MapService,
   makeMap,
-  Planet,
   Star,
   getIndexes,
   getPlanets,
   getX,
   getY,
 } from '../shared/services/map.service';
-import { Observable } from 'rxjs';
-import { PlanetsService } from '../shared/services/planets.service';
 
 @Component({
   selector: 'ex-orb-map',
@@ -31,9 +22,18 @@ export class MapComponent implements OnInit {
 
   constructor(private mapService: MapService) {}
 
+  dismissBtn() {
+    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    starBox.style.display = 'none';
+  }
+
   ngOnInit() {
+    // const disBtn = document.querySelector('dismissBtn');
+    // const zoomBtn = document.querySelector('zoomBtn');
+
     makeMap(this.svg);
-    //Service Mapping planets onto Star Map
+
+    //Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
       this.mapStars = response;
 
@@ -48,8 +48,6 @@ export class MapComponent implements OnInit {
           r: radius,
           planets: getPlanets(response, getIndexes(response, star.pl_hostname)),
         };
-
-        // console.log(starStats);
 
         const newStar = new Star(starStats, this.svg);
         newStar.draw();

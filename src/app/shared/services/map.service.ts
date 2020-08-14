@@ -118,15 +118,16 @@ export function Star(starStats, map) {
   this.radius = starStats.r;
   this.planets = starStats.planets;
   this.printPlanets = (star) => {
-    const ul = document.createElement('ul');
-    const li = document.createElement('li');
+    const starBox = <HTMLUListElement>document.querySelector('#starBox');
+    const starStats = document.querySelector('#starStats');
+    starStats.innerHTML = '';
+    console.log(this.planets);
     this.planets.map((planet) => {
+      const li = document.createElement('li');
       li.textContent = planet.pl_name;
-      ul.appendChild(li);
+      starStats.appendChild(li);
     });
-    console.log(ul);
-    ul.setAttribute('id', 'starList');
-    map.nativeElement.prepend(ul);
+    starBox.style.display = 'flex';
   };
   this.draw = () => {
     const star = document.createElementNS(
