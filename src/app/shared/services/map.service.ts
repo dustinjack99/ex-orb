@@ -34,27 +34,6 @@ export class MapService {
   }
 }
 
-export function getIndexes(res, starName) {
-  let indexes = [],
-    i;
-  for (i = 0; i < res.length; i++) {
-    if (res[i].pl_hostname === starName) {
-      indexes.push(i);
-    }
-  }
-  return indexes;
-}
-
-export function getPlanets(res, indexes) {
-  let planets = [];
-  // console.log(indexes);
-  for (let i = 0; i < indexes.length; i++) {
-    let numI = indexes[i];
-    planets.push(res[numI]);
-  }
-  return planets;
-}
-
 // Sets Maps Galactic Coordinates onto Canvas Map
 const mapBounds = {
   minGlon: 0,
@@ -68,18 +47,8 @@ const dimensions = {
   height: window.innerHeight,
 };
 
-export const getX = (x) => {
-  let position =
-    (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
-  return dimensions.width * position;
-};
-
-export const getY = (y) => {
-  let yPI = y * Math.PI;
-  let position =
-    (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
-  return dimensions.height * position;
-};
+// Navigation for the Star Map
+const NAV_MAP = {};
 
 export function makeMap(svg) {
   const starMap = svg.nativeElement;
@@ -94,13 +63,11 @@ export function makeMap(svg) {
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
-  starMap;
+
   svgImg.setAttribute('height', `${dimensions.height}`);
   svgImg.setAttribute('width', `${dimensions.width}`);
   svgImg.setAttribute('preserveAspectRatio', 'none');
   svgImg.setAttribute('href', '../../assets/milky.jpg');
-  // svgImg.setAttribute('transform', 'rotate(-90s)');
-
   starMap.appendChild(svgImg);
 }
 
@@ -124,10 +91,45 @@ export function Star(starStats, map) {
       'click',
       (this.alertPlanets = () => {
         console.log(this.planets.map((planet) => planet));
-        // console.log(th)
       })
     );
-    // console.log(star);
+
     map.nativeElement.appendChild(star);
   };
+}
+
+// Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
+export const getX = (x) => {
+  let position =
+    (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+  return dimensions.width * position;
+};
+
+export const getY = (y) => {
+  let yPI = y * Math.PI;
+  let position =
+    (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+  return dimensions.height * position;
+};
+
+// Gets indexes and planets to push to Star function.
+export function getIndexes(res, starName) {
+  let indexes = [],
+    i;
+  for (i = 0; i < res.length; i++) {
+    if (res[i].pl_hostname === starName) {
+      indexes.push(i);
+    }
+  }
+  return indexes;
+}
+
+export function getPlanets(res, indexes) {
+  let planets = [];
+
+  for (let i = 0; i < indexes.length; i++) {
+    let numI = indexes[i];
+    planets.push(res[numI]);
+  }
+  return planets;
 }
