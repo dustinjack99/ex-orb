@@ -61,7 +61,7 @@ export class MapComponent implements OnInit {
     svgImg.setAttribute('height', `${dimensions.height}`);
     svgImg.setAttribute('width', `${dimensions.width}`);
     svgImg.setAttribute('preserveAspectRatio', 'none');
-    svgImg.setAttribute('href', '../../assets/starCoordlarge.jpg');
+    svgImg.setAttribute('href', '../../assets/milky.jpg');
     // svgImg.setAttribute('transform', 'rotate(-90s)');
 
     map.appendChild(svgImg);
