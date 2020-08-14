@@ -34,6 +34,25 @@ export class MapService {
   }
 }
 
+// Navigation for the Star Map
+const NAV_MAP = {
+  wheelUp: { act: 'zoom', dir: 1 },
+  wheelDown: { act: 'zoom', dir: 1 },
+  dragLeft: { act: 'pan', dir: 1 },
+  // dragLeft: { act: 'pan', dir: 1 },
+  // dragLeft: { act: 'pan', dir: 1 },
+  // dragLeft: { act: 'pan', dir: 1 },
+};
+
+function logMouse(e) {
+  const pos = {
+    x: e.x,
+    y: e.y,
+  };
+
+  return pos;
+}
+
 // Sets Maps Galactic Coordinates onto Canvas Map
 const mapBounds = {
   minGlon: 0,
@@ -47,9 +66,6 @@ const dimensions = {
   height: window.innerHeight,
 };
 
-// Navigation for the Star Map
-const NAV_MAP = {};
-
 export function makeMap(svg) {
   const starMap = svg.nativeElement;
   const svgImg = document.createElementNS(
@@ -57,18 +73,42 @@ export function makeMap(svg) {
     'image'
   );
 
+  //Map of all interactive Stars
   starMap.setAttribute('height', `${dimensions.height}`);
   starMap.setAttribute('width', `${dimensions.width}`);
   starMap.setAttribute(
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
+  starMap.addEventListener('mouseover', logMouse);
+  starMap.addEventListener('click', (e) => {
+    e = event || window.event;
+    const stars = document.querySelectorAll('.star');
+    let currentZoom = starMap.getAttribute('viewBox');
 
+    const radius = document.querySelector('.star').getAttribute('r');
+    const pos = logMouse(e);
+
+    console.log(currentZoom);
+    console.log(radius);
+    // stars.forEach((star) =>
+    //   star.setAttribute('r', `${currentZoom - currentZoom * 0.1}`)
+    // );
+    starMap.setAttribute(
+      'viewBox',
+      `${pos.x} ${pos.y} ${dimensions.width - dimensions.width * 0.1} ${
+        dimensions.height - dimensions.height * 0.1
+      }`
+    );
+    console.log(pos);
+  });
+  starMap.appendChild(svgImg);
+
+  //Galaxy Image
   svgImg.setAttribute('height', `${dimensions.height}`);
   svgImg.setAttribute('width', `${dimensions.width}`);
   svgImg.setAttribute('preserveAspectRatio', 'none');
   svgImg.setAttribute('href', '../../assets/milky.jpg');
-  starMap.appendChild(svgImg);
 }
 
 //Star Class
@@ -87,12 +127,10 @@ export function Star(starStats, map) {
     star.setAttribute('cy', `${this.y}`);
     star.setAttribute('r', `${this.radius}`);
     star.setAttribute('fill', `red`);
-    star.addEventListener(
-      'click',
-      (this.alertPlanets = () => {
-        console.log(this.planets.map((planet) => planet));
-      })
-    );
+    star.setAttribute('class', `star`);
+    star.addEventListener('click', () => {
+      console.log(star);
+    });
 
     map.nativeElement.appendChild(star);
   };
