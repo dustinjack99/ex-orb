@@ -31,11 +31,6 @@ export class MapComponent implements OnInit {
     const map = document.querySelector('svg');
     const viewBox = map.viewBox.baseVal;
 
-    map.addEventListener('click', (e) => {
-      e.stopPropagation();
-      console.log(e.x);
-      console.log(e.y);
-    });
     // viewBox.x = viewBox.x + viewBox.width / 4;
     // viewBox.y = viewBox.y + viewBox.height / 4;
     // viewBox.width = viewBox.width / 2;

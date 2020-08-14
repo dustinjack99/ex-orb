@@ -44,15 +44,6 @@ const NAV_MAP = {
   // dragLeft: { act: 'pan', dir: 1 },
 };
 
-function logMouse(e) {
-  const pos = {
-    x: e.x,
-    y: e.y,
-  };
-
-  return pos;
-}
-
 // Sets Maps Galactic Coordinates onto Canvas Map
 const mapBounds = {
   minGlon: 0,
@@ -80,7 +71,6 @@ export function makeMap(svg) {
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
-  starMap.addEventListener('mouseover', logMouse);
   starMap.addEventListener('click', (e) => {
     e = event || window.event;
     const stars = document.querySelectorAll('.star');
