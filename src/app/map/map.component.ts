@@ -5,7 +5,16 @@ import {
   ElementRef,
   ViewChildren,
 } from '@angular/core';
-import { MapService, Planet } from '../shared/services/map.service';
+import {
+  MapService,
+  makeMap,
+  Planet,
+  Star,
+  getIndexes,
+  getPlanets,
+  getX,
+  getY,
+} from '../shared/services/map.service';
 import { Observable } from 'rxjs';
 import { PlanetsService } from '../shared/services/planets.service';
 
@@ -23,101 +32,10 @@ export class MapComponent implements OnInit {
   constructor(private mapService: MapService) {}
 
   ngOnInit() {
-    // Sets Maps Galactic Coordinates onto Canvas Map
-    const mapBounds = {
-      minGlon: 0,
-      maxGlon: 360,
-      maxGlat: 90,
-      minGlat: -90,
-    };
-
-    const dimensions = {
-      width: window.innerWidth,
-      height: window.innerHeight,
-    };
-
-    const getX = (x) => {
-      let position =
-        (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
-      return dimensions.width * position;
-    };
-
-    const getY = (y) => {
-      let yPI = y * Math.PI;
-      let position =
-        (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
-      return dimensions.height * position;
-    };
-
-    const map = this.svg.nativeElement;
-    const svgImg = document.createElementNS(
-      'http://www.w3.org/2000/svg',
-      'image'
-    );
-
-    map.setAttribute('height', `${dimensions.height}`);
-    map.setAttribute('width', `${dimensions.width}`);
-    map.setAttribute('viewBox', `0 0 ${dimensions.width} ${dimensions.height}`);
-    svgImg.setAttribute('height', `${dimensions.height}`);
-    svgImg.setAttribute('width', `${dimensions.width}`);
-    svgImg.setAttribute('preserveAspectRatio', 'none');
-    svgImg.setAttribute('href', '../../assets/milky.jpg');
-    // svgImg.setAttribute('transform', 'rotate(-90s)');
-
-    map.appendChild(svgImg);
-
-    //Star Class
-    function Star(starStats) {
-      this.x = starStats.x;
-      this.y = starStats.y;
-      this.radius = starStats.r;
-      this.planets = starStats.planets;
-      this.alertPlanets = () => {};
-      this.draw = () => {
-        const star = document.createElementNS(
-          'http://www.w3.org/2000/svg',
-          'circle'
-        );
-        star.setAttribute('cx', `${this.x}`);
-        star.setAttribute('cy', `${this.y}`);
-        star.setAttribute('r', `${this.radius}`);
-        star.setAttribute('fill', `red`);
-        star.addEventListener(
-          'click',
-          (this.alertPlanets = () => {
-            console.log(this.planets.map((planet) => planet));
-            // console.log(th)
-          })
-        );
-        // console.log(star);
-        map.appendChild(star);
-      };
-    }
-
+    makeMap(this.svg);
     //Service Mapping planets onto Star Map
     this.mapService.all().subscribe((response) => {
       this.mapStars = response;
-
-      function getIndexes(res, starName) {
-        let indexes = [],
-          i;
-        for (i = 0; i < res.length; i++) {
-          if (res[i].pl_hostname === starName) {
-            indexes.push(i);
-          }
-        }
-        return indexes;
-      }
-
-      function getPlanets(res, indexes) {
-        let planets = [];
-        // console.log(indexes);
-        for (let i = 0; i < indexes.length; i++) {
-          let numI = indexes[i];
-          planets.push(res[numI]);
-        }
-        return planets;
-      }
 
       this.mapStars.map((star) => {
         let x = getX(star.st_elat);
@@ -133,7 +51,7 @@ export class MapComponent implements OnInit {
 
         // console.log(starStats);
 
-        const newStar = new Star(starStats);
+        const newStar = new Star(starStats, this.svg);
         newStar.draw();
       });
     });

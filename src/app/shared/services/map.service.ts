@@ -33,3 +33,101 @@ export class MapService {
     return this.http.get<Planet[]>(FULL_URL);
   }
 }
+
+export function getIndexes(res, starName) {
+  let indexes = [],
+    i;
+  for (i = 0; i < res.length; i++) {
+    if (res[i].pl_hostname === starName) {
+      indexes.push(i);
+    }
+  }
+  return indexes;
+}
+
+export function getPlanets(res, indexes) {
+  let planets = [];
+  // console.log(indexes);
+  for (let i = 0; i < indexes.length; i++) {
+    let numI = indexes[i];
+    planets.push(res[numI]);
+  }
+  return planets;
+}
+
+// Sets Maps Galactic Coordinates onto Canvas Map
+const mapBounds = {
+  minGlon: 0,
+  maxGlon: 360,
+  maxGlat: 90,
+  minGlat: -90,
+};
+
+const dimensions = {
+  width: window.innerWidth,
+  height: window.innerHeight,
+};
+
+export const getX = (x) => {
+  let position =
+    (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+  return dimensions.width * position;
+};
+
+export const getY = (y) => {
+  let yPI = y * Math.PI;
+  let position =
+    (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+  return dimensions.height * position;
+};
+
+export function makeMap(svg) {
+  const starMap = svg.nativeElement;
+  const svgImg = document.createElementNS(
+    'http://www.w3.org/2000/svg',
+    'image'
+  );
+
+  starMap.setAttribute('height', `${dimensions.height}`);
+  starMap.setAttribute('width', `${dimensions.width}`);
+  starMap.setAttribute(
+    'viewBox',
+    `0 0 ${dimensions.width} ${dimensions.height}`
+  );
+  starMap;
+  svgImg.setAttribute('height', `${dimensions.height}`);
+  svgImg.setAttribute('width', `${dimensions.width}`);
+  svgImg.setAttribute('preserveAspectRatio', 'none');
+  svgImg.setAttribute('href', '../../assets/milky.jpg');
+  // svgImg.setAttribute('transform', 'rotate(-90s)');
+
+  starMap.appendChild(svgImg);
+}
+
+//Star Class
+export function Star(starStats, map) {
+  this.x = starStats.x;
+  this.y = starStats.y;
+  this.radius = starStats.r;
+  this.planets = starStats.planets;
+  this.alertPlanets = () => {};
+  this.draw = () => {
+    const star = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'circle'
+    );
+    star.setAttribute('cx', `${this.x}`);
+    star.setAttribute('cy', `${this.y}`);
+    star.setAttribute('r', `${this.radius}`);
+    star.setAttribute('fill', `red`);
+    star.addEventListener(
+      'click',
+      (this.alertPlanets = () => {
+        console.log(this.planets.map((planet) => planet));
+        // console.log(th)
+      })
+    );
+    // console.log(star);
+    map.nativeElement.appendChild(star);
+  };
+}
