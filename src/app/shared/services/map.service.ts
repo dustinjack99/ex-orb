@@ -94,13 +94,13 @@ export function makeMap(svg) {
     // stars.forEach((star) =>
     //   star.setAttribute('r', `${currentZoom - currentZoom * 0.1}`)
     // );
-    starMap.setAttribute(
-      'viewBox',
-      `${pos.x} ${pos.y} ${dimensions.width - dimensions.width * 0.1} ${
-        dimensions.height - dimensions.height * 0.1
-      }`
-    );
-    console.log(pos);
+    // starMap.setAttribute(
+    //   'viewBox',
+    //   `${pos.x} ${pos.y} ${dimensions.width - dimensions.width * 0.1} ${
+    //     dimensions.height - dimensions.height * 0.1
+    //   }`
+    // );
+    // console.log(pos);
   });
   starMap.appendChild(svgImg);
 
@@ -117,7 +117,17 @@ export function Star(starStats, map) {
   this.y = starStats.y;
   this.radius = starStats.r;
   this.planets = starStats.planets;
-  this.alertPlanets = () => {};
+  this.printPlanets = (star) => {
+    const ul = document.createElement('ul');
+    const li = document.createElement('li');
+    this.planets.map((planet) => {
+      li.textContent = planet.pl_name;
+      ul.appendChild(li);
+    });
+    console.log(ul);
+    ul.setAttribute('id', 'starList');
+    map.nativeElement.prepend(ul);
+  };
   this.draw = () => {
     const star = document.createElementNS(
       'http://www.w3.org/2000/svg',
@@ -128,11 +138,19 @@ export function Star(starStats, map) {
     star.setAttribute('r', `${this.radius}`);
     star.setAttribute('fill', `red`);
     star.setAttribute('class', `star`);
-    star.addEventListener('click', () => {
-      console.log(star);
+    star.addEventListener('mouseover', () => {
+      star.setAttribute('fill', 'blue');
+    });
+    star.addEventListener('mouseleave', () => {
+      star.setAttribute('fill', 'red');
     });
 
     map.nativeElement.appendChild(star);
+    star.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.printPlanets(star);
+      console.log(star);
+    });
   };
 }
 
