@@ -44,15 +44,6 @@ const NAV_MAP = {
   // dragLeft: { act: 'pan', dir: 1 },
 };
 
-function logMouse(e) {
-  const pos = {
-    x: e.x,
-    y: e.y,
-  };
-
-  return pos;
-}
-
 // Sets Maps Galactic Coordinates onto Canvas Map
 const mapBounds = {
   minGlon: 0,
@@ -80,27 +71,10 @@ export function makeMap(svg) {
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
-  starMap.addEventListener('mouseover', logMouse);
   starMap.addEventListener('click', (e) => {
     e = event || window.event;
     const stars = document.querySelectorAll('.star');
-    let currentZoom = starMap.getAttribute('viewBox');
-
-    const radius = document.querySelector('.star').getAttribute('r');
-    const pos = logMouse(e);
-
-    console.log(currentZoom);
-    console.log(radius);
-    // stars.forEach((star) =>
-    //   star.setAttribute('r', `${currentZoom - currentZoom * 0.1}`)
-    // );
-    starMap.setAttribute(
-      'viewBox',
-      `${pos.x} ${pos.y} ${dimensions.width - dimensions.width * 0.1} ${
-        dimensions.height - dimensions.height * 0.1
-      }`
-    );
-    console.log(pos);
+    stars.forEach((star) => star.setAttribute('r', `0.5%`));
   });
   starMap.appendChild(svgImg);
 
@@ -117,7 +91,18 @@ export function Star(starStats, map) {
   this.y = starStats.y;
   this.radius = starStats.r;
   this.planets = starStats.planets;
-  this.alertPlanets = () => {};
+  this.printPlanets = (star) => {
+    const starBox = <HTMLUListElement>document.querySelector('#starBox');
+    const starStats = document.querySelector('#starStats');
+    starStats.innerHTML = '';
+    console.log(this.planets);
+    this.planets.map((planet) => {
+      const li = document.createElement('li');
+      li.textContent = planet.pl_name;
+      starStats.appendChild(li);
+    });
+    starBox.style.display = 'flex';
+  };
   this.draw = () => {
     const star = document.createElementNS(
       'http://www.w3.org/2000/svg',
@@ -128,11 +113,19 @@ export function Star(starStats, map) {
     star.setAttribute('r', `${this.radius}`);
     star.setAttribute('fill', `red`);
     star.setAttribute('class', `star`);
-    star.addEventListener('click', () => {
-      console.log(star);
+    star.addEventListener('mouseover', () => {
+      star.setAttribute('fill', 'blue');
+    });
+    star.addEventListener('mouseleave', () => {
+      star.setAttribute('fill', 'red');
     });
 
     map.nativeElement.appendChild(star);
+    star.addEventListener('click', (e) => {
+      e.stopPropagation();
+      this.printPlanets(star);
+      console.log(star);
+    });
   };
 }
 

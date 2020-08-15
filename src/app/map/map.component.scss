@@ -1,10 +1,28 @@
-#canvas {
-  border: 1px solid black;
+svg {
+  border: 1px solid red;
   position: absolute;
-  margin: 0 auto;
 }
 
-#svg {
-  // background-image: url("../../assets/starCoordlarge.png");
-  border: 1px solid black;
+.star:hover {
+  color: blue;
+}
+
+#starBox {
+  border-radius: 8px;
+  color: slategray;
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  // align-content: center;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  mat-card-actions {
+    align-self: center;
+    padding-bottom: 10px;
+  }
+
+  ul {
+    margin-top: 15px;
+  }
 }
