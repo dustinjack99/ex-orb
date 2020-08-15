@@ -3,12 +3,12 @@ version: "3.4"
 services:
   web:
     # Azure Container Registry Image
-    image: "teetimedock.azurecr.io/ex-orb:latest"
+    image: "teetimedock"
     # Dev Image
     # image: ex-orb
     build: .
     ports:
-      - "4200:4200"
+      - "4200:80"
     links:
       - db
 
