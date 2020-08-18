@@ -2,10 +2,10 @@ import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import {
   MapService,
   makeMap,
-  Star,
   mapBounds,
   dimensions,
 } from '../shared/services/map.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'ex-orb-map',
@@ -14,6 +14,7 @@ import {
 })
 export class MapComponent implements OnInit {
   mapStars = new Array();
+  response;
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
@@ -65,18 +66,12 @@ export class MapComponent implements OnInit {
 
   getPlanets(res, indexes) {
     let planets = [];
-    console.log(indexes);
 
     for (let i = 0; i < indexes.length; i++) {
       let numI = indexes[i];
-      planets.push([numI]);
-      this.mapStars.slice(indexes[i], 1);
-      // indexes.slice(i, 1);
-      for (let j = 0; j < i; j++) {
-        indexes[j]--;
-      }
+      planets.push(res[numI]);
     }
-    // console.log(res);
+    console.log(planets);
     return planets;
   }
 
@@ -88,10 +83,12 @@ export class MapComponent implements OnInit {
 
     //Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
-      this.mapStars = response;
+      // this.mapStars = response.map((data) => _.uniqBy(data, 'pl_hostname'));
+      // _;
+      // this.response = response;
 
-      console.log();
-
+      console.log(this.mapStars);
+      console.log(response);
       // this.mapStars.map((star) => {
       //   let x = getX(star.st_elat);
       //   let y = getY(star.st_elon);
