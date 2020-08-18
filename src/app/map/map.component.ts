@@ -3,10 +3,8 @@ import {
   MapService,
   makeMap,
   Star,
-  getIndexes,
-  getPlanets,
-  getX,
-  getY,
+  mapBounds,
+  dimensions,
 } from '../shared/services/map.service';
 
 @Component({
@@ -39,6 +37,49 @@ export class MapComponent implements OnInit {
     console.log(viewBox);
   }
 
+  // Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
+  getX = (x) => {
+    let position =
+      (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+    return dimensions.width * position;
+  };
+
+  getY = (y) => {
+    let yPI = y * Math.PI;
+    let position =
+      (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+    return dimensions.height * position;
+  };
+
+  // Gets indexes and planets to push to Star function.
+  getIndexes(res, starName) {
+    let indexes = [],
+      i;
+    for (i = 0; i < res.length; i++) {
+      if (res[i].pl_hostname === starName) {
+        indexes.push(i);
+      }
+    }
+    return indexes;
+  }
+
+  getPlanets(res, indexes) {
+    let planets = [];
+    console.log(indexes);
+
+    for (let i = 0; i < indexes.length; i++) {
+      let numI = indexes[i];
+      planets.push([numI]);
+      this.mapStars.slice(indexes[i], 1);
+      // indexes.slice(i, 1);
+      for (let j = 0; j < i; j++) {
+        indexes[j]--;
+      }
+    }
+    // console.log(res);
+    return planets;
+  }
+
   ngOnInit() {
     // const disBtn = document.querySelector('dismissBtn');
     // const zoomBtn = document.querySelector('zoomBtn');
@@ -49,21 +90,23 @@ export class MapComponent implements OnInit {
     this.mapService.all().subscribe((response) => {
       this.mapStars = response;
 
-      this.mapStars.map((star) => {
-        let x = getX(star.st_elat);
-        let y = getY(star.st_elon);
-        let radius = 3;
-        let starStats = {
-          name: star.pl_hostname,
-          x: x,
-          y: y,
-          r: radius,
-          planets: getPlanets(response, getIndexes(response, star.pl_hostname)),
-        };
+      console.log();
 
-        const newStar = new Star(starStats, this.svg);
-        newStar.draw();
-      });
+      // this.mapStars.map((star) => {
+      //   let x = getX(star.st_elat);
+      //   let y = getY(star.st_elon);
+      //   let radius = '0.5%';
+      //   let starStats = {
+      //     name: star.pl_hostname,
+      //     x: x,
+      //     y: y,
+      //     r: radius,
+      //     planets: getPlanets(response, getIndexes(response, star.pl_hostname)),
+      //   };
+
+      //   const newStar = new Star(starStats, this.svg);
+      //   newStar.draw();
+      // });
     });
   }
 
