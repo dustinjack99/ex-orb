@@ -16,5 +16,5 @@
 </mat-card>
 <svg id="svg" #svg stroke="red" fill="gray" (click)="zoomIn()">
     <circle *ngFor="let star of mapStars | filterUnique" [attr.cx]="getX(star.st_elat)" [attr.cy]="getY(star.st_elon)"
-        [attr.r]="one" [attr.fill]="red" stroke="red" class="star" [attr.matTooltip]="star.pl_hostname" />
+        [attr.r]="one" [attr.fill]="red" stroke="red" [attr.class]="star" [attr.matTooltip]="star.pl_hostname" />
 </svg>

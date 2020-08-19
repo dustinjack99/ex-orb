@@ -81,7 +81,7 @@ export function makeMap(svg) {
   svgImg.setAttribute('height', `${dimensions.height}`);
   svgImg.setAttribute('width', `${dimensions.width}`);
   svgImg.setAttribute('preserveAspectRatio', 'none');
-  svgImg.setAttribute('href', '../../assets/milky.jpg');
+  // svgImg.setAttribute('href', '../../assets/milky.jpg');
 }
 
 //Star Class

@@ -37,6 +37,7 @@ export class MapComponent implements OnInit {
   response;
   red = 'red';
   one = '5';
+  star = 'star';
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
