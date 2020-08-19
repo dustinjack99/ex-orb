@@ -41,6 +41,10 @@ export class MapComponent implements OnInit {
 
   constructor(private mapService: MapService) {}
 
+  blue() {
+    this.style.color = 'blue';
+  }
+
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
     starBox.style.display = 'none';

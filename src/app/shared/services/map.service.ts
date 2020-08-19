@@ -66,7 +66,7 @@ export function makeMap(svg) {
   //Map of all interactive Stars
   starMap.setAttribute('height', `${dimensions.height}`);
   starMap.setAttribute('width', `${dimensions.width}`);
-  svgImg.style.zIndex = '0';
+  starMap.style.zIndex = '0';
   starMap.setAttribute(
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
@@ -76,7 +76,7 @@ export function makeMap(svg) {
     const stars = document.querySelectorAll('.star');
     // stars.forEach((star) => star.setAttribute('r', `0.5%`));
   });
-  starMap.appendChild(svgImg);
+  // starMap.append(svgImg);
 
   //Galaxy Image
   svgImg.setAttribute('height', `${dimensions.height}`);
