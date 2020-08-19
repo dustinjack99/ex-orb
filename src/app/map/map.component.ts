@@ -35,9 +35,6 @@ export class FilterPipe implements PipeTransform {
 export class MapComponent implements OnInit {
   mapStars = new Array();
   response;
-  red = 'red';
-  one = '5';
-  star = 'star';
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;

@@ -66,6 +66,7 @@ export function makeMap(svg) {
   //Map of all interactive Stars
   starMap.setAttribute('height', `${dimensions.height}`);
   starMap.setAttribute('width', `${dimensions.width}`);
+  svgImg.style.zIndex = '0';
   starMap.setAttribute(
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
@@ -81,7 +82,9 @@ export function makeMap(svg) {
   svgImg.setAttribute('height', `${dimensions.height}`);
   svgImg.setAttribute('width', `${dimensions.width}`);
   svgImg.setAttribute('preserveAspectRatio', 'none');
-  // svgImg.setAttribute('href', '../../assets/milky.jpg');
+  svgImg.setAttribute('href', '../../assets/milky.jpg');
+  svgImg.style.position = 'absolute';
+  svgImg.style.zIndex = '-5';
 }
 
 //Star Class
