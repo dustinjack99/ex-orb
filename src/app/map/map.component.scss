@@ -3,12 +3,10 @@
   position: absolute;
 }
 
-.blue {
-  color: blue;
-}
-
-.red {
-  color: red;
+.header {
+  display: flex;
+  justify-content: center;
+  border-bottom: none;
 }
 
 #starBox {
@@ -27,5 +25,11 @@
 
   ul {
     margin-top: 15px;
+    align-items: center;
   }
+}
+
+.planetButtons {
+  display: flex;
+  align-content: center;
 }

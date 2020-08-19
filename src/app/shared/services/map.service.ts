@@ -101,6 +101,8 @@ export function Star(starStats, map) {
       starStats.appendChild(li);
     });
     starBox.style.display = 'flex';
+    starBox.style.justifyItems = 'center';
+    starBox.style.alignItems = 'center';
     starBox.style.position;
   };
   this.draw = () => {
