@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import {
   MapService,
   makeMap,
@@ -6,6 +13,19 @@ import {
   dimensions,
 } from '../shared/services/map.service';
 import * as _ from 'lodash';
+
+@Pipe({
+  name: 'filterUnique',
+  pure: false,
+})
+export class FilterPipe implements PipeTransform {
+  transform(val: any): any {
+    if (val !== undefined && val !== null) {
+      return _.uniqBy(val, 'pl_hostname');
+    }
+    return val;
+  }
+}
 
 @Component({
   selector: 'ex-orb-map',
@@ -15,6 +35,8 @@ import * as _ from 'lodash';
 export class MapComponent implements OnInit {
   mapStars = new Array();
   response;
+  red = 'red';
+  one = '5';
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
@@ -71,7 +93,7 @@ export class MapComponent implements OnInit {
       let numI = indexes[i];
       planets.push(res[numI]);
     }
-    console.log(planets);
+    // console.log(planets);
     return planets;
   }
 
@@ -83,12 +105,8 @@ export class MapComponent implements OnInit {
 
     //Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
-      // this.mapStars = response.map((data) => _.uniqBy(data, 'pl_hostname'));
-      // _;
-      // this.response = response;
-
-      console.log(this.mapStars);
-      console.log(response);
+      this.mapStars = response;
+      // console.log(response);
       // this.mapStars.map((star) => {
       //   let x = getX(star.st_elat);
       //   let y = getY(star.st_elon);
