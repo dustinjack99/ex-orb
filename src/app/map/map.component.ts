@@ -1,10 +1,10 @@
 import {
   Component,
-  OnInit,
-  ViewChild,
   ElementRef,
+  OnInit,
   Pipe,
   PipeTransform,
+  ViewChild,
 } from '@angular/core';
 import {
   MapService,
@@ -33,17 +33,16 @@ export class FilterPipe implements PipeTransform {
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
-  color: string = 'red';
+  dragPosition = {
+    x: 0,
+    y: 0,
+  };
   mapStars = new Array();
-  response;
-  JSON;
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
 
-  constructor(private mapService: MapService) {
-    this.JSON = JSON;
-  }
+  constructor(private mapService: MapService) {}
 
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
@@ -85,17 +84,29 @@ export class MapComponent implements OnInit {
     return planets;
   }
 
-  printPlanets = (planets) => {
-    const starBox = <HTMLUListElement>document.querySelector('#starBox');
+  printPlanets = (planets, starx, stary) => {
+    const starBox = <HTMLElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
+
+    if (stary - 90 < 0) {
+      this.dragPosition = { x: starx + 15, y: 0 };
+    } else {
+      this.dragPosition = { x: starx + 15, y: stary - 90 };
+    }
     starStats.innerHTML = '';
 
+    // console.log(x, y);
     planets.map((planet) => {
       const li = document.createElement('li');
       li.textContent = planet.pl_name;
       starStats.appendChild(li);
     });
     starBox.style.display = 'flex';
+    // starBox.style.top = `${stary}px`;
+    // starBox.style.left = `${starx}px`;
+    // starBox.style.transform = 'translate3d(0px, 0px, 0px)';
+
+    console.log(starBox);
   };
 
   zoomIn() {
@@ -107,7 +118,7 @@ export class MapComponent implements OnInit {
     // viewBox.width = viewBox.width / 2;
     // viewBox.height = viewBox.height / 2;
 
-    console.log(viewBox);
+    // console.log(viewBox);
   }
 
   ngOnInit() {
