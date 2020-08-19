@@ -47,7 +47,7 @@ export const dimensions = {
 };
 
 export function makeMap(svg) {
-  const starMap = svg.nativeElement;
+  const starMap = svg;
 
   //Map of all interactive Stars
   starMap.setAttribute(

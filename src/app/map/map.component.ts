@@ -8,11 +8,12 @@ import {
 } from '@angular/core';
 import {
   MapService,
-  makeMap,
+  Planet,
   mapBounds,
   dimensions,
 } from '../shared/services/map.service';
 import * as _ from 'lodash';
+import { Observable } from 'rxjs';
 
 @Pipe({
   name: 'filterUnique',
@@ -33,13 +34,15 @@ export class FilterPipe implements PipeTransform {
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
+  area = `0 0 ${dimensions.width} ${dimensions.height}`;
   dimensions;
   dragPosition = {
     x: 0,
     y: 0,
   };
   img = '../../assets/milky.jpg';
-  mapStars = new Array();
+  mapStars$ = new Array();
+  loading = true;
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
@@ -108,6 +111,21 @@ export class MapComponent implements OnInit {
     starBox.style.display = 'flex';
   };
 
+  loadListen() {
+    const spinner = document.querySelector('#spinner');
+
+    console.log(this.svg.nativeElement.children);
+    setInterval(() => {
+      if (this.svg.nativeElement.children.length < 2) {
+        this.loading = true;
+      } else {
+        this.loading = false;
+        spinner.remove();
+        // clearInterval(this.loadListen);
+      }
+    }, 1000);
+  }
+
   zoomIn() {
     const map = document.querySelector('svg');
     const viewBox = map.viewBox.baseVal;
@@ -121,11 +139,12 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    makeMap(this.svg);
-
+    // console.log(this.svg);
+    // makeMap(map.nativeElement);
+    this.loadListen();
     //Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
-      this.mapStars = response;
+      this.mapStars$ = response;
     });
   }
 }

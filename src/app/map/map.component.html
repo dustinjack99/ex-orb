@@ -17,22 +17,26 @@
 
 </mat-card>
 
-<ng-template *ngIf="mapStars else loading">
-
-    <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" id="svg" #svg fill="red">
-        <image id="svgImg" preserveAspectRatio="none" href="../../assets/milky.jpg" [attr.width]="dimensions.width"
-            [attr.height]="dimensions.height"></image>
 
 
-        <circle *ngFor="let star of mapStars | filterUnique" [attr.cx]="getX(star.st_elat)"
+
+<div id="container" [hidden]="loading">
+
+    <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" [attr.viewBox]="area" id="svg" #svg
+        fill="red">
+
+
+        <image [hidden]="loading" id="svgImg" preserveAspectRatio="none" href="../../assets/milky.jpg"
+            [attr.width]="dimensions.width" [attr.height]="dimensions.height"></image>
+
+
+        <circle *ngFor="let star of mapStars$ | filterUnique" [attr.cx]="getX(star.st_elat)"
             [attr.cy]="getY(star.st_elon)" #star r="0.5%" [attr.fill]="star.color" (mouseenter)="star.color='blue'"
             (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
-            (click)="printPlanets(getPlanets(this.mapStars, getIndexes(this.mapStars, star.pl_hostname)), getX(star.st_elat), getY(star.st_elon))" />
+            (click)="printPlanets(getPlanets(this.mapStars$, getIndexes(this.mapStars$, star.pl_hostname)), getX(star.st_elat), getY(star.st_elon))" />
+
 
     </svg>
-</ng-template>
-
-<ng-template #loading>
-
-    <svg:text>hello there </svg:text>
-</ng-template>
+</div>
+<mat-progress-spinner id="spinner" mode="indeterminate">
+</mat-progress-spinner>
