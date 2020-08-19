@@ -3,14 +3,12 @@
   position: absolute;
 }
 
-.star {
-  color: purple;
-  position: absolute;
-  z-index: 10;
+.blue {
+  color: blue;
 }
 
-.star:hover {
-  color: blue;
+.red {
+  color: red;
 }
 
 #starBox {

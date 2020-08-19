@@ -15,7 +15,7 @@
 
 </mat-card>
 <svg id="svg" #svg stroke="red" fill="gray" (click)="zoomIn()">
-    <circle *ngFor="let star of mapStars | filterUnique" [attr.cx]="getX(star.st_elat)" [attr.cy]="getY(star.st_elon)"
-        r="0.5%" fill="red" class="star" style="position: absolute;z-index: 10;color: blue;" (click)="blue()"
-        [attr.matTooltip]="star.pl_hostname" />
+    <circle *ngFor="let star of mapStars | filterUnique let i=index" [attr.cx]="getX(star.st_elat)"
+        [attr.cy]="getY(star.st_elon)" [ngClass]="color" #star id={{i}} r="0.5%" [attr.fill]="star.color"
+        (mouseenter)="star.color='blue'" (mouseleave)="star.color='red'" [attr.matTooltip]="star.pl_hostname" />
 </svg>

@@ -66,16 +66,12 @@ export function makeMap(svg) {
   //Map of all interactive Stars
   starMap.setAttribute('height', `${dimensions.height}`);
   starMap.setAttribute('width', `${dimensions.width}`);
-  starMap.style.zIndex = '0';
+  starMap.style.zIndex = '-10';
   starMap.setAttribute(
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
-  starMap.addEventListener('click', (e) => {
-    e = event || window.event;
-    const stars = document.querySelectorAll('.star');
-    // stars.forEach((star) => star.setAttribute('r', `0.5%`));
-  });
+
   // starMap.append(svgImg);
 
   //Galaxy Image

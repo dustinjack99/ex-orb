@@ -33,6 +33,7 @@ export class FilterPipe implements PipeTransform {
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
+  color: string = 'red';
   mapStars = new Array();
   response;
 
@@ -40,10 +41,6 @@ export class MapComponent implements OnInit {
   svg: ElementRef<SVGElement>;
 
   constructor(private mapService: MapService) {}
-
-  blue() {
-    this.style.color = 'blue';
-  }
 
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
