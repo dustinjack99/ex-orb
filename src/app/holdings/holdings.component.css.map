@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,AAAA,WAAW,AAAC,CACV,KAAK,CAAE,IAAI,CACZ",
+    "sources": [
+        "holdings.component.scss"
+    ],
+    "names": [],
+    "file": "holdings.component.css"
+}

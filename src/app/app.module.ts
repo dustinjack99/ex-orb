@@ -12,7 +12,7 @@ import { CommandsService } from './shared/services/commands.service';
 import { MapService } from './shared/services/map.service';
 import { CommandsComponent } from './commands/commands.component';
 import { HoldingsComponent } from './holdings/holdings.component';
-import { MapComponent } from './map/map.component';
+import { MapComponent, FilterPipe } from './map/map.component';
 
 @NgModule({
   imports: [
@@ -23,7 +23,13 @@ import { MapComponent } from './map/map.component';
     MaterialModule,
     HttpClientModule,
   ],
-  declarations: [AppComponent, CommandsComponent, HoldingsComponent, MapComponent],
+  declarations: [
+    FilterPipe,
+    AppComponent,
+    CommandsComponent,
+    HoldingsComponent,
+    MapComponent,
+  ],
   providers: [PlanetsService, CommandsService, MapService],
   bootstrap: [AppComponent],
 })

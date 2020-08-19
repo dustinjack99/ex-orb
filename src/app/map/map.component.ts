@@ -1,13 +1,31 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  ElementRef,
+  Pipe,
+  PipeTransform,
+} from '@angular/core';
 import {
   MapService,
   makeMap,
-  Star,
-  getIndexes,
-  getPlanets,
-  getX,
-  getY,
+  mapBounds,
+  dimensions,
 } from '../shared/services/map.service';
+import * as _ from 'lodash';
+
+@Pipe({
+  name: 'filterUnique',
+  pure: false,
+})
+export class FilterPipe implements PipeTransform {
+  transform(val: any): any {
+    if (val !== undefined && val !== null) {
+      return _.uniqBy(val, 'pl_hostname');
+    }
+    return val;
+  }
+}
 
 @Component({
   selector: 'ex-orb-map',
@@ -16,11 +34,16 @@ import {
 })
 export class MapComponent implements OnInit {
   mapStars = new Array();
+  response;
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
 
   constructor(private mapService: MapService) {}
+
+  blue() {
+    this.style.color = 'blue';
+  }
 
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
@@ -39,6 +62,43 @@ export class MapComponent implements OnInit {
     console.log(viewBox);
   }
 
+  // Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
+  getX = (x) => {
+    let position =
+      (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+    return dimensions.width * position;
+  };
+
+  getY = (y) => {
+    let yPI = y * Math.PI;
+    let position =
+      (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+    return dimensions.height * position;
+  };
+
+  // Gets indexes and planets to push to Star function.
+  getIndexes(res, starName) {
+    let indexes = [],
+      i;
+    for (i = 0; i < res.length; i++) {
+      if (res[i].pl_hostname === starName) {
+        indexes.push(i);
+      }
+    }
+    return indexes;
+  }
+
+  getPlanets(res, indexes) {
+    let planets = [];
+
+    for (let i = 0; i < indexes.length; i++) {
+      let numI = indexes[i];
+      planets.push(res[numI]);
+    }
+    // console.log(planets);
+    return planets;
+  }
+
   ngOnInit() {
     // const disBtn = document.querySelector('dismissBtn');
     // const zoomBtn = document.querySelector('zoomBtn');
@@ -48,22 +108,22 @@ export class MapComponent implements OnInit {
     //Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
       this.mapStars = response;
+      // console.log(response);
+      // this.mapStars.map((star) => {
+      //   let x = getX(star.st_elat);
+      //   let y = getY(star.st_elon);
+      //   let radius = '0.5%';
+      //   let starStats = {
+      //     name: star.pl_hostname,
+      //     x: x,
+      //     y: y,
+      //     r: radius,
+      //     planets: getPlanets(response, getIndexes(response, star.pl_hostname)),
+      //   };
 
-      this.mapStars.map((star) => {
-        let x = getX(star.st_elat);
-        let y = getY(star.st_elon);
-        let radius = 3;
-        let starStats = {
-          name: star.pl_hostname,
-          x: x,
-          y: y,
-          r: radius,
-          planets: getPlanets(response, getIndexes(response, star.pl_hostname)),
-        };
-
-        const newStar = new Star(starStats, this.svg);
-        newStar.draw();
-      });
+      //   const newStar = new Star(starStats, this.svg);
+      //   newStar.draw();
+      // });
     });
   }
 

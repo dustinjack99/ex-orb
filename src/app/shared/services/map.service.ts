@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import axios from 'axios';
 import { Observable } from 'rxjs';
 
 export interface Planet {
@@ -45,14 +44,14 @@ const NAV_MAP = {
 };
 
 // Sets Maps Galactic Coordinates onto Canvas Map
-const mapBounds = {
+export const mapBounds = {
   minGlon: 0,
   maxGlon: 360,
   maxGlat: 90,
   minGlat: -90,
 };
 
-const dimensions = {
+export const dimensions = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
@@ -67,6 +66,7 @@ export function makeMap(svg) {
   //Map of all interactive Stars
   starMap.setAttribute('height', `${dimensions.height}`);
   starMap.setAttribute('width', `${dimensions.width}`);
+  starMap.style.zIndex = '0';
   starMap.setAttribute(
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
@@ -74,19 +74,22 @@ export function makeMap(svg) {
   starMap.addEventListener('click', (e) => {
     e = event || window.event;
     const stars = document.querySelectorAll('.star');
-    stars.forEach((star) => star.setAttribute('r', `0.5%`));
+    // stars.forEach((star) => star.setAttribute('r', `0.5%`));
   });
-  starMap.appendChild(svgImg);
+  // starMap.append(svgImg);
 
   //Galaxy Image
   svgImg.setAttribute('height', `${dimensions.height}`);
   svgImg.setAttribute('width', `${dimensions.width}`);
   svgImg.setAttribute('preserveAspectRatio', 'none');
   svgImg.setAttribute('href', '../../assets/milky.jpg');
+  svgImg.style.position = 'absolute';
+  svgImg.style.zIndex = '-5';
 }
 
 //Star Class
 export function Star(starStats, map) {
+  this.name = starStats.name;
   this.x = starStats.x;
   this.y = starStats.y;
   this.radius = starStats.r;
@@ -102,23 +105,16 @@ export function Star(starStats, map) {
       starStats.appendChild(li);
     });
     starBox.style.display = 'flex';
+    starBox.style.position;
   };
   this.draw = () => {
     const star = document.createElementNS(
       'http://www.w3.org/2000/svg',
       'circle'
     );
-    star.setAttribute('cx', `${this.x}`);
-    star.setAttribute('cy', `${this.y}`);
-    star.setAttribute('r', `${this.radius}`);
-    star.setAttribute('fill', `red`);
-    star.setAttribute('class', `star`);
-    star.addEventListener('mouseover', () => {
-      star.setAttribute('fill', 'blue');
-    });
-    star.addEventListener('mouseleave', () => {
-      star.setAttribute('fill', 'red');
-    });
+    // star.setAttribute('fill', `red`);
+    // star.setAttribute('class', `star`);
+    // star.setAttribute('matTooltip', `${this.name}`);
 
     map.nativeElement.appendChild(star);
     star.addEventListener('click', (e) => {
@@ -127,40 +123,4 @@ export function Star(starStats, map) {
       console.log(star);
     });
   };
-}
-
-// Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
-export const getX = (x) => {
-  let position =
-    (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
-  return dimensions.width * position;
-};
-
-export const getY = (y) => {
-  let yPI = y * Math.PI;
-  let position =
-    (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
-  return dimensions.height * position;
-};
-
-// Gets indexes and planets to push to Star function.
-export function getIndexes(res, starName) {
-  let indexes = [],
-    i;
-  for (i = 0; i < res.length; i++) {
-    if (res[i].pl_hostname === starName) {
-      indexes.push(i);
-    }
-  }
-  return indexes;
-}
-
-export function getPlanets(res, indexes) {
-  let planets = [];
-
-  for (let i = 0; i < indexes.length; i++) {
-    let numI = indexes[i];
-    planets.push(res[numI]);
-  }
-  return planets;
 }
