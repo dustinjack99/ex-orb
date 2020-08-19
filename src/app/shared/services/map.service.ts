@@ -33,16 +33,6 @@ export class MapService {
   }
 }
 
-// Navigation for the Star Map
-const NAV_MAP = {
-  wheelUp: { act: 'zoom', dir: 1 },
-  wheelDown: { act: 'zoom', dir: 1 },
-  dragLeft: { act: 'pan', dir: 1 },
-  // dragLeft: { act: 'pan', dir: 1 },
-  // dragLeft: { act: 'pan', dir: 1 },
-  // dragLeft: { act: 'pan', dir: 1 },
-};
-
 // Sets Maps Galactic Coordinates onto Canvas Map
 export const mapBounds = {
   minGlon: 0,
@@ -58,27 +48,10 @@ export const dimensions = {
 
 export function makeMap(svg) {
   const starMap = svg.nativeElement;
-  const svgImg = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'image'
-  );
 
   //Map of all interactive Stars
-  starMap.setAttribute('height', `${dimensions.height}`);
-  starMap.setAttribute('width', `${dimensions.width}`);
-  starMap.style.zIndex = '-10';
   starMap.setAttribute(
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
-
-  // starMap.prepend(svgImg);
-
-  //Galaxy Image
-  svgImg.setAttribute('height', `${dimensions.height}`);
-  svgImg.setAttribute('width', `${dimensions.width}`);
-  svgImg.setAttribute('preserveAspectRatio', 'none');
-  svgImg.setAttribute('href', '../../assets/milky.jpg');
-  svgImg.style.position = 'absolute';
-  svgImg.style.zIndex = '-9';
 }

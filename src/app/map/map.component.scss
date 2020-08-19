@@ -41,6 +41,10 @@
   border: 1px solid red;
   position: absolute;
 }
+#svgImg {
+  position: absolute;
+  z-index: -10;
+}
 
 .planetButtons {
   cursor: pointer;

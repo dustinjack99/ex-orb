@@ -33,16 +33,20 @@ export class FilterPipe implements PipeTransform {
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent implements OnInit {
+  dimensions;
   dragPosition = {
     x: 0,
     y: 0,
   };
+  img = '../../assets/milky.jpg';
   mapStars = new Array();
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService) {
+    this.dimensions = dimensions;
+  }
 
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
@@ -87,26 +91,21 @@ export class MapComponent implements OnInit {
   printPlanets = (planets, starx, stary) => {
     const starBox = <HTMLElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
+    starStats.innerHTML = '';
 
     if (stary - 90 < 0) {
       this.dragPosition = { x: starx + 15, y: 0 };
     } else {
       this.dragPosition = { x: starx + 15, y: stary - 90 };
     }
-    starStats.innerHTML = '';
 
-    // console.log(x, y);
     planets.map((planet) => {
       const li = document.createElement('li');
       li.textContent = planet.pl_name;
       starStats.appendChild(li);
     });
-    starBox.style.display = 'flex';
-    // starBox.style.top = `${stary}px`;
-    // starBox.style.left = `${starx}px`;
-    // starBox.style.transform = 'translate3d(0px, 0px, 0px)';
 
-    console.log(starBox);
+    starBox.style.display = 'flex';
   };
 
   zoomIn() {

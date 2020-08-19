@@ -16,17 +16,23 @@
     </mat-card-actions>
 
 </mat-card>
-<svg id="svg" #svg fill="red">
-    <g *ngIf="mapStars else loading">
+
+<ng-template *ngIf="mapStars else loading">
+
+    <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" id="svg" #svg fill="red">
+        <image id="svgImg" preserveAspectRatio="none" href="../../assets/milky.jpg" [attr.width]="dimensions.width"
+            [attr.height]="dimensions.height"></image>
+
 
         <circle *ngFor="let star of mapStars | filterUnique" [attr.cx]="getX(star.st_elat)"
             [attr.cy]="getY(star.st_elon)" #star r="0.5%" [attr.fill]="star.color" (mouseenter)="star.color='blue'"
             (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
             (click)="printPlanets(getPlanets(this.mapStars, getIndexes(this.mapStars, star.pl_hostname)), getX(star.st_elat), getY(star.st_elon))" />
-    </g>
-</svg>
 
-<ng-template style="z-index:10;" #loading>
+    </svg>
+</ng-template>
+
+<ng-template #loading>
 
     <svg:text>hello there </svg:text>
 </ng-template>
