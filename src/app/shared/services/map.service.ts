@@ -72,7 +72,7 @@ export function makeMap(svg) {
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
 
-  // starMap.append(svgImg);
+  starMap.prepend(svgImg);
 
   //Galaxy Image
   svgImg.setAttribute('height', `${dimensions.height}`);
@@ -80,7 +80,7 @@ export function makeMap(svg) {
   svgImg.setAttribute('preserveAspectRatio', 'none');
   svgImg.setAttribute('href', '../../assets/milky.jpg');
   svgImg.style.position = 'absolute';
-  svgImg.style.zIndex = '-5';
+  svgImg.style.zIndex = '-9';
 }
 
 //Star Class

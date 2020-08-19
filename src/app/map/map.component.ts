@@ -36,27 +36,18 @@ export class MapComponent implements OnInit {
   color: string = 'red';
   mapStars = new Array();
   response;
+  JSON;
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
 
-  constructor(private mapService: MapService) {}
+  constructor(private mapService: MapService) {
+    this.JSON = JSON;
+  }
 
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
     starBox.style.display = 'none';
-  }
-
-  zoomIn() {
-    const map = document.querySelector('svg');
-    const viewBox = map.viewBox.baseVal;
-
-    // viewBox.x = viewBox.x + viewBox.width / 4;
-    // viewBox.y = viewBox.y + viewBox.height / 4;
-    // viewBox.width = viewBox.width / 2;
-    // viewBox.height = viewBox.height / 2;
-
-    console.log(viewBox);
   }
 
   // Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
@@ -67,7 +58,6 @@ export class MapComponent implements OnInit {
   };
 
   getY = (y) => {
-    let yPI = y * Math.PI;
     let position =
       (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
     return dimensions.height * position;
@@ -92,52 +82,40 @@ export class MapComponent implements OnInit {
       let numI = indexes[i];
       planets.push(res[numI]);
     }
-    // console.log(planets);
     return planets;
   }
 
-  ngOnInit() {
-    // const disBtn = document.querySelector('dismissBtn');
-    // const zoomBtn = document.querySelector('zoomBtn');
+  printPlanets = (planets) => {
+    const starBox = <HTMLUListElement>document.querySelector('#starBox');
+    const starStats = document.querySelector('#starStats');
+    starStats.innerHTML = '';
 
+    planets.map((planet) => {
+      const li = document.createElement('li');
+      li.textContent = planet.pl_name;
+      starStats.appendChild(li);
+    });
+    starBox.style.display = 'flex';
+  };
+
+  zoomIn() {
+    const map = document.querySelector('svg');
+    const viewBox = map.viewBox.baseVal;
+
+    // viewBox.x = viewBox.x + viewBox.width / 4;
+    // viewBox.y = viewBox.y + viewBox.height / 4;
+    // viewBox.width = viewBox.width / 2;
+    // viewBox.height = viewBox.height / 2;
+
+    console.log(viewBox);
+  }
+
+  ngOnInit() {
     makeMap(this.svg);
 
     //Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
       this.mapStars = response;
-      // console.log(response);
-      // this.mapStars.map((star) => {
-      //   let x = getX(star.st_elat);
-      //   let y = getY(star.st_elon);
-      //   let radius = '0.5%';
-      //   let starStats = {
-      //     name: star.pl_hostname,
-      //     x: x,
-      //     y: y,
-      //     r: radius,
-      //     planets: getPlanets(response, getIndexes(response, star.pl_hostname)),
-      //   };
-
-      //   const newStar = new Star(starStats, this.svg);
-      //   newStar.draw();
-      // });
     });
   }
-
-  // resetPlanet() {
-  //   const emptyPlanet: PlanetMap = {
-  //     pl_bmasse: 0,
-  //     pl_edelink: '',
-  //     pl_hostname: '',
-  //     pl_name: '',
-  //     pl_orbper: 0,
-  //     pl_pelink: '',
-  //     pl_pnum: 0,
-  //     pl_rade: 0,
-  //     st_glat: 0,
-  //     st_glon: 0,
-  //     st_metaratio: '',
-  //   };
-  //   this.selectPlanet(emptyPlanet);
-  // }
 }
