@@ -14,9 +14,17 @@
     </mat-card-actions>
 
 </mat-card>
-<svg id="svg" #svg stroke="red" fill="gray" (click)="zoomIn()">
-    <circle *ngFor="let star of mapStars | filterUnique" [attr.cx]="getX(star.st_elat)" [attr.cy]="getY(star.st_elon)"
-        #star r="0.5%" [attr.fill]="star.color" (mouseenter)="star.color='blue'" (mouseleave)="star.color='red'"
-        matTooltip="star.pl_hostname"
-        (click)="printPlanets(getPlanets(this.mapStars, getIndexes(this.mapStars, star.pl_hostname)))" />
+<svg id="svg" #svg fill="red" (click)="zoomIn()">
+    <g *ngIf="mapStars else loading">
+
+        <circle *ngFor="let star of mapStars | filterUnique" [attr.cx]="getX(star.st_elat)"
+            [attr.cy]="getY(star.st_elon)" #star r="0.5%" [attr.fill]="star.color" (mouseenter)="star.color='blue'"
+            (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
+            (click)="printPlanets(getPlanets(this.mapStars, getIndexes(this.mapStars, star.pl_hostname)))" />
+    </g>
 </svg>
+
+<ng-template style="z-index:10;" #loading>
+
+    <svg:text>hello there </svg:text>
+</ng-template>

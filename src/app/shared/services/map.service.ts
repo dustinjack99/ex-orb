@@ -72,7 +72,7 @@ export function makeMap(svg) {
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
 
-  starMap.prepend(svgImg);
+  // starMap.prepend(svgImg);
 
   //Galaxy Image
   svgImg.setAttribute('height', `${dimensions.height}`);
