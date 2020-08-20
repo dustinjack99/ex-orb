@@ -33,16 +33,6 @@ export class MapService {
   }
 }
 
-// Navigation for the Star Map
-const NAV_MAP = {
-  wheelUp: { act: 'zoom', dir: 1 },
-  wheelDown: { act: 'zoom', dir: 1 },
-  dragLeft: { act: 'pan', dir: 1 },
-  // dragLeft: { act: 'pan', dir: 1 },
-  // dragLeft: { act: 'pan', dir: 1 },
-  // dragLeft: { act: 'pan', dir: 1 },
-};
-
 // Sets Maps Galactic Coordinates onto Canvas Map
 export const mapBounds = {
   minGlon: 0,
@@ -57,70 +47,11 @@ export const dimensions = {
 };
 
 export function makeMap(svg) {
-  const starMap = svg.nativeElement;
-  const svgImg = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'image'
-  );
+  const starMap = svg;
 
   //Map of all interactive Stars
-  starMap.setAttribute('height', `${dimensions.height}`);
-  starMap.setAttribute('width', `${dimensions.width}`);
-  starMap.style.zIndex = '0';
   starMap.setAttribute(
     'viewBox',
     `0 0 ${dimensions.width} ${dimensions.height}`
   );
-  starMap.addEventListener('click', (e) => {
-    e = event || window.event;
-    const stars = document.querySelectorAll('.star');
-    // stars.forEach((star) => star.setAttribute('r', `0.5%`));
-  });
-  // starMap.append(svgImg);
-
-  //Galaxy Image
-  svgImg.setAttribute('height', `${dimensions.height}`);
-  svgImg.setAttribute('width', `${dimensions.width}`);
-  svgImg.setAttribute('preserveAspectRatio', 'none');
-  svgImg.setAttribute('href', '../../assets/milky.jpg');
-  svgImg.style.position = 'absolute';
-  svgImg.style.zIndex = '-5';
-}
-
-//Star Class
-export function Star(starStats, map) {
-  this.name = starStats.name;
-  this.x = starStats.x;
-  this.y = starStats.y;
-  this.radius = starStats.r;
-  this.planets = starStats.planets;
-  this.printPlanets = (star) => {
-    const starBox = <HTMLUListElement>document.querySelector('#starBox');
-    const starStats = document.querySelector('#starStats');
-    starStats.innerHTML = '';
-    console.log(this.planets);
-    this.planets.map((planet) => {
-      const li = document.createElement('li');
-      li.textContent = planet.pl_name;
-      starStats.appendChild(li);
-    });
-    starBox.style.display = 'flex';
-    starBox.style.position;
-  };
-  this.draw = () => {
-    const star = document.createElementNS(
-      'http://www.w3.org/2000/svg',
-      'circle'
-    );
-    // star.setAttribute('fill', `red`);
-    // star.setAttribute('class', `star`);
-    // star.setAttribute('matTooltip', `${this.name}`);
-
-    map.nativeElement.appendChild(star);
-    star.addEventListener('click', (e) => {
-      e.stopPropagation();
-      this.printPlanets(star);
-      console.log(star);
-    });
-  };
 }

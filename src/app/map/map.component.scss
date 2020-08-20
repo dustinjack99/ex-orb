@@ -1,16 +1,18 @@
-#svg {
-  border: 1px solid red;
-  position: absolute;
+#dragIcon {
+  cursor: move;
 }
 
-.star {
-  color: purple;
-  position: absolute;
-  z-index: 10;
+.header {
+  display: flex;
+  justify-content: center;
+  border-bottom: none;
 }
 
-.star:hover {
-  color: blue;
+#spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 #starBox {
@@ -29,5 +31,30 @@
 
   ul {
     margin-top: 15px;
+    align-items: center;
   }
+
+  transition: box-shadow 200ms cubic-bezier(0, 0, 0.2, 1);
+  box-shadow: 0 3px 1px -2px rgba(0, 0, 0, 0.2),
+    0 2px 2px 0px rgba(0, 0, 0, 0.2), 0 1px 5px 0px rgba(0, 0, 0, 0.2);
+}
+
+#starBox:active {
+  box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.2);
+}
+
+#svg {
+  border: 1px solid red;
+  position: absolute;
+}
+#svgImg {
+  position: absolute;
+  z-index: -10;
+}
+
+.planetButtons {
+  cursor: pointer;
+  display: flex;
+  align-content: center;
 }

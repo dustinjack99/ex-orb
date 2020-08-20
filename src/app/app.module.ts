@@ -1,5 +1,6 @@
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -16,12 +17,13 @@ import { MapComponent, FilterPipe } from './map/map.component';
 
 @NgModule({
   imports: [
-    BrowserModule,
+    DragDropModule,
     AppRoutingModule,
+    BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
-    MaterialModule,
     HttpClientModule,
+    MaterialModule,
   ],
   declarations: [
     FilterPipe,

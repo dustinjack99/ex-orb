@@ -3,7 +3,7 @@ version: "3.4"
 services:
   web:
     # Azure Container Registry Image
-    image: "teetimedock"
+    image: "teetimedock.azurecr.io/ex-orb"
     # Dev Image
     # image: ex-orb
     build: .
