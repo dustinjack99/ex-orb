@@ -13,7 +13,6 @@ import {
   dimensions,
 } from '../shared/services/map.service';
 import * as _ from 'lodash';
-import { Observable } from 'rxjs';
 
 @Pipe({
   name: 'filterUnique',
@@ -46,6 +45,9 @@ export class MapComponent implements OnInit {
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
+
+  @ViewChild('matspinner', { static: true })
+  spinner: ElementRef<HTMLElement>;
 
   constructor(private mapService: MapService) {
     this.dimensions = dimensions;
@@ -111,17 +113,12 @@ export class MapComponent implements OnInit {
     starBox.style.display = 'flex';
   };
 
-  loadListen() {
-    const spinner = document.querySelector('#spinner');
-
-    console.log(this.svg.nativeElement.children);
+  loadListen(): any {
     setInterval(() => {
       if (this.svg.nativeElement.children.length < 2) {
         this.loading = true;
       } else {
         this.loading = false;
-        spinner.remove();
-        // clearInterval(this.loadListen);
       }
     }, 1000);
   }

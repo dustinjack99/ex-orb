@@ -8,6 +8,13 @@
   border-bottom: none;
 }
 
+#spinner {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
 #starBox {
   border-radius: 8px;
   color: slategray;

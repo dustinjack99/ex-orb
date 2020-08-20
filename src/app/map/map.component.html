@@ -38,5 +38,7 @@
 
     </svg>
 </div>
-<mat-progress-spinner id="spinner" mode="indeterminate">
-</mat-progress-spinner>
+<div *ngIf="loading === true" id="spinner">
+    <mat-spinner></mat-spinner>
+    <h2>Loading the Milky Way...</h2>
+</div>
