@@ -1,0 +1,16 @@
+All cross browser support! Even Opera Mini!
+
+SVGs are super important for optimizing images.
+	-"You cant be web performance without being image performant."
+
+Just converting to SVG will make images smaller.
+
+ACCESSIBILITY
+	-<svg 	aria-labelledby="title"
+		id="svg"
+		role="presentation"
+	-<title id="title" lang="en">
+
+HOW TO ANIMATE
+
+	
