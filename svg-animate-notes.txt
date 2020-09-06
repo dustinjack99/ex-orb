@@ -3,7 +3,9 @@ All cross browser support! Even Opera Mini!
 SVGs are super important for optimizing images.
 	-"You cant be web performance without being image performant."
 
+OPTIMIZATION
 Just converting to SVG will make images smaller.
+You can compress SVGS with OMGSVG
 
 ACCESSIBILITY
 	-<svg 	aria-labelledby="title"
@@ -12,5 +14,18 @@ ACCESSIBILITY
 	-<title id="title" lang="en">
 
 HOW TO ANIMATE
+	-Get GreenSock membership.
+	-Read GreenSock docs.
+	-Greensock can integrate well with D3
+		+(Must make sure D3 is done loading everything onto the DOM)
+	-Useful Functions:
+		+TweenMax
+			= Stack Tweens
+			= Set before / after
+			= Change place in time
+			= Group into scenes
+			= add relative labels
+			= Animate scenes!
+		+Timeline
 
 	
