@@ -24,8 +24,8 @@ HOW TO ANIMATE
 			= Set before / after
 			= Change place in time
 			= Group into scenes
-			= add relative labels
+			= add relative labels (this triggers scenes)
 			= Animate scenes!
 		+Timeline
-
+	-Motion Along a Path!
 	
