@@ -18,12 +18,10 @@
 </mat-card>
 
 
-
-
-<div id="container" [hidden]="loading">
+<div #container [hidden]="loading">
 
     <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" [attr.viewBox]="area" id="svg" #svg
-        fill="red" preserveAspectRatio="xMidYMin slice" style="width: 100%; height: 90%; overflow: visible">
+        fill="red" preserveAspectRatio="xMidYMin slice" style="width: 90%; height: 70%; overflow: visible;">
 
 
         <image [hidden]="loading" id="svgImg" preserveAspectRatio="none" href="../../assets/milky.jpg"
@@ -38,7 +36,7 @@
 
     </svg>
 </div>
-<div *ngIf="loading === true" id="spinner">
+<div *ngIf="loading" id="spinner">
     <mat-spinner></mat-spinner>
     <h2>Loading the Milky Way...</h2>
 </div>

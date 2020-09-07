@@ -46,9 +46,57 @@ export const dimensions = {
   height: window.innerHeight,
 };
 
-export function makeMap(svg) {
-  const starMap = svg;
+// Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
+export const getX = (x) => {
+  let position =
+    (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+  return dimensions.width * position;
+};
 
-  //Map of all interactive Stars
-  starMap.setAttribute('viewBox', `0 0 100% 100%`);
-}
+export const getY = (y) => {
+  let position =
+    (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+  return dimensions.height * position;
+};
+
+// Gets indexes and planets to push to Star function.
+export const getIndexes = (res, starName) => {
+  let indexes = [],
+    i;
+  for (i = 0; i < res.length; i++) {
+    if (res[i].pl_hostname === starName) {
+      indexes.push(i);
+    }
+  }
+  return indexes;
+};
+
+export const getPlanets = (res, indexes) => {
+  let planets = [];
+
+  for (let i = 0; i < indexes.length; i++) {
+    let numI = indexes[i];
+    planets.push(res[numI]);
+  }
+  return planets;
+};
+
+export const printPlanets = (planets, starx, stary) => {
+  const starBox = <HTMLElement>document.querySelector('#starBox');
+  const starStats = document.querySelector('#starStats');
+  starStats.innerHTML = '';
+
+  if (stary - 90 < 0) {
+    this.dragPosition = { x: starx + 15, y: 0 };
+  } else {
+    this.dragPosition = { x: starx + 15, y: stary - 90 };
+  }
+
+  planets.map((planet) => {
+    const li = document.createElement('li');
+    li.textContent = planet.pl_name;
+    starStats.appendChild(li);
+  });
+
+  starBox.style.display = 'flex';
+};
