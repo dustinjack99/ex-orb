@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import {
   MapService,
-  printPlanets,
   getIndexes,
   getPlanets,
   getX,
@@ -46,10 +45,7 @@ export class FilterPipe implements PipeTransform {
 export class MapComponent implements OnInit {
   area = `0 0 ${dimensions.width} ${dimensions.height}`;
   dimensions;
-  dragPosition = {
-    x: 0,
-    y: 0,
-  };
+  dragPosition = { x: 0, y: 0 };
   getIndexes;
   getPlanets;
   getX;
@@ -57,7 +53,6 @@ export class MapComponent implements OnInit {
   img = '../../assets/milky.jpg';
   loader;
   mapStars$ = new Array();
-  printPlanets;
   loading = true;
 
   @ViewChild('container', { static: true })
@@ -71,7 +66,6 @@ export class MapComponent implements OnInit {
 
   constructor(private mapService: MapService) {
     this.dimensions = dimensions;
-    this.printPlanets = printPlanets;
     this.getIndexes = getIndexes;
     this.getPlanets = getPlanets;
     this.getX = getX;
@@ -108,6 +102,34 @@ export class MapComponent implements OnInit {
         clearInterval(loader);
       }
     }, 1000);
+  }
+
+  printPlanets(planets, starx, stary, event) {
+    const starBox = <HTMLElement>document.querySelector('#starBox');
+    const starStats = document.querySelector('#starStats');
+    starStats.innerHTML = '';
+
+    console.log(dimensions.width, dimensions.height);
+    console.log(starx, stary);
+    console.log(event[0]);
+
+    // if (stary - 90 < 0) {
+    //   this.dragPosition = {
+    //     x: dimensions.height - (dimensions.height + 30) + starx,
+    //     y: dimensions.height - (dimensions.height - 30),
+    //   };
+    // } else {
+    //   this.dragPosition = { x: 30 + starx, y: stary - 90 };
+    // }
+    this.dragPosition = { x: event[0].layerX, y: event[0].layerY };
+
+    planets.map((planet) => {
+      const li = document.createElement('li');
+      li.textContent = planet.pl_name;
+      starStats.appendChild(li);
+    });
+
+    starBox.style.display = 'flex';
   }
 
   zoomIn() {

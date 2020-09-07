@@ -80,23 +80,3 @@ export const getPlanets = (res, indexes) => {
   }
   return planets;
 };
-
-export const printPlanets = (planets, starx, stary) => {
-  const starBox = <HTMLElement>document.querySelector('#starBox');
-  const starStats = document.querySelector('#starStats');
-  starStats.innerHTML = '';
-
-  if (stary - 90 < 0) {
-    this.dragPosition = { x: starx + 15, y: 0 };
-  } else {
-    this.dragPosition = { x: starx + 15, y: stary - 90 };
-  }
-
-  planets.map((planet) => {
-    const li = document.createElement('li');
-    li.textContent = planet.pl_name;
-    starStats.appendChild(li);
-  });
-
-  starBox.style.display = 'flex';
-};
