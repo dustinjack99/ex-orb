@@ -16,6 +16,12 @@ import {
   dimensions,
 } from '../shared/services/map.service';
 import * as _ from 'lodash';
+import { gsap, TweenMax } from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import { PixiPlugin } from 'gsap/PixiPlugin';
+import { TextPlugin } from 'gsap/TextPlugin';
+
+gsap.registerPlugin(MotionPathPlugin, PixiPlugin, TextPlugin);
 
 @Pipe({
   name: 'filterUnique',
@@ -49,12 +55,13 @@ export class MapComponent implements OnInit {
   getX;
   getY;
   img = '../../assets/milky.jpg';
+  loader;
   mapStars$ = new Array();
   printPlanets;
   loading = true;
 
   @ViewChild('container', { static: true })
-  container: ElementRef<HTMLDivElement>;
+  private _container: ElementRef;
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
@@ -76,14 +83,29 @@ export class MapComponent implements OnInit {
     starBox.style.display = 'none';
   }
 
+  private get container(): HTMLDivElement {
+    return this._container.nativeElement;
+  }
+
   loadListen(): any {
-    setInterval(() => {
+    let loader;
+    loader = setInterval(() => {
       if (this.svg.nativeElement.children.length < 2) {
         this.loading = true;
       } else {
         this.loading = false;
-        this.container.nativeElement.style.display = 'flex';
-        this.container.nativeElement.style.justifyContent = 'center';
+        this._container.nativeElement.style.display = 'flex';
+        this._container.nativeElement.style.justifyContent = 'center';
+        this._container.nativeElement.style.border = '1px solid blue';
+        this._container.nativeElement.style.borderRadius = '5px';
+        this._container.nativeElement.style.padding = '30px 0px 30px 0px';
+        TweenMax.fromTo(
+          this.container,
+          1.5,
+          { opacity: 0, scale: 0.8 },
+          { opacity: 1, scale: 1 }
+        );
+        clearInterval(loader);
       }
     }, 1000);
   }
