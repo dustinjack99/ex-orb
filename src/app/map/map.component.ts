@@ -17,6 +17,8 @@ import * as _ from 'lodash';
   name: 'filterUnique',
   pure: false,
 })
+
+//Pipe to filter repeated star systems
 export class FilterPipe implements PipeTransform {
   transform(val: any): any {
     if (val !== undefined && val !== null) {
