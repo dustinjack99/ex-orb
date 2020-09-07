@@ -8,7 +8,6 @@ import {
 } from '@angular/core';
 import {
   MapService,
-  Planet,
   mapBounds,
   dimensions,
 } from '../shared/services/map.service';

@@ -50,8 +50,5 @@ export function makeMap(svg) {
   const starMap = svg;
 
   //Map of all interactive Stars
-  starMap.setAttribute(
-    'viewBox',
-    `0 0 ${dimensions.width} ${dimensions.height}`
-  );
+  starMap.setAttribute('viewBox', `0 0 100% 100%`);
 }
