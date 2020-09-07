@@ -46,12 +46,37 @@ export const dimensions = {
   height: window.innerHeight,
 };
 
-export function makeMap(svg) {
-  const starMap = svg;
+// Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
+export const getX = (x) => {
+  let position =
+    (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
+  return dimensions.width * position;
+};
 
-  //Map of all interactive Stars
-  starMap.setAttribute(
-    'viewBox',
-    `0 0 ${dimensions.width} ${dimensions.height}`
-  );
-}
+export const getY = (y) => {
+  let position =
+    (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
+  return dimensions.height * position;
+};
+
+// Gets indexes and planets to push to Star function.
+export const getIndexes = (res, starName) => {
+  let indexes = [],
+    i;
+  for (i = 0; i < res.length; i++) {
+    if (res[i].pl_hostname === starName) {
+      indexes.push(i);
+    }
+  }
+  return indexes;
+};
+
+export const getPlanets = (res, indexes) => {
+  let planets = [];
+
+  for (let i = 0; i < indexes.length; i++) {
+    let numI = indexes[i];
+    planets.push(res[numI]);
+  }
+  return planets;
+};

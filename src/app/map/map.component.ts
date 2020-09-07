@@ -8,16 +8,26 @@ import {
 } from '@angular/core';
 import {
   MapService,
-  Planet,
-  mapBounds,
+  getIndexes,
+  getPlanets,
+  getX,
+  getY,
   dimensions,
 } from '../shared/services/map.service';
 import * as _ from 'lodash';
+import { gsap, TweenMax } from 'gsap';
+import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
+import { PixiPlugin } from 'gsap/PixiPlugin';
+import { TextPlugin } from 'gsap/TextPlugin';
+
+gsap.registerPlugin(MotionPathPlugin, PixiPlugin, TextPlugin);
 
 @Pipe({
   name: 'filterUnique',
   pure: false,
 })
+
+//Pipe to filter repeated star systems
 export class FilterPipe implements PipeTransform {
   transform(val: any): any {
     if (val !== undefined && val !== null) {
@@ -35,13 +45,18 @@ export class FilterPipe implements PipeTransform {
 export class MapComponent implements OnInit {
   area = `0 0 ${dimensions.width} ${dimensions.height}`;
   dimensions;
-  dragPosition = {
-    x: 0,
-    y: 0,
-  };
+  dragPosition = { x: 0, y: 0 };
+  getIndexes;
+  getPlanets;
+  getX;
+  getY;
   img = '../../assets/milky.jpg';
+  loader;
   mapStars$ = new Array();
   loading = true;
+
+  @ViewChild('container', { static: true })
+  private _container: ElementRef;
 
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
@@ -51,6 +66,10 @@ export class MapComponent implements OnInit {
 
   constructor(private mapService: MapService) {
     this.dimensions = dimensions;
+    this.getIndexes = getIndexes;
+    this.getPlanets = getPlanets;
+    this.getX = getX;
+    this.getY = getY;
   }
 
   dismissBtn() {
@@ -58,51 +77,51 @@ export class MapComponent implements OnInit {
     starBox.style.display = 'none';
   }
 
-  // Finds the coordinates of the X / Y for star based on ecliptic latitude / longitude
-  getX = (x) => {
-    let position =
-      (x - mapBounds.minGlat) / (mapBounds.maxGlat - mapBounds.minGlat);
-    return dimensions.width * position;
-  };
+  private get container(): HTMLDivElement {
+    return this._container.nativeElement;
+  }
 
-  getY = (y) => {
-    let position =
-      (y - mapBounds.minGlon) / (mapBounds.maxGlon - mapBounds.minGlon);
-    return dimensions.height * position;
-  };
-
-  // Gets indexes and planets to push to Star function.
-  getIndexes(res, starName) {
-    let indexes = [],
-      i;
-    for (i = 0; i < res.length; i++) {
-      if (res[i].pl_hostname === starName) {
-        indexes.push(i);
+  loadListen(): any {
+    let loader;
+    loader = setInterval(() => {
+      if (this.svg.nativeElement.children.length < 2) {
+        this.loading = true;
+      } else {
+        this.loading = false;
+        this._container.nativeElement.style.display = 'flex';
+        this._container.nativeElement.style.justifyContent = 'center';
+        this._container.nativeElement.style.border = '1px solid blue';
+        this._container.nativeElement.style.borderRadius = '5px';
+        this._container.nativeElement.style.padding = '30px 0px 30px 0px';
+        TweenMax.fromTo(
+          this.container,
+          1.5,
+          { opacity: 0, scale: 0.8 },
+          { opacity: 1, scale: 1 }
+        );
+        clearInterval(loader);
       }
-    }
-    return indexes;
+    }, 1000);
   }
 
-  getPlanets(res, indexes) {
-    let planets = [];
-
-    for (let i = 0; i < indexes.length; i++) {
-      let numI = indexes[i];
-      planets.push(res[numI]);
-    }
-    return planets;
-  }
-
-  printPlanets = (planets, starx, stary) => {
+  printPlanets(planets, starx, stary, event) {
     const starBox = <HTMLElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
     starStats.innerHTML = '';
 
-    if (stary - 90 < 0) {
-      this.dragPosition = { x: starx + 15, y: 0 };
-    } else {
-      this.dragPosition = { x: starx + 15, y: stary - 90 };
-    }
+    console.log(dimensions.width, dimensions.height);
+    console.log(starx, stary);
+    console.log(event[0]);
+
+    // if (stary - 90 < 0) {
+    //   this.dragPosition = {
+    //     x: dimensions.height - (dimensions.height + 30) + starx,
+    //     y: dimensions.height - (dimensions.height - 30),
+    //   };
+    // } else {
+    //   this.dragPosition = { x: 30 + starx, y: stary - 90 };
+    // }
+    this.dragPosition = { x: event[0].layerX, y: event[0].layerY };
 
     planets.map((planet) => {
       const li = document.createElement('li');
@@ -111,16 +130,6 @@ export class MapComponent implements OnInit {
     });
 
     starBox.style.display = 'flex';
-  };
-
-  loadListen(): any {
-    setInterval(() => {
-      if (this.svg.nativeElement.children.length < 2) {
-        this.loading = true;
-      } else {
-        this.loading = false;
-      }
-    }, 1000);
   }
 
   zoomIn() {
@@ -136,7 +145,6 @@ export class MapComponent implements OnInit {
   }
 
   ngOnInit() {
-    // console.log(this.svg);
     // makeMap(map.nativeElement);
     this.loadListen();
     //Service Mapping Stars and Planets onto Star Map
