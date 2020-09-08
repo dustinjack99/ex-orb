@@ -93,18 +93,13 @@ export class MapComponent implements OnInit {
         this._container.nativeElement.style.border = '1px solid blue';
         this._container.nativeElement.style.borderRadius = '5px';
         this._container.nativeElement.style.padding = '30px 0px 30px 0px';
-        TweenMax.fromTo(
-          this.container,
-          1.5,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1 }
-        );
+        TweenMax.fromTo(this.container, 1.5, { opacity: 0 }, { opacity: 1 });
         clearInterval(loader);
       }
-    }, 1000);
+    }, 100);
   }
 
-  printPlanets(planets, starx, stary, event) {
+  printPlanets(planets, event) {
     const starBox = <HTMLElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
     const { layerX } = event[0];
@@ -128,13 +123,21 @@ export class MapComponent implements OnInit {
       starStats.appendChild(li);
     });
 
+    const polygon = <SVGPolygonElement>(
+      document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
+    );
+    polygon.setAttribute(
+      'points',
+      `${event[0].layerX + ',' + layerY} ${
+        this.dragPosition.x + ',' + this.dragPosition.y
+      } ${this.dragPosition.x + ',' + this.dragPosition.y + 100}`
+    );
+    polygon.setAttribute('fill', 'white');
+    this.svg.nativeElement.prepend(polygon);
     starBox.style.display = 'flex';
   }
 
-  zoomIn() {
-    const map = document.querySelector('svg');
-    const viewBox = map.viewBox.baseVal;
-  }
+  zoomIn() {}
 
   ngOnInit() {
     this.loadListen();

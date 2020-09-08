@@ -28,7 +28,7 @@
         <circle *ngFor="let star of mapStars$ | filterUnique" [attr.cx]="getX(star.st_elat)"
             [attr.cy]="getY(star.st_elon)" #star r="0.5%" [attr.fill]="star.color" (mouseenter)="star.color='blue'"
             (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
-            (click)="printPlanets(getPlanets(this.mapStars$, getIndexes(this.mapStars$, star.pl_hostname)), getX(star.st_elat), getY(star.st_elon), [$event])" />
+            (click)="printPlanets(getPlanets(this.mapStars$, getIndexes(this.mapStars$, star.pl_hostname)), [$event])" />
 
     </svg>
 </div>
