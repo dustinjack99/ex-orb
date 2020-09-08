@@ -62,6 +62,7 @@ export class MapComponent implements OnInit {
   loader;
   loading = true;
   mapStars$ = new Array();
+  zoomed = false;
 
   @ViewChild('container', { static: true })
   private _container: ElementRef;
@@ -124,8 +125,6 @@ export class MapComponent implements OnInit {
       height: `${event[0].path[0].getBBox().height}`,
     };
 
-    console.log(starBounds);
-
     TweenLite.fromTo(starBox, 0.5, { opacity: 0 }, { opacity: 1 });
 
     this.dragPosition = { x: layerX + 20, y: layerY - 90 };
@@ -153,7 +152,31 @@ export class MapComponent implements OnInit {
     console.log(starBox.getAttribute('zoomBox'));
   }
 
-  zoomIn() {}
+  zoomIn() {
+    this.zoomed = true;
+    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const z = JSON.parse(starBox.getAttribute('zoomBox'));
+
+    TweenLite.fromTo(
+      this.svg.nativeElement,
+      2,
+      { attr: { viewBox: this.area } },
+      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } }
+    );
+  }
+
+  zoomOut() {
+    this.zoomed = false;
+    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const z = JSON.parse(starBox.getAttribute('zoomBox'));
+
+    TweenLite.fromTo(
+      this.svg.nativeElement,
+      2,
+      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } },
+      { attr: { viewBox: this.area } }
+    );
+  }
 
   ngOnInit() {
     this.loadListen();
