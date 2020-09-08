@@ -8,6 +8,7 @@ const router = require("express").Router();
 const PORT = process.env.PORT || 7777;
 const server = http.createServer(app);
 const path = require("path");
+const fs = require("fs");
 
 // Serve Static assests if in production
 // if (process.env.NODE_ENV === 'production') {
@@ -21,15 +22,25 @@ const path = require("path");
 
 require("dotenv").config();
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json({ type: ["application/json"] }));
+app.use(
+  express.urlencoded({ extended: true, parameterLimit: 50000, limit: "50mb" })
+);
+app.use(express.json({ type: ["application/json"], limit: "50mb" }));
+app.use(bodyParser.json({ limit: "50mb" }));
+app.use(
+  bodyParser.urlencoded({
+    limit: "50mb",
+    extended: true,
+    parameterLimit: 50000,
+  })
+);
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-// app.use('/', router);
-
-// app.use('/api/test');
+app.options("*", (req, res) => {
+  res.setHeader("Access-Control-Allow-Origin", "*");
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type");
+  res.setHeader("Access-Control-Allow-Methods", "POST");
+  res.send();
+});
 
 router.get("/");
 
@@ -68,6 +79,17 @@ app.get("/", (req, res) => {
   //     );
   //   })
   //   .catch((err) => console.log(err));
+});
+
+app.post("/db", function (req, res) {
+  console.log(req.body);
+  fs.writeFile(
+    path.join(__dirname, "./db.json"),
+    JSON.stringify(req.body),
+    (err) => {
+      if (err) throw err;
+    }
+  );
 });
 
 // FOR PRODUCTION WE NEED THE FOLLOWING UNCOMMENTED
