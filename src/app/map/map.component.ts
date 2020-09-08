@@ -107,7 +107,7 @@ export class MapComponent implements OnInit {
         this._container.nativeElement.style.border = '1px solid blue';
         this._container.nativeElement.style.borderRadius = '5px';
         this._container.nativeElement.style.padding = '30px 0px 30px 0px';
-        // TweenLite.to(this.container, 1.5, { opacity: 1 });
+        TweenLite.fromTo(this.container, 1.5, { opacity: 0 }, { opacity: 1 });
         clearInterval(loader);
       }
     }, 500);
