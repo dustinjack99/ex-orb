@@ -109,18 +109,6 @@ export class MapComponent implements OnInit {
     const starStats = document.querySelector('#starStats');
     starStats.innerHTML = '';
 
-    console.log(dimensions.width, dimensions.height);
-    console.log(starx, stary);
-    console.log(event[0]);
-
-    // if (stary - 90 < 0) {
-    //   this.dragPosition = {
-    //     x: dimensions.height - (dimensions.height + 30) + starx,
-    //     y: dimensions.height - (dimensions.height - 30),
-    //   };
-    // } else {
-    //   this.dragPosition = { x: 30 + starx, y: stary - 90 };
-    // }
     this.dragPosition = { x: event[0].layerX, y: event[0].layerY };
 
     planets.map((planet) => {
@@ -135,21 +123,25 @@ export class MapComponent implements OnInit {
   zoomIn() {
     const map = document.querySelector('svg');
     const viewBox = map.viewBox.baseVal;
-
-    // viewBox.x = viewBox.x + viewBox.width / 4;
-    // viewBox.y = viewBox.y + viewBox.height / 4;
-    // viewBox.width = viewBox.width / 2;
-    // viewBox.height = viewBox.height / 2;
-
-    // console.log(viewBox);
   }
 
   ngOnInit() {
-    // makeMap(map.nativeElement);
     this.loadListen();
+
     //Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
+      fetch('http://localhost:7777/db', {
+        method: 'POST',
+        // mode: 'no-cors',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(response),
+      })
+        .then((res) => res.json())
+        .then((data) => console.log(data));
       this.mapStars$ = response;
+      console.log(response);
     });
   }
 }
