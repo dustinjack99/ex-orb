@@ -26,14 +26,11 @@ export class FilterPipe implements PipeTransform {
   uniqBy = (arr, predicate) => {
     const cb =
       typeof predicate === 'function' ? predicate : (o) => o[predicate];
-
     return [
       ...arr
         .reduce((map, item) => {
           const key = item === null || item === undefined ? item : cb(item);
-
           map.has(key) || map.set(key, item);
-
           return map;
         }, new Map())
         .values(),
@@ -120,6 +117,15 @@ export class MapComponent implements OnInit {
     const { layerY } = event[0];
     starStats.innerHTML = '';
 
+    const starBounds = {
+      x: `${event[0].path[0].getBBox().x}`,
+      y: `${event[0].path[0].getBBox().y}`,
+      width: `${event[0].path[0].getBBox().width}`,
+      height: `${event[0].path[0].getBBox().height}`,
+    };
+
+    console.log(starBounds);
+
     TweenLite.fromTo(starBox, 0.5, { opacity: 0 }, { opacity: 1 });
 
     this.dragPosition = { x: layerX + 20, y: layerY - 90 };
@@ -140,6 +146,11 @@ export class MapComponent implements OnInit {
     });
 
     starBox.style.display = 'flex';
+    starBox.setAttribute('planets', JSON.stringify(planets));
+    starBox.setAttribute('zoomBox', JSON.stringify(starBounds));
+    console.log(starBox);
+    console.log(starBox.getAttribute('planets'));
+    console.log(starBox.getAttribute('zoomBox'));
   }
 
   zoomIn() {}
@@ -151,23 +162,5 @@ export class MapComponent implements OnInit {
     this.mapService.all().subscribe((response) => {
       this.mapStars$ = response;
     });
-
-    //Offline DB query
-    // this.mapService.offline().subscribe((response) => {
-    //   let res = JSON.parse(response);
-    //   this.mapStars$ = res;
-    //   console.log(res);
-    // });
-
-    //FOR WRITING OFFLINE DB FILE, PLACE INSIDE mapService.all() call
-    // fetch('http://localhost:7777/db', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(response),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
   }
 }
