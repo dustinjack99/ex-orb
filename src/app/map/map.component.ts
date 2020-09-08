@@ -14,13 +14,7 @@ import {
   getY,
   dimensions,
 } from '../shared/services/map.service';
-import * as _ from 'lodash';
-import { gsap, TweenMax } from 'gsap';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
-import { PixiPlugin } from 'gsap/PixiPlugin';
-import { TextPlugin } from 'gsap/TextPlugin';
-
-gsap.registerPlugin(MotionPathPlugin, PixiPlugin, TextPlugin);
+import { TweenLite } from 'gsap';
 
 @Pipe({
   name: 'filterUnique',
@@ -29,9 +23,23 @@ gsap.registerPlugin(MotionPathPlugin, PixiPlugin, TextPlugin);
 
 //Pipe to filter repeated star systems
 export class FilterPipe implements PipeTransform {
+  uniqBy = (arr, predicate) => {
+    const cb =
+      typeof predicate === 'function' ? predicate : (o) => o[predicate];
+    return [
+      ...arr
+        .reduce((map, item) => {
+          const key = item === null || item === undefined ? item : cb(item);
+          map.has(key) || map.set(key, item);
+          return map;
+        }, new Map())
+        .values(),
+    ];
+  };
+
   transform(val: any): any {
     if (val !== undefined && val !== null) {
-      return _.uniqBy(val, 'pl_hostname');
+      return this.uniqBy(val, 'pl_hostname');
     }
     return val;
   }
@@ -52,17 +60,24 @@ export class MapComponent implements OnInit {
   getY;
   img = '../../assets/milky.jpg';
   loader;
-  mapStars$ = new Array();
   loading = true;
+  mapStars$ = new Array();
+  zoomed = false;
 
   @ViewChild('container', { static: true })
   private _container: ElementRef;
 
+  @ViewChild('matspinner', { static: true })
+  spinner: ElementRef<HTMLElement>;
+
+  @ViewChild('star', { static: true })
+  star: ElementRef<HTMLElement>;
+
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
 
-  @ViewChild('matspinner', { static: true })
-  spinner: ElementRef<HTMLElement>;
+  @ViewChild('svgImg', { static: true })
+  svgImg: ElementRef<HTMLElement>;
 
   constructor(private mapService: MapService) {
     this.dimensions = dimensions;
@@ -93,23 +108,38 @@ export class MapComponent implements OnInit {
         this._container.nativeElement.style.border = '1px solid blue';
         this._container.nativeElement.style.borderRadius = '5px';
         this._container.nativeElement.style.padding = '30px 0px 30px 0px';
-        TweenMax.fromTo(
-          this.container,
-          1.5,
-          { opacity: 0, scale: 0.8 },
-          { opacity: 1, scale: 1 }
-        );
+        TweenLite.fromTo(this.container, 1.5, { opacity: 0 }, { opacity: 1 });
         clearInterval(loader);
       }
-    }, 1000);
+    }, 500);
   }
 
-  printPlanets(planets, starx, stary, event) {
-    const starBox = <HTMLElement>document.querySelector('#starBox');
+  printPlanets(planets, event) {
+    const starBox = <HTMLDivElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
+    const { layerX } = event[0];
+    const { layerY } = event[0];
     starStats.innerHTML = '';
 
-    this.dragPosition = { x: event[0].layerX, y: event[0].layerY };
+    const starBounds = {
+      x: `${event[0].path[0].getBBox().x}`,
+      y: `${event[0].path[0].getBBox().y}`,
+      width: `${event[0].path[0].getBBox().width}`,
+      height: `${event[0].path[0].getBBox().height}`,
+    };
+
+    TweenLite.fromTo(starBox, 0.5, { opacity: 0 }, { opacity: 1 });
+
+    this.dragPosition = { x: layerX + 20, y: layerY - 90 };
+    if (this.dragPosition.y < 0) {
+      this.dragPosition.y = 0;
+    }
+    if (this.dragPosition.y + 150 > event[0].view.innerHeight) {
+      this.dragPosition.y = layerY - 150;
+    }
+    if (this.dragPosition.x + 300 > event[0].view.innerWidth) {
+      this.dragPosition.x = layerX - 280;
+    }
 
     planets.map((planet) => {
       const li = document.createElement('li');
@@ -118,39 +148,59 @@ export class MapComponent implements OnInit {
     });
 
     starBox.style.display = 'flex';
+    starBox.setAttribute('planets', JSON.stringify(planets));
+    starBox.setAttribute('zoomBox', JSON.stringify(starBounds));
+    console.log(starBox);
+    console.log(starBox.getAttribute('planets'));
+    console.log(starBox.getAttribute('zoomBox'));
   }
 
   zoomIn() {
-    const map = document.querySelector('svg');
-    const viewBox = map.viewBox.baseVal;
+    this.zoomed = true;
+    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const z = JSON.parse(starBox.getAttribute('zoomBox'));
+
+    TweenLite.fromTo(
+      this.svg.nativeElement,
+      2,
+      { attr: { viewBox: this.area } },
+      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } }
+    );
+
+    TweenLite.fromTo(
+      document.querySelectorAll('.star'),
+      2,
+      { attr: { r: '0.5%' } },
+      { attr: { r: '1.5%' } }
+    );
+  }
+
+  zoomOut() {
+    this.zoomed = false;
+    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const z = JSON.parse(starBox.getAttribute('zoomBox'));
+
+    TweenLite.fromTo(
+      this.svg.nativeElement,
+      2,
+      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } },
+      { attr: { viewBox: this.area } }
+    );
+
+    TweenLite.fromTo(
+      document.querySelectorAll('.star'),
+      2,
+      { attr: { r: '1.5%' } },
+      { attr: { r: '0.5%' } }
+    );
   }
 
   ngOnInit() {
     this.loadListen();
 
-    //Service Mapping Stars and Planets onto Star Map
-    // this.mapService.all().subscribe((response) => {
-
-    //   this.mapStars$ = response;
-    //   console.log(response);
-    // });
-
-    //Offline DB query
-    this.mapService.offline().subscribe((response) => {
-      let res = JSON.parse(response);
-      this.mapStars$ = res;
-      console.log(res);
+    // Service Mapping Stars and Planets onto Star Map
+    this.mapService.all().subscribe((response) => {
+      this.mapStars$ = response;
     });
-
-    //FOR WRITING OFFLINE DB FILE, PLACE INSIDE mapService.all() call
-    // fetch('http://localhost:7777/db', {
-    //   method: 'POST',
-    //   headers: {
-    //     'Content-Type': 'application/json',
-    //   },
-    //   body: JSON.stringify(response),
-    // })
-    //   .then((res) => res.json())
-    //   .then((data) => console.log(data));
   }
 }
