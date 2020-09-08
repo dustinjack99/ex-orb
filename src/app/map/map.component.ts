@@ -129,19 +129,28 @@ export class MapComponent implements OnInit {
     this.loadListen();
 
     //Service Mapping Stars and Planets onto Star Map
-    this.mapService.all().subscribe((response) => {
-      fetch('http://localhost:7777/db', {
-        method: 'POST',
-        // mode: 'no-cors',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(response),
-      })
-        .then((res) => res.json())
-        .then((data) => console.log(data));
-      this.mapStars$ = response;
-      console.log(response);
+    // this.mapService.all().subscribe((response) => {
+
+    //   this.mapStars$ = response;
+    //   console.log(response);
+    // });
+
+    //Offline DB query
+    this.mapService.offline().subscribe((response) => {
+      let res = JSON.parse(response);
+      this.mapStars$ = res;
+      console.log(res);
     });
+
+    //FOR WRITING OFFLINE DB FILE, PLACE INSIDE mapService.all() call
+    // fetch('http://localhost:7777/db', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //   },
+    //   body: JSON.stringify(response),
+    // })
+    //   .then((res) => res.json())
+    //   .then((data) => console.log(data));
   }
 }

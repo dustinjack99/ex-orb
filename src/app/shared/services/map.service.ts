@@ -31,6 +31,13 @@ export class MapService {
     // axios.get(FULL_URL).then((res) => res.data);
     return this.http.get<Planet[]>(FULL_URL);
   }
+
+  offline() {
+    return this.http.get('assets/db.json', {
+      responseType: 'text',
+      headers: { 'Content-Type': 'appplication/json' },
+    });
+  }
 }
 
 // Sets Maps Galactic Coordinates onto Canvas Map
