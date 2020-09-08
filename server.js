@@ -82,7 +82,6 @@ app.get("/", (req, res) => {
 });
 
 app.post("/db", function (req, res) {
-  console.log(req.body);
   fs.writeFile(
     path.join(__dirname, "./db.json"),
     JSON.stringify(req.body),

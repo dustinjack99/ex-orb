@@ -107,9 +107,20 @@ export class MapComponent implements OnInit {
   printPlanets(planets, starx, stary, event) {
     const starBox = <HTMLElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
+    const { layerX } = event[0];
+    const { layerY } = event[0];
     starStats.innerHTML = '';
 
-    this.dragPosition = { x: event[0].layerX, y: event[0].layerY };
+    this.dragPosition = { x: layerX + 20, y: layerY - 90 };
+    if (this.dragPosition.y < 0) {
+      this.dragPosition.y = 0;
+    }
+    if (this.dragPosition.y + 150 > event[0].view.innerHeight) {
+      this.dragPosition.y = layerY - 150;
+    }
+    if (this.dragPosition.x + 300 > event[0].view.innerWidth) {
+      this.dragPosition.x = layerX - 280;
+    }
 
     planets.map((planet) => {
       const li = document.createElement('li');
@@ -128,19 +139,17 @@ export class MapComponent implements OnInit {
   ngOnInit() {
     this.loadListen();
 
-    //Service Mapping Stars and Planets onto Star Map
-    // this.mapService.all().subscribe((response) => {
-
-    //   this.mapStars$ = response;
-    //   console.log(response);
-    // });
+    // Service Mapping Stars and Planets onto Star Map
+    this.mapService.all().subscribe((response) => {
+      this.mapStars$ = response;
+    });
 
     //Offline DB query
-    this.mapService.offline().subscribe((response) => {
-      let res = JSON.parse(response);
-      this.mapStars$ = res;
-      console.log(res);
-    });
+    // this.mapService.offline().subscribe((response) => {
+    //   let res = JSON.parse(response);
+    //   this.mapStars$ = res;
+    //   console.log(res);
+    // });
 
     //FOR WRITING OFFLINE DB FILE, PLACE INSIDE mapService.all() call
     // fetch('http://localhost:7777/db', {
