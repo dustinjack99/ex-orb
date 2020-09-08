@@ -21,8 +21,8 @@
         <image [hidden]="loading" #svgImg id="svgImg" preserveAspectRatio="none" href="../../assets/milky.jpg"
             [attr.width]="dimensions.width" [attr.height]="dimensions.height"></image>
         <circle *ngFor="let star of mapStars$ | filterUnique" [attr.cx]="getX(star.st_elat)"
-            [attr.cy]="getY(star.st_elon)" #star r="0.5%" [attr.fill]="star.color" (mouseenter)="star.color='blue'"
-            (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
+            [attr.cy]="getY(star.st_elon)" class="star" #star r="0.5%" [attr.fill]="star.color"
+            (mouseenter)="star.color='blue'" (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
             (click)="printPlanets(getPlanets(this.mapStars$, getIndexes(this.mapStars$, star.pl_hostname)), [$event])" />
     </svg>
 </div>

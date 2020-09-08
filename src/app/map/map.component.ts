@@ -70,6 +70,9 @@ export class MapComponent implements OnInit {
   @ViewChild('matspinner', { static: true })
   spinner: ElementRef<HTMLElement>;
 
+  @ViewChild('star', { static: true })
+  star: ElementRef<HTMLElement>;
+
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
 
@@ -163,6 +166,13 @@ export class MapComponent implements OnInit {
       { attr: { viewBox: this.area } },
       { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } }
     );
+
+    TweenLite.fromTo(
+      document.querySelectorAll('.star'),
+      2,
+      { attr: { r: '0.5%' } },
+      { attr: { r: '1.5%' } }
+    );
   }
 
   zoomOut() {
@@ -175,6 +185,13 @@ export class MapComponent implements OnInit {
       2,
       { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } },
       { attr: { viewBox: this.area } }
+    );
+
+    TweenLite.fromTo(
+      document.querySelectorAll('.star'),
+      2,
+      { attr: { r: '1.5%' } },
+      { attr: { r: '0.5%' } }
     );
   }
 
