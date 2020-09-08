@@ -12,6 +12,12 @@
   border-bottom: none;
 }
 
+.planetButtons {
+  cursor: pointer;
+  display: flex;
+  align-content: center;
+}
+
 #spinner {
   display: flex;
   flex-direction: column;
@@ -56,10 +62,4 @@
   border-radius: 5px;
   position: absolute;
   z-index: -10;
-}
-
-.planetButtons {
-  cursor: pointer;
-  display: flex;
-  align-content: center;
 }

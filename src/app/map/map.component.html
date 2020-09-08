@@ -1,8 +1,6 @@
-<mat-card id="starBox" cdkDrag [cdkDragFreeDragPosition]="dragPosition">
+<mat-card id="starBox" #starBox cdkDrag [cdkDragFreeDragPosition]="dragPosition" [attr.style]="">
     <mat-card-header class="header">
-
         <mat-card-title>Planets in System</mat-card-title>
-
     </mat-card-header>
     <mat-card-content>
 
@@ -14,22 +12,17 @@
         <button mat-raised-button color="primary" id="openBtn">Open</button>
         <mat-icon (click)="dismissBtn()">close</mat-icon>
     </mat-card-actions>
-
 </mat-card>
 
 <div #container [hidden]="loading">
-
     <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" [attr.viewBox]="area" id="svg" #svg
         fill="red" preserveAspectRatio="xMidYMin slice" style="width: 90%; height: 70%; overflow: visible;">
-
-        <image [hidden]="loading" id="svgImg" preserveAspectRatio="none" href="../../assets/milky.jpg"
+        <image [hidden]="loading" #svgImg id="svgImg" preserveAspectRatio="none" href="../../assets/milky.jpg"
             [attr.width]="dimensions.width" [attr.height]="dimensions.height"></image>
-
         <circle *ngFor="let star of mapStars$ | filterUnique" [attr.cx]="getX(star.st_elat)"
             [attr.cy]="getY(star.st_elon)" #star r="0.5%" [attr.fill]="star.color" (mouseenter)="star.color='blue'"
             (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
             (click)="printPlanets(getPlanets(this.mapStars$, getIndexes(this.mapStars$, star.pl_hostname)), [$event])" />
-
     </svg>
 </div>
 <div *ngIf="loading" id="spinner">

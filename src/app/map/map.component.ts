@@ -14,13 +14,7 @@ import {
   getY,
   dimensions,
 } from '../shared/services/map.service';
-import * as _ from 'lodash';
-import { gsap, TweenMax } from 'gsap';
-import { MotionPathPlugin } from 'gsap/MotionPathPlugin';
-import { PixiPlugin } from 'gsap/PixiPlugin';
-import { TextPlugin } from 'gsap/TextPlugin';
-
-gsap.registerPlugin(MotionPathPlugin, PixiPlugin, TextPlugin);
+import { TweenLite } from 'gsap';
 
 @Pipe({
   name: 'filterUnique',
@@ -29,9 +23,26 @@ gsap.registerPlugin(MotionPathPlugin, PixiPlugin, TextPlugin);
 
 //Pipe to filter repeated star systems
 export class FilterPipe implements PipeTransform {
+  uniqBy = (arr, predicate) => {
+    const cb =
+      typeof predicate === 'function' ? predicate : (o) => o[predicate];
+
+    return [
+      ...arr
+        .reduce((map, item) => {
+          const key = item === null || item === undefined ? item : cb(item);
+
+          map.has(key) || map.set(key, item);
+
+          return map;
+        }, new Map())
+        .values(),
+    ];
+  };
+
   transform(val: any): any {
     if (val !== undefined && val !== null) {
-      return _.uniqBy(val, 'pl_hostname');
+      return this.uniqBy(val, 'pl_hostname');
     }
     return val;
   }
@@ -52,17 +63,20 @@ export class MapComponent implements OnInit {
   getY;
   img = '../../assets/milky.jpg';
   loader;
-  mapStars$ = new Array();
   loading = true;
+  mapStars$ = new Array();
 
   @ViewChild('container', { static: true })
   private _container: ElementRef;
 
+  @ViewChild('matspinner', { static: true })
+  spinner: ElementRef<HTMLElement>;
+
   @ViewChild('svg', { static: true })
   svg: ElementRef<SVGElement>;
 
-  @ViewChild('matspinner', { static: true })
-  spinner: ElementRef<HTMLElement>;
+  @ViewChild('svgImg', { static: true })
+  svgImg: ElementRef<HTMLElement>;
 
   constructor(private mapService: MapService) {
     this.dimensions = dimensions;
@@ -93,18 +107,20 @@ export class MapComponent implements OnInit {
         this._container.nativeElement.style.border = '1px solid blue';
         this._container.nativeElement.style.borderRadius = '5px';
         this._container.nativeElement.style.padding = '30px 0px 30px 0px';
-        TweenMax.fromTo(this.container, 1.5, { opacity: 0 }, { opacity: 1 });
+        // TweenLite.to(this.container, 1.5, { opacity: 1 });
         clearInterval(loader);
       }
-    }, 100);
+    }, 500);
   }
 
   printPlanets(planets, event) {
-    const starBox = <HTMLElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
     const { layerX } = event[0];
     const { layerY } = event[0];
     starStats.innerHTML = '';
+
+    TweenLite.fromTo(starBox, 0.5, { opacity: 0 }, { opacity: 1 });
 
     this.dragPosition = { x: layerX + 20, y: layerY - 90 };
     if (this.dragPosition.y < 0) {
@@ -123,17 +139,6 @@ export class MapComponent implements OnInit {
       starStats.appendChild(li);
     });
 
-    const polygon = <SVGPolygonElement>(
-      document.createElementNS('http://www.w3.org/2000/svg', 'polygon')
-    );
-    polygon.setAttribute(
-      'points',
-      `${event[0].layerX + ',' + layerY} ${
-        this.dragPosition.x + ',' + this.dragPosition.y
-      } ${this.dragPosition.x + ',' + this.dragPosition.y + 100}`
-    );
-    polygon.setAttribute('fill', 'white');
-    this.svg.nativeElement.prepend(polygon);
     starBox.style.display = 'flex';
   }
 
