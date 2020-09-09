@@ -8,6 +8,10 @@
         <ul id="starStats" *ngIf="!opened">
             <li *ngFor="let planet of currentSystem">{{planet.pl_name}}</li>
         </ul>
+        <!-- <svg *ngIf="opened">
+            <circle [attr.cx]="" [attr.cy]="" />
+            <circle *ngFor="let planet of currentSystem" [attr.cx]="" [attr.cy]="" [attr.fill]="star.color" />
+        </svg> -->
     </mat-card-content>
     <mat-card-actions class="planetButtons">
         <mat-icon cdkDragHandle id="dragIcon">zoom_out_map</mat-icon>

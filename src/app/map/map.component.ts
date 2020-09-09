@@ -64,6 +64,12 @@ export class MapComponent implements OnInit {
   loading = true;
   mapStars$ = new Array();
   opened = false;
+  // planetColors = {
+  // "[Fe/H]": "slategray", 2843 total
+  // "[M/H]": "red", 58 total
+  // "[m/H]": "blue", 20 total
+  // null: "black", 1355 total
+  // }
   zoomed = false;
 
   @ViewChild('container', { static: true })
@@ -130,6 +136,7 @@ export class MapComponent implements OnInit {
     const { layerY } = event[0];
 
     this.currentSystem = planets;
+    console.log(this.currentSystem);
 
     const starBounds = {
       x: `${event[0].path[0].getBBox().x}`,
@@ -209,6 +216,7 @@ export class MapComponent implements OnInit {
     // Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
       this.mapStars$ = response;
+      console.log(response);
     });
   }
 }
