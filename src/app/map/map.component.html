@@ -1,16 +1,19 @@
 <mat-card id="starBox" #starBox cdkDrag [cdkDragFreeDragPosition]="dragPosition">
     <mat-card-header class="header">
-        <mat-card-title>Planets in System</mat-card-title>
+        <mat-card-title *ngIf="!opened">Planets in System</mat-card-title>
+        <mat-card-title *ngIf="opened">{{currentSystem[0].pl_hostname}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
-        <ul id="starStats"></ul>
+        <ul id="starStats" *ngIf="!opened"></ul>
     </mat-card-content>
     <mat-card-actions class="planetButtons">
         <mat-icon cdkDragHandle id="dragIcon">zoom_out_map</mat-icon>
-        <button *ngIf="!zoomed" mat-raised-button color="primary" id="zooomBtn" (click)="zoomIn()">Zoom In</button>
-        <button *ngIf="zoomed" mat-raised-button color="primary" id="zooomBtn" (click)="zoomOut()">Zoom Out</button>
-        <button mat-raised-button color="primary" id="openBtn">Open</button>
+        <button *ngIf="!zoomed" mat-raised-button color="primary" id="zoomBtn" (click)="zoomIn()">Zoom
+            In</button>
+        <button *ngIf="zoomed" mat-raised-button color="primary" id="zoomBtn" (click)="zoomOut()">Zoom Out</button>
+        <button *ngIf="!opened" mat-raised-button color="primary" id="openBtn" (click)="open()">Open</button>
+        <button *ngIf="opened" mat-raised-button color="primary" id="openBtn" (click)="close()">Back</button>
         <mat-icon (click)="dismissBtn()">close</mat-icon>
     </mat-card-actions>
 </mat-card>

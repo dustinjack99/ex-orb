@@ -52,6 +52,7 @@ export class FilterPipe implements PipeTransform {
 })
 export class MapComponent implements OnInit {
   area = `0 0 ${dimensions.width} ${dimensions.height}`;
+  currentSystem;
   dimensions;
   dragPosition = { x: 0, y: 0 };
   getIndexes;
@@ -62,6 +63,7 @@ export class MapComponent implements OnInit {
   loader;
   loading = true;
   mapStars$ = new Array();
+  opened = false;
   zoomed = false;
 
   @ViewChild('container', { static: true })
@@ -85,6 +87,17 @@ export class MapComponent implements OnInit {
     this.getPlanets = getPlanets;
     this.getX = getX;
     this.getY = getY;
+  }
+
+  close() {
+    this.opened = false;
+    const starStats = document.querySelector('#starStats');
+
+    this.currentSystem.map((planet) => {
+      const li = document.createElement('li');
+      li.textContent = planet.pl_name;
+      starStats.appendChild(li);
+    });
   }
 
   dismissBtn() {
@@ -114,12 +127,27 @@ export class MapComponent implements OnInit {
     }, 500);
   }
 
+  open() {
+    this.opened = true;
+  }
+
   printPlanets(planets, event) {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
     const starStats = document.querySelector('#starStats');
     const { layerX } = event[0];
     const { layerY } = event[0];
+    const star = event[0].path[0];
     starStats.innerHTML = '';
+
+    this.currentSystem = planets;
+    console.log(this.currentSystem);
+
+    // console.log(event[0]);
+    // if (this.currentStar) {
+    //   this.currentStar.setAttribute('fill', 'red');
+    // }
+    // this.currentStar = star;
+    // this.currentStar.setAttribute('fill', 'blue');
 
     const starBounds = {
       x: `${event[0].path[0].getBBox().x}`,
@@ -138,7 +166,7 @@ export class MapComponent implements OnInit {
       this.dragPosition.y = layerY - 150;
     }
     if (this.dragPosition.x + 300 > event[0].view.innerWidth) {
-      this.dragPosition.x = layerX - 280;
+      this.dragPosition.x = layerX - 320;
     }
 
     planets.map((planet) => {
@@ -148,11 +176,7 @@ export class MapComponent implements OnInit {
     });
 
     starBox.style.display = 'flex';
-    starBox.setAttribute('planets', JSON.stringify(planets));
     starBox.setAttribute('zoomBox', JSON.stringify(starBounds));
-    console.log(starBox);
-    console.log(starBox.getAttribute('planets'));
-    console.log(starBox.getAttribute('zoomBox'));
   }
 
   zoomIn() {
@@ -164,7 +188,11 @@ export class MapComponent implements OnInit {
       this.svg.nativeElement,
       2,
       { attr: { viewBox: this.area } },
-      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } }
+      {
+        attr: {
+          viewBox: `${z.x} ${z.y} ${z.width} ${z.height}`,
+        },
+      }
     );
 
     TweenLite.fromTo(
@@ -183,7 +211,11 @@ export class MapComponent implements OnInit {
     TweenLite.fromTo(
       this.svg.nativeElement,
       2,
-      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } },
+      {
+        attr: {
+          viewBox: `${z.x} ${z.y} ${z.width} ${z.height}`,
+        },
+      },
       { attr: { viewBox: this.area } }
     );
 

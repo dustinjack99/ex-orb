@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { TweenLite } from 'gsap';
 
 export interface Planet {
   pl_bmasse: number;
