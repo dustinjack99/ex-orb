@@ -28,9 +28,10 @@
 #starBox {
   border-radius: 8px;
   color: slategray;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
+  display: none;
   padding: 10px;
   position: absolute;
   z-index: 1;

@@ -91,13 +91,6 @@ export class MapComponent implements OnInit {
 
   close() {
     this.opened = false;
-    const starStats = document.querySelector('#starStats');
-
-    this.currentSystem.map((planet) => {
-      const li = document.createElement('li');
-      li.textContent = planet.pl_name;
-      starStats.appendChild(li);
-    });
   }
 
   dismissBtn() {
@@ -133,21 +126,10 @@ export class MapComponent implements OnInit {
 
   printPlanets(planets, event) {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
-    const starStats = document.querySelector('#starStats');
     const { layerX } = event[0];
     const { layerY } = event[0];
-    const star = event[0].path[0];
-    starStats.innerHTML = '';
 
     this.currentSystem = planets;
-    console.log(this.currentSystem);
-
-    // console.log(event[0]);
-    // if (this.currentStar) {
-    //   this.currentStar.setAttribute('fill', 'red');
-    // }
-    // this.currentStar = star;
-    // this.currentStar.setAttribute('fill', 'blue');
 
     const starBounds = {
       x: `${event[0].path[0].getBBox().x}`,
@@ -169,14 +151,8 @@ export class MapComponent implements OnInit {
       this.dragPosition.x = layerX - 320;
     }
 
-    planets.map((planet) => {
-      const li = document.createElement('li');
-      li.textContent = planet.pl_name;
-      starStats.appendChild(li);
-    });
-
-    starBox.style.display = 'flex';
     starBox.setAttribute('zoomBox', JSON.stringify(starBounds));
+    starBox.style.display = 'flex';
   }
 
   zoomIn() {
