@@ -183,6 +183,10 @@ export class MapComponent implements OnInit {
     starBox.style.display = 'flex';
   }
 
+  readPlanet(event) {
+    console.log(event[0].path[0]);
+  }
+
   zoomIn() {
     this.zoomed = true;
     const starBox = <HTMLDivElement>document.querySelector('#starBox');

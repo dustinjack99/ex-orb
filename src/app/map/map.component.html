@@ -1,20 +1,25 @@
 <mat-card id="starBox" #starBox cdkDrag [cdkDragFreeDragPosition]="dragPosition">
     <mat-card-header class="header">
-        <mat-card-title *ngIf="!opened">Planets in System</mat-card-title>
+        <mat-card-title *ngIf="!opened">Exos in Orbit</mat-card-title>
         <mat-card-title *ngIf="opened">{{currentSystem[0].pl_hostname}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
         <ul id="starStats" *ngIf="!opened">
-            <li *ngFor="let planet of currentSystem">{{planet.pl_name}}</li>
+            <li *ngFor="let planet of currentSystem">{{planet.pl_name}} Planets</li>
         </ul>
         <svg class="starOrbits" height="200px" *ngIf="opened">
-            <circle class="star" cx="50%" cy="50%" r="5%" fill="blue" />
-            <circle class="planets" *ngFor="let planet of currentSystem, index as i"
-                [attr.cx]="40 / currentSystem.length * (i + 1) + '%'"
-                [attr.cy]="40 / currentSystem.length * (i + 1) + '%'" [attr.orbit]="planet.pl_orbper" r="2%"
-                fill="red" />
+            <circle class="star" cx="50%" cy="50%" r="8%" fill="blue" />
+            <circle class="planets" *ngFor="let planet of currentSystem, index as i" matTooltip={{planet.pl_name}}
+                matTooltip={{planet.pl_name}} [attr.cx]="40 / currentSystem.length * (i + 1) + '%'"
+                [attr.cy]="40 / currentSystem.length * (i + 1) + '%'" [attr.orbit]="planet.pl_orbper"
+                [attr.mass]="planet.pl_bmasse" (click)="readPlanet([$event])" r="4%" fill="red" />
         </svg>
+        <div *ngIf="opened">
+            <ul>
+
+            </ul>
+        </div>
     </mat-card-content>
     <mat-card-actions class="planetButtons">
         <mat-icon cdkDragHandle id="dragIcon">zoom_out_map</mat-icon>
