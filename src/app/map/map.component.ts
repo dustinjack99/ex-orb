@@ -239,8 +239,14 @@ export class MapComponent implements OnInit {
     this.loadListen();
 
     // Service Mapping Stars and Planets onto Star Map
-    this.mapService.all().subscribe((response) => {
-      this.mapStars$ = response;
-    });
+    // this.mapService.all().subscribe((response) => {
+    //   this.mapStars$ = response;
+    // });
+
+    this.mapService.offline().subscribe((response) => {
+  let res = JSON.parse(response);
+  this.mapStars$ = res;
+
+});
   }
 }

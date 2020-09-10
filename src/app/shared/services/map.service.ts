@@ -18,6 +18,7 @@ export interface Planet {
 
 const FULL_URL =
   'https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_hostname,pl_name,pl_pnum,pl_orbper,pl_bmasse,st_elat,st_elon,st_metratio&format=json';
+
 @Injectable({
   providedIn: 'root',
 })
