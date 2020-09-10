@@ -14,7 +14,7 @@ import {
   getY,
   dimensions,
 } from '../shared/services/map.service';
-import { TweenLite, TimelineLite, Linear } from 'gsap';
+import { TweenLite, Linear } from 'gsap';
 
 @Pipe({
   name: 'filterUnique',
@@ -104,7 +104,7 @@ export class MapComponent implements OnInit {
   }
 
   dismissBtn() {
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     starBox.style.display = 'none';
   }
 
@@ -129,27 +129,31 @@ export class MapComponent implements OnInit {
   open() {
     this.opened = true;
 
+    const ui = this.opened;
+
     setTimeout(() => {
       const star = <SVGCircleElement>document.querySelector('.star');
       const planets = document.querySelectorAll('.planets');
+      const starBox = document.querySelector('.starBox')
       const starBBoxX = `${star.getBBox().x + star.getBBox().width / 2}`;
       const starBBoxY = `${star.getBBox().y + star.getBBox().height / 2}`;
-      const master = new TimelineLite();
+
+      // TweenLite.fromTo(starBox, 2, {!ui}, {ui})
 
       planets.forEach((planet) => {
         TweenLite.to(planet, {
-          duration: planet.getAttribute('orbit'),
+          duration: Math.max(+planet.getAttribute('orbit'), 10),
           rotation: 360,
           svgOrigin: starBBoxX + ' ' + starBBoxY,
           repeat: -1,
           ease: Linear.easeNone,
         });
       });
-    }, 100);
+    }, 10);
   }
 
   printPlanets(planets, event) {
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     const { layerX } = event[0];
     const { layerY } = event[0];
 
@@ -184,12 +188,34 @@ export class MapComponent implements OnInit {
   }
 
   readPlanet(event) {
-    console.log(event[0].path[0]);
+    const planetStats = document.querySelector('.planetStats');
+    const pMass = event[0].path[0].getAttribute('mass')
+    const pName = event[0].path[0].getAttribute('name')
+    const pOrb = event[0].path[0].getAttribute('orbit')
+    const p1 = document.createElement('p');
+    const p2 = document.createElement('p');
+    p1.style.color = "whitesmoke"
+    p1.style.textAlign = "center"
+    p2.style.color = "whitesmoke"
+    p2.style.textAlign = "center"
+    planetStats.innerHTML = '';
+
+  if (pMass) {
+    p1.textContent = ` ${pName}'s Orbit: ${pOrb} (Earth Days)`
+    p2.textContent = ` ${pName}'s Mass: ${pMass} (# of Earths)`
+    planetStats.appendChild(p1)
+    planetStats.appendChild(p2)
+  } else {
+    p1.textContent = ` ${pName}'s Orbit: ${pOrb} (Earth Days)`
+    planetStats.appendChild(p1)
+
+  }
+
   }
 
   zoomIn() {
     this.zoomed = true;
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     const z = JSON.parse(starBox.getAttribute('zoomBox'));
 
     TweenLite.fromTo(
@@ -213,7 +239,7 @@ export class MapComponent implements OnInit {
 
   zoomOut() {
     this.zoomed = false;
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     const z = JSON.parse(starBox.getAttribute('zoomBox'));
 
     TweenLite.fromTo(
@@ -239,8 +265,14 @@ export class MapComponent implements OnInit {
     this.loadListen();
 
     // Service Mapping Stars and Planets onto Star Map
-    this.mapService.all().subscribe((response) => {
-      this.mapStars$ = response;
-    });
+    // this.mapService.all().subscribe((response) => {
+    //   this.mapStars$ = response;
+    // });
+
+    this.mapService.offline().subscribe((response) => {
+  let res = JSON.parse(response);
+  this.mapStars$ = res;
+
+});
   }
 }

@@ -1,49 +1,45 @@
-<mat-card id="starBox" #starBox cdkDrag [cdkDragFreeDragPosition]="dragPosition">
+<mat-card class="starBox" #starBox cdkDrag [cdkDragFreeDragPosition]="dragPosition">
     <mat-card-header class="header">
         <mat-card-title *ngIf="!opened">Exos in Orbit</mat-card-title>
         <mat-card-title *ngIf="opened">{{currentSystem[0].pl_hostname}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
 
-        <ul id="starStats" *ngIf="!opened">
-            <li *ngFor="let planet of currentSystem">{{planet.pl_name}} Planets</li>
+        <ul class="starStats" *ngIf="!opened">
+            <li class="planetList" *ngFor="let planet of currentSystem">{{planet.pl_name}} Planets</li>
         </ul>
         <svg class="starOrbits" height="200px" *ngIf="opened">
             <circle class="star" cx="50%" cy="50%" r="8%" fill="blue" />
             <circle class="planets" *ngFor="let planet of currentSystem, index as i" matTooltip={{planet.pl_name}}
                 matTooltip={{planet.pl_name}} [attr.cx]="40 / currentSystem.length * (i + 1) + '%'"
-                [attr.cy]="40 / currentSystem.length * (i + 1) + '%'" [attr.orbit]="planet.pl_orbper"
+                [attr.cy]="40 / currentSystem.length * (i + 1) + '%'" [attr.name]="planet.pl_name" [attr.orbit]="planet.pl_orbper"
                 [attr.mass]="planet.pl_bmasse" (click)="readPlanet([$event])" r="4%" fill="red" />
         </svg>
-        <div *ngIf="opened">
-            <ul>
-
-            </ul>
-        </div>
+        <div class="planetStats" *ngIf="opened"></div>
     </mat-card-content>
     <mat-card-actions class="planetButtons">
-        <mat-icon cdkDragHandle id="dragIcon">zoom_out_map</mat-icon>
-        <button *ngIf="!zoomed" mat-raised-button color="primary" id="zoomBtn" (click)="zoomIn()">Zoom
+        <mat-icon cdkDragHandle class="dragIcon">zoom_out_map</mat-icon>
+        <button *ngIf="!zoomed" mat-raised-button class="zoomBtn" (click)="zoomIn()">Zoom
             In</button>
-        <button *ngIf="zoomed" mat-raised-button color="primary" id="zoomBtn" (click)="zoomOut()">Zoom Out</button>
-        <button *ngIf="!opened" mat-raised-button color="primary" id="openBtn" (click)="open()">Open</button>
-        <button *ngIf="opened" mat-raised-button color="primary" id="openBtn" (click)="close()">Back</button>
-        <mat-icon (click)="dismissBtn()">close</mat-icon>
+        <button *ngIf="zoomed" mat-raised-button class="zoomBtn" (click)="zoomOut()">Zoom Out</button>
+        <button *ngIf="!opened" mat-raised-button class="openBtn" (click)="open()">Open</button>
+        <button *ngIf="opened" mat-raised-button class="openBtn" (click)="close()">Back</button>
+        <mat-icon class="closeIcon" (click)="dismissBtn()">close</mat-icon>
     </mat-card-actions>
 </mat-card>
 
-<div #container [hidden]="loading">
-    <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" [attr.viewBox]="area" id="svg" #svg
+<div #container class="container"[hidden]="loading">
+    <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" [attr.viewBox]="area" class="svg" #svg
         fill="red" preserveAspectRatio="xMidYMin slice" style="width: 90%; height: 70%; overflow: visible;">
-        <image [hidden]="loading" #svgImg id="svgImg" preserveAspectRatio="none" href="../../assets/milky-min.jpg"
+        <image [hidden]="loading" #svgImg class="svgImg" preserveAspectRatio="none" href="../../assets/milky-min.jpg"
             [attr.width]="dimensions.width" [attr.height]="dimensions.height"></image>
         <circle *ngFor="let star of mapStars$ | filterUnique" [attr.cx]="getX(star.st_elat)"
-            [attr.cy]="getY(star.st_elon)" class="stars" #star r="0.5%" [attr.fill]="star.color"
-            (mouseenter)="star.color='blue'" (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
+            [attr.cy]="getY(star.st_elon)" class="stars" #star r="0.5%"matTooltip={{star.pl_hostname}}
             (click)="printPlanets(getPlanets(this.mapStars$, getIndexes(this.mapStars$, star.pl_hostname)), [$event])" />
     </svg>
 </div>
-<div *ngIf="loading" id="spinner">
+<div *ngIf="loading" class="spinner">
     <mat-spinner></mat-spinner>
+    <br>
     <h2>Loading the Milky Way...</h2>
 </div>

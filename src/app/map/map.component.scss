@@ -1,37 +1,71 @@
-// .container {
-//   display: flex;
-// }
 
-#dragIcon {
+$primary: #3f51b5;
+$secondary: #ff4081;
+
+.closeIcon {
+  color: whitesmoke;
+}
+
+.container {
+  background-color: $primary;
+   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.2);
+}
+
+.dragIcon {
+  color: whitesmoke;
   cursor: move;
 }
 
 .header {
+  border-bottom: none;
+  color: whitesmoke;
   display: flex;
   justify-content: center;
-  border-bottom: none;
 }
 
 .planetButtons {
+  align-content: center;
   cursor: pointer;
   display: flex;
-  align-content: center;
 }
 
-#spinner {
+.planetList {
+  color: whitesmoke;
+  list-style: none;
+  margin-left: -40px;
+  text-align: center;
+}
+
+.planets {
+  fill: $secondary;
+}
+
+.planetsStats {
+  border: 1px solid red;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  justify-items: center;
+}
+
+.spinner {
   align-items: center;
-}
-
-#starBox {
-  border-radius: 8px;
-  color: slategray;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  margin: 25% auto;
+}
+
+.star {
+  fill: $primary;
+}
+
+.starBox {
+  background-color: $primary;
+  border: 5px solid $secondary;
+  border-radius: 8px;
   display: none;
+  flex-direction: column;
+  justify-content: center;
   padding: 10px;
   position: absolute;
   z-index: 1;
@@ -50,22 +84,36 @@
     0 2px 2px 0px rgba(0, 0, 0, 0.2), 0 1px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-#starBox:active {
+.starBox:active {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
     0 8px 10px 1px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.2);
 }
 
 .starOrbits {
-  border: 1px solid blue;
+  background-color: whitesmoke;
+  border: 2px solid $secondary;
 }
 
-#svg {
-  border-radius: 5px;
+.stars {
+  fill: $secondary;
+  opacity: 0.75;
+}
+
+.stars:hover {
+  fill: $primary;
+  opacity: 1;
+}
+
+.svg {
   height: 400px;
   width: 95%;
 }
-#svgImg {
-  border-radius: 5px;
+.svgImg {
   position: absolute;
   z-index: -10;
+}
+
+.zoomBtn, .openBtn {
+background-color: $secondary;
+color: whitesmoke;
 }
