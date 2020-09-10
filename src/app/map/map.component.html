@@ -23,23 +23,22 @@
     </mat-card-content>
     <mat-card-actions class="planetButtons">
         <mat-icon cdkDragHandle id="dragIcon">zoom_out_map</mat-icon>
-        <button *ngIf="!zoomed" mat-raised-button color="primary" id="zoomBtn" (click)="zoomIn()">Zoom
+        <button *ngIf="!zoomed" mat-raised-button color="secondary" id="zoomBtn" (click)="zoomIn()">Zoom
             In</button>
-        <button *ngIf="zoomed" mat-raised-button color="primary" id="zoomBtn" (click)="zoomOut()">Zoom Out</button>
-        <button *ngIf="!opened" mat-raised-button color="primary" id="openBtn" (click)="open()">Open</button>
-        <button *ngIf="opened" mat-raised-button color="primary" id="openBtn" (click)="close()">Back</button>
+        <button *ngIf="zoomed" mat-raised-button color="secondary" id="zoomBtn" (click)="zoomOut()">Zoom Out</button>
+        <button *ngIf="!opened" mat-raised-button color="secondary" id="openBtn" (click)="open()">Open</button>
+        <button *ngIf="opened" mat-raised-button color="secondary" id="openBtn" (click)="close()">Back</button>
         <mat-icon (click)="dismissBtn()">close</mat-icon>
     </mat-card-actions>
 </mat-card>
 
-<div #container [hidden]="loading">
+<div #container class="container"[hidden]="loading">
     <svg [attr.height]="dimensions.height" [attr.width]="dimensions.width" [attr.viewBox]="area" id="svg" #svg
         fill="red" preserveAspectRatio="xMidYMin slice" style="width: 90%; height: 70%; overflow: visible;">
         <image [hidden]="loading" #svgImg id="svgImg" preserveAspectRatio="none" href="../../assets/milky-min.jpg"
             [attr.width]="dimensions.width" [attr.height]="dimensions.height"></image>
         <circle *ngFor="let star of mapStars$ | filterUnique" [attr.cx]="getX(star.st_elat)"
-            [attr.cy]="getY(star.st_elon)" class="stars" #star r="0.5%" [attr.fill]="star.color"
-            (mouseenter)="star.color='blue'" (mouseleave)="star.color='red'" matTooltip={{star.pl_hostname}}
+            [attr.cy]="getY(star.st_elon)" class="stars" #star r="0.5%"matTooltip={{star.pl_hostname}}
             (click)="printPlanets(getPlanets(this.mapStars$, getIndexes(this.mapStars$, star.pl_hostname)), [$event])" />
     </svg>
 </div>

@@ -145,7 +145,7 @@ export class MapComponent implements OnInit {
           ease: Linear.easeNone,
         });
       });
-    }, 100);
+    }, 10);
   }
 
   printPlanets(planets, event) {

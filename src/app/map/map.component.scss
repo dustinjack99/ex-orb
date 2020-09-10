@@ -1,6 +1,12 @@
-// .container {
-//   display: flex;
-// }
+
+$primary: #3f51b5;
+$secondary: #ff4081;
+
+.container {
+  background-color: $primary;
+   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
+    0 8px 10px 1px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.2);
+}
 
 #dragIcon {
   cursor: move;
@@ -13,25 +19,26 @@
 }
 
 .planetButtons {
+  align-content: center;
+  background-color: $secondary;
   cursor: pointer;
   display: flex;
-  align-content: center;
 }
 
 #spinner {
+  align-items: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  margin: auto;
 }
 
 #starBox {
+  background-color: $primary;
   border-radius: 8px;
-  color: slategray;
-  display: flex;
+  display: none;
   flex-direction: column;
   justify-content: center;
-  display: none;
   padding: 10px;
   position: absolute;
   z-index: 1;
@@ -57,6 +64,16 @@
 
 .starOrbits {
   border: 1px solid blue;
+}
+
+.stars {
+  fill: $secondary;
+  opacity: 0.75;
+}
+
+.stars:hover {
+  fill: $primary;
+  opacity: 1;
 }
 
 #svg {
