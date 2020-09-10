@@ -14,7 +14,7 @@ import {
   getY,
   dimensions,
 } from '../shared/services/map.service';
-import { TweenLite, Linear } from 'gsap';
+import { TweenLite, TimelineLite, Linear } from 'gsap';
 
 @Pipe({
   name: 'filterUnique',
@@ -64,7 +64,6 @@ export class MapComponent implements OnInit {
   loading = true;
   mapStars$ = new Array();
   opened = false;
-  orbit = 0;
   // planetColors = {
   // "[Fe/H]": "slategray", 2843 total
   // "[M/H]": "red", 58 total
@@ -124,25 +123,27 @@ export class MapComponent implements OnInit {
         TweenLite.fromTo(this.container, 1.5, { opacity: 0 }, { opacity: 1 });
         clearInterval(loader);
       }
-    }, 500);
+    }, 10);
   }
 
   open() {
     this.opened = true;
 
     setTimeout(() => {
-      const star = document.querySelector('.star');
+      const star = <SVGCircleElement>document.querySelector('.star');
       const planets = document.querySelectorAll('.planets');
+      const starBBoxX = `${star.getBBox().x + star.getBBox().width / 2}`;
+      const starBBoxY = `${star.getBBox().y + star.getBBox().height / 2}`;
+      const master = new TimelineLite();
 
-      console.log(planets);
-      TweenLite.to(planets, {
-        duration: 10,
-        rotation: 360,
-        x: star.getAttribute('cx'),
-        y: star.getAttribute('cy'),
-        repeat: -1,
-        paused: false,
-        ease: Linear.easeNone,
+      planets.forEach((planet) => {
+        TweenLite.to(planet, {
+          duration: planet.getAttribute('orbit'),
+          rotation: 360,
+          svgOrigin: starBBoxX + ' ' + starBBoxY,
+          repeat: -1,
+          ease: Linear.easeNone,
+        });
       });
     }, 100);
   }
@@ -151,6 +152,10 @@ export class MapComponent implements OnInit {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
     const { layerX } = event[0];
     const { layerY } = event[0];
+
+    if (this.opened) {
+      this.open();
+    }
 
     this.currentSystem = planets;
 
@@ -195,7 +200,7 @@ export class MapComponent implements OnInit {
     );
 
     TweenLite.fromTo(
-      document.querySelectorAll('.star'),
+      document.querySelectorAll('.stars'),
       2,
       { attr: { r: '0.5%' } },
       { attr: { r: '1.5%' } }
@@ -219,7 +224,7 @@ export class MapComponent implements OnInit {
     );
 
     TweenLite.fromTo(
-      document.querySelectorAll('.star'),
+      document.querySelectorAll('.stars'),
       2,
       { attr: { r: '1.5%' } },
       { attr: { r: '0.5%' } }
