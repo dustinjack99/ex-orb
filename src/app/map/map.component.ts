@@ -129,6 +129,8 @@ export class MapComponent implements OnInit {
   open() {
     this.opened = true;
 
+    const ui = this.opened;
+
     setTimeout(() => {
       const star = <SVGCircleElement>document.querySelector('.star');
       const planets = document.querySelectorAll('.planets');
@@ -136,7 +138,7 @@ export class MapComponent implements OnInit {
       const starBBoxX = `${star.getBBox().x + star.getBBox().width / 2}`;
       const starBBoxY = `${star.getBBox().y + star.getBBox().height / 2}`;
 
-      TweenLite.fromTo(starBox, 2, {!this.opened}, {this.opeened})
+      // TweenLite.fromTo(starBox, 2, {!ui}, {ui})
 
       planets.forEach((planet) => {
         TweenLite.to(planet, {

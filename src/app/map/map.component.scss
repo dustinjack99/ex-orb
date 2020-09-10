@@ -49,10 +49,11 @@ $secondary: #ff4081;
 
 .spinner {
   align-items: center;
+  border: 1px solid red;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: auto;
+  margin: 25% auto;
 }
 
 .star {
