@@ -142,7 +142,7 @@ export class MapComponent implements OnInit {
 
       planets.forEach((planet) => {
         TweenLite.to(planet, {
-          duration: planet.getAttribute('orbit'),
+          duration: Math.max(+planet.getAttribute('orbit'), 10),
           rotation: 360,
           svgOrigin: starBBoxX + ' ' + starBBoxY,
           repeat: -1,
