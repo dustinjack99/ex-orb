@@ -28,9 +28,10 @@
 #starBox {
   border-radius: 8px;
   color: slategray;
-  display: none;
+  display: flex;
   flex-direction: column;
   justify-content: center;
+  display: none;
   padding: 10px;
   position: absolute;
   z-index: 1;
@@ -54,8 +55,13 @@
     0 8px 10px 1px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.2);
 }
 
+.starOrbits {
+  border: 1px solid blue;
+}
+
 #svg {
   border-radius: 5px;
+  height: 400px;
   width: 95%;
 }
 #svgImg {

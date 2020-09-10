@@ -14,7 +14,7 @@ import {
   getY,
   dimensions,
 } from '../shared/services/map.service';
-import { TweenLite } from 'gsap';
+import { TweenLite, Linear } from 'gsap';
 
 @Pipe({
   name: 'filterUnique',
@@ -52,6 +52,7 @@ export class FilterPipe implements PipeTransform {
 })
 export class MapComponent implements OnInit {
   area = `0 0 ${dimensions.width} ${dimensions.height}`;
+  currentSystem;
   dimensions;
   dragPosition = { x: 0, y: 0 };
   getIndexes;
@@ -62,6 +63,14 @@ export class MapComponent implements OnInit {
   loader;
   loading = true;
   mapStars$ = new Array();
+  opened = false;
+  orbit = 0;
+  // planetColors = {
+  // "[Fe/H]": "slategray", 2843 total
+  // "[M/H]": "red", 58 total
+  // "[m/H]": "blue", 20 total
+  // null: "black", 1355 total
+  // }
   zoomed = false;
 
   @ViewChild('container', { static: true })
@@ -87,13 +96,17 @@ export class MapComponent implements OnInit {
     this.getY = getY;
   }
 
+  private get container(): HTMLDivElement {
+    return this._container.nativeElement;
+  }
+
+  close() {
+    this.opened = false;
+  }
+
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
     starBox.style.display = 'none';
-  }
-
-  private get container(): HTMLDivElement {
-    return this._container.nativeElement;
   }
 
   loadListen(): any {
@@ -114,12 +127,32 @@ export class MapComponent implements OnInit {
     }, 500);
   }
 
+  open() {
+    this.opened = true;
+
+    setTimeout(() => {
+      const star = document.querySelector('.star');
+      const planets = document.querySelectorAll('.planets');
+
+      console.log(planets);
+      TweenLite.to(planets, {
+        duration: 10,
+        rotation: 360,
+        x: star.getAttribute('cx'),
+        y: star.getAttribute('cy'),
+        repeat: -1,
+        paused: false,
+        ease: Linear.easeNone,
+      });
+    }, 100);
+  }
+
   printPlanets(planets, event) {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
-    const starStats = document.querySelector('#starStats');
     const { layerX } = event[0];
     const { layerY } = event[0];
-    starStats.innerHTML = '';
+
+    this.currentSystem = planets;
 
     const starBounds = {
       x: `${event[0].path[0].getBBox().x}`,
@@ -138,21 +171,11 @@ export class MapComponent implements OnInit {
       this.dragPosition.y = layerY - 150;
     }
     if (this.dragPosition.x + 300 > event[0].view.innerWidth) {
-      this.dragPosition.x = layerX - 280;
+      this.dragPosition.x = layerX - 320;
     }
 
-    planets.map((planet) => {
-      const li = document.createElement('li');
-      li.textContent = planet.pl_name;
-      starStats.appendChild(li);
-    });
-
-    starBox.style.display = 'flex';
-    starBox.setAttribute('planets', JSON.stringify(planets));
     starBox.setAttribute('zoomBox', JSON.stringify(starBounds));
-    console.log(starBox);
-    console.log(starBox.getAttribute('planets'));
-    console.log(starBox.getAttribute('zoomBox'));
+    starBox.style.display = 'flex';
   }
 
   zoomIn() {
@@ -164,7 +187,11 @@ export class MapComponent implements OnInit {
       this.svg.nativeElement,
       2,
       { attr: { viewBox: this.area } },
-      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } }
+      {
+        attr: {
+          viewBox: `${z.x} ${z.y} ${z.width} ${z.height}`,
+        },
+      }
     );
 
     TweenLite.fromTo(
@@ -183,7 +210,11 @@ export class MapComponent implements OnInit {
     TweenLite.fromTo(
       this.svg.nativeElement,
       2,
-      { attr: { viewBox: `${z.x} ${z.y} ${z.width} ${z.height}` } },
+      {
+        attr: {
+          viewBox: `${z.x} ${z.y} ${z.width} ${z.height}`,
+        },
+      },
       { attr: { viewBox: this.area } }
     );
 

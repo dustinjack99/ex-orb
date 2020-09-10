@@ -13,13 +13,11 @@ export interface Planet {
   pl_rade: number;
   st_glat: number;
   st_glon: number;
-  st_metaratio: string;
+  st_metratio: string;
 }
 
 const FULL_URL =
-  'https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_hostname,pl_name,pl_pnum,pl_orbper,pl_bmasse,pl_rade,st_glon,st_glat,st_elat,st_elon,dec,st_metratio&format=json';
-const THIN_URL =
-  'https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_hostname,pl_name,pl_bmasse,st_glon,st_glat,st_metratio';
+  'https://exoplanetarchive.ipac.caltech.edu/cgi-bin/nstedAPI/nph-nstedAPI?table=exoplanets&select=pl_hostname,pl_name,pl_pnum,pl_orbper,pl_bmasse,st_elat,st_elon,st_metratio&format=json';
 @Injectable({
   providedIn: 'root',
 })

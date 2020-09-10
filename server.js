@@ -7,6 +7,7 @@ const http = require("http");
 const router = require("express").Router();
 const PORT = process.env.PORT || 7777;
 const server = http.createServer(app);
+const compression = require("compression");
 const path = require("path");
 const fs = require("fs");
 
@@ -21,6 +22,8 @@ const fs = require("fs");
 // }
 
 require("dotenv").config();
+
+app.use(compression());
 
 app.use(
   express.urlencoded({ extended: true, parameterLimit: 50000, limit: "50mb" })
