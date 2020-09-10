@@ -194,6 +194,10 @@ export class MapComponent implements OnInit {
     const pOrb = event[0].path[0].getAttribute('orbit')
     const p1 = document.createElement('p');
     const p2 = document.createElement('p');
+    p1.style.color = "whitesmoke"
+    p1.style.textAlign = "center"
+    p2.style.color = "whitesmoke"
+    p2.style.textAlign = "center"
     planetStats.innerHTML = '';
 
   if (pMass) {
