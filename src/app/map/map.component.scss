@@ -2,30 +2,46 @@
 $primary: #3f51b5;
 $secondary: #ff4081;
 
+.closeIcon {
+  color: whitesmoke;
+}
+
 .container {
   background-color: $primary;
    box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
     0 8px 10px 1px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.2);
 }
 
-#dragIcon {
+.dragIcon {
+  color: whitesmoke;
   cursor: move;
 }
 
 .header {
+  border-bottom: none;
+  color: whitesmoke;
   display: flex;
   justify-content: center;
-  border-bottom: none;
 }
 
 .planetButtons {
   align-content: center;
-  background-color: $secondary;
   cursor: pointer;
   display: flex;
 }
 
-#spinner {
+.planetList {
+  color: whitesmoke;
+  list-style: none;
+  margin-left: -40px;
+  text-align: center;
+}
+
+.planets {
+  fill: $secondary;
+}
+
+.spinner {
   align-items: center;
   display: flex;
   flex-direction: column;
@@ -33,8 +49,13 @@ $secondary: #ff4081;
   margin: auto;
 }
 
-#starBox {
+.star {
+  fill: $primary;
+}
+
+.starBox {
   background-color: $primary;
+  border: 5px solid $secondary;
   border-radius: 8px;
   display: none;
   flex-direction: column;
@@ -57,13 +78,14 @@ $secondary: #ff4081;
     0 2px 2px 0px rgba(0, 0, 0, 0.2), 0 1px 5px 0px rgba(0, 0, 0, 0.2);
 }
 
-#starBox:active {
+.starBox:active {
   box-shadow: 0 5px 5px -3px rgba(0, 0, 0, 0.2),
     0 8px 10px 1px rgba(0, 0, 0, 0.2), 0 3px 14px 2px rgba(0, 0, 0, 0.2);
 }
 
 .starOrbits {
-  border: 1px solid blue;
+  background-color: whitesmoke;
+  border: 2px solid $secondary;
 }
 
 .stars {
@@ -76,13 +98,16 @@ $secondary: #ff4081;
   opacity: 1;
 }
 
-#svg {
-  border-radius: 5px;
+.svg {
   height: 400px;
   width: 95%;
 }
-#svgImg {
-  border-radius: 5px;
+.svgImg {
   position: absolute;
   z-index: -10;
+}
+
+.zoomBtn, .openBtn {
+background-color: $secondary;
+color: whitesmoke;
 }

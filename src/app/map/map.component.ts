@@ -104,7 +104,7 @@ export class MapComponent implements OnInit {
   }
 
   dismissBtn() {
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     starBox.style.display = 'none';
   }
 
@@ -149,7 +149,7 @@ export class MapComponent implements OnInit {
   }
 
   printPlanets(planets, event) {
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     const { layerX } = event[0];
     const { layerY } = event[0];
 
@@ -189,7 +189,7 @@ export class MapComponent implements OnInit {
 
   zoomIn() {
     this.zoomed = true;
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     const z = JSON.parse(starBox.getAttribute('zoomBox'));
 
     TweenLite.fromTo(
@@ -213,7 +213,7 @@ export class MapComponent implements OnInit {
 
   zoomOut() {
     this.zoomed = false;
-    const starBox = <HTMLDivElement>document.querySelector('#starBox');
+    const starBox = <HTMLDivElement>document.querySelector('.starBox');
     const z = JSON.parse(starBox.getAttribute('zoomBox'));
 
     TweenLite.fromTo(
