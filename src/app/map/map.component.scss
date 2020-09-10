@@ -41,6 +41,12 @@ $secondary: #ff4081;
   fill: $secondary;
 }
 
+.planetsStats {
+  border: 1px solid red;
+  display: flex;
+  justify-items: center;
+}
+
 .spinner {
   align-items: center;
   display: flex;

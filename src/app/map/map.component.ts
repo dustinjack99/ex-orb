@@ -14,7 +14,7 @@ import {
   getY,
   dimensions,
 } from '../shared/services/map.service';
-import { TweenLite, TimelineLite, Linear } from 'gsap';
+import { TweenLite, Linear } from 'gsap';
 
 @Pipe({
   name: 'filterUnique',
@@ -132,9 +132,11 @@ export class MapComponent implements OnInit {
     setTimeout(() => {
       const star = <SVGCircleElement>document.querySelector('.star');
       const planets = document.querySelectorAll('.planets');
+      const starBox = document.querySelector('.starBox')
       const starBBoxX = `${star.getBBox().x + star.getBBox().width / 2}`;
       const starBBoxY = `${star.getBBox().y + star.getBBox().height / 2}`;
-      const master = new TimelineLite();
+
+      TweenLite.fromTo(starBox, 2, {!this.opened}, {this.opeened})
 
       planets.forEach((planet) => {
         TweenLite.to(planet, {
@@ -184,7 +186,25 @@ export class MapComponent implements OnInit {
   }
 
   readPlanet(event) {
-    console.log(event[0].path[0]);
+    const planetStats = document.querySelector('.planetStats');
+    const pMass = event[0].path[0].getAttribute('mass')
+    const pName = event[0].path[0].getAttribute('name')
+    const pOrb = event[0].path[0].getAttribute('orbit')
+    const p1 = document.createElement('p');
+    const p2 = document.createElement('p');
+    planetStats.innerHTML = '';
+
+  if (pMass) {
+    p1.textContent = ` ${pName}'s Orbit: ${pOrb} (Earth Days)`
+    p2.textContent = ` ${pName}'s Mass: ${pMass} (# of Earths)`
+    planetStats.appendChild(p1)
+    planetStats.appendChild(p2)
+  } else {
+    p1.textContent = ` ${pName}'s Orbit: ${pOrb} (Earth Days)`
+    planetStats.appendChild(p1)
+
+  }
+
   }
 
   zoomIn() {
