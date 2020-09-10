@@ -14,7 +14,7 @@ import {
   getY,
   dimensions,
 } from '../shared/services/map.service';
-import { TweenLite } from 'gsap';
+import { TweenLite, Linear } from 'gsap';
 
 @Pipe({
   name: 'filterUnique',
@@ -64,6 +64,7 @@ export class MapComponent implements OnInit {
   loading = true;
   mapStars$ = new Array();
   opened = false;
+  orbit = 0;
   // planetColors = {
   // "[Fe/H]": "slategray", 2843 total
   // "[M/H]": "red", 58 total
@@ -95,6 +96,10 @@ export class MapComponent implements OnInit {
     this.getY = getY;
   }
 
+  private get container(): HTMLDivElement {
+    return this._container.nativeElement;
+  }
+
   close() {
     this.opened = false;
   }
@@ -102,10 +107,6 @@ export class MapComponent implements OnInit {
   dismissBtn() {
     const starBox = <HTMLDivElement>document.querySelector('#starBox');
     starBox.style.display = 'none';
-  }
-
-  private get container(): HTMLDivElement {
-    return this._container.nativeElement;
   }
 
   loadListen(): any {
@@ -128,6 +129,22 @@ export class MapComponent implements OnInit {
 
   open() {
     this.opened = true;
+
+    setTimeout(() => {
+      const star = document.querySelector('.star');
+      const planets = document.querySelectorAll('.planets');
+
+      console.log(planets);
+      TweenLite.to(planets, {
+        duration: 10,
+        rotation: 360,
+        x: star.getAttribute('cx'),
+        y: star.getAttribute('cy'),
+        repeat: -1,
+        paused: false,
+        ease: Linear.easeNone,
+      });
+    }, 100);
   }
 
   printPlanets(planets, event) {
@@ -136,7 +153,6 @@ export class MapComponent implements OnInit {
     const { layerY } = event[0];
 
     this.currentSystem = planets;
-    console.log(this.currentSystem);
 
     const starBounds = {
       x: `${event[0].path[0].getBBox().x}`,
@@ -216,7 +232,6 @@ export class MapComponent implements OnInit {
     // Service Mapping Stars and Planets onto Star Map
     this.mapService.all().subscribe((response) => {
       this.mapStars$ = response;
-      console.log(response);
     });
   }
 }
