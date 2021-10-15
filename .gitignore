@@ -16,6 +16,8 @@ speed-measure-plugin*.json
 
 # IDEs and editors
 /.idea
+/.ionide
+.e2e
 .project
 .classpath
 .c9/
@@ -46,3 +48,4 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+package-lock.json
