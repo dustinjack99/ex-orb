@@ -55,18 +55,18 @@ export const getPlanets = (res, indexes) => {
   return planets;
 };
 
-export const printPlanets = (planets, event, setCurrentSystem, dragPosition, setDragPosition) => {
-  const starBox = document.querySelector(".starBox");
-  const { layerX } = event[0];
-  const { layerY } = event[0];
+export const printPlanets = (planets, event, setCurrentSystem, dragPosition, setDragPosition, starBox) => {
+  console.log(event, "events");
+  console.log(starBox);
+  const { layerX, layerY } = event.nativeEvent;
 
   setCurrentSystem(planets);
 
   const starBounds = {
-    x: `${event[0].path[0].getBBox().x}`,
-    y: `${event[0].path[0].getBBox().y}`,
-    width: `${event[0].path[0].getBBox().width}`,
-    height: `${event[0].path[0].getBBox().height}`,
+    x: `${event.nativeEvent.path[0].getBBox().x}`,
+    y: `${event.nativeEvent.path[0].getBBox().y}`,
+    width: `${event.nativeEvent.path[0].getBBox().width}`,
+    height: `${event.nativeEvent.path[0].getBBox().height}`,
   };
 
   gsap.fromTo(starBox, { opacity: 0 }, { opacity: 1 }, 0.5);
@@ -75,10 +75,10 @@ export const printPlanets = (planets, event, setCurrentSystem, dragPosition, set
   if (dragPosition.y < 0) {
     setDragPosition({ ...dragPosition }, (dragPosition.y = 0));
   }
-  if (dragPosition.y + 150 > event[0].view.innerHeight) {
+  if (dragPosition.y + 150 > event.nativeEvent.view.innerHeight) {
     setDragPosition({ ...dragPosition }, (dragPosition.y = layerY - 150));
   }
-  if (dragPosition.x + 300 > event[0].view.innerWidth) {
+  if (dragPosition.x + 300 > event.nativeEvent.view.innerWidth) {
     setDragPosition({ ...dragPosition }, (dragPosition.x = layerX - 320));
   }
 

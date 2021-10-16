@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { gsap } from "gsap";
+import React, { useRef, useState } from "react";
+import { gsap, Linear } from "gsap";
 const dismissBtn = () => {
   const starBox = document.querySelector(".starBox");
   starBox.style.display = "none";
@@ -9,7 +9,6 @@ const open = () => {
   setTimeout(() => {
     const star = document.querySelector(".star");
     const planets = document.querySelectorAll(".planets");
-    const starBox = document.querySelector(".starBox");
     const starBBoxX = `${star.getBBox().x + star.getBBox().width / 2}`;
     const starBBoxY = `${star.getBBox().y + star.getBBox().height / 2}`;
 
@@ -50,13 +49,12 @@ const readPlanet = (event) => {
   }
 };
 
-const zoomIn = () => {
-  const starBox = document.querySelector(".starBox");
+const zoomIn = (area, stars, svg) => {
   const z = JSON.parse(starBox.getAttribute("zoomBox"));
 
   gsap.fromTo(
-    this.svg.nativeElement,
-    { attr: { viewBox: this.area } },
+    svg,
+    { attr: { viewBox: area } },
     {
       attr: {
         viewBox: `${z.x} ${z.y} ${z.width} ${z.height}`,
@@ -65,45 +63,33 @@ const zoomIn = () => {
     2
   );
 
-  gsap.fromTo(
-    document.querySelectorAll(".stars"),
-    { attr: { r: "0.5%" } },
-    { attr: { r: "1.5%" } },
-    2
-  );
+  gsap.fromTo(stars, { attr: { r: "0.5%" } }, { attr: { r: "1.5%" } }, 2);
 };
 
-const zoomOut = () => {
-  const starBox = document.querySelector(".starBox");
+const zoomOut = (area, stars, svg) => {
   const z = JSON.parse(starBox.getAttribute("zoomBox"));
 
   gsap.fromTo(
-    this.svg.nativeElement,
+    svg,
     {
       attr: {
         viewBox: `${z.x} ${z.y} ${z.width} ${z.height}`,
       },
     },
-    { attr: { viewBox: this.area } },
+    { attr: { viewBox: area } },
     2
   );
 
-  gsap.fromTo(
-    document.querySelectorAll(".stars"),
-    { attr: { r: "1.5%" } },
-    { attr: { r: "0.5%" } },
-    2
-  );
+  gsap.fromTo(stars, { attr: { r: "1.5%" } }, { attr: { r: "0.5%" } }, 2);
 };
 
-const StarBox = ({ currentSystem }) => {
+const StarBox = ({ area, currentSystem, stars, starBx, svg }) => {
   const [opened, setOpened] = useState(false);
   const [zoomed, setZoomed] = useState(false);
+
   return (
-    <div className="starBox" id="starBox">
-      <div className="header">
-        {opened ? <p>{currentSystem[0].pl_hostname}</p> : <p>Exos in Orbit</p>}
-      </div>
+    <div className="starBox" id="starBox" ref={starBx}>
+      <div className="header">{opened ? <p>{currentSystem[0].pl_hostname}</p> : <p>Exos in Orbit</p>}</div>
       <div>
         {opened ? (
           <svg className="starOrbits" height="200px">
@@ -136,12 +122,11 @@ const StarBox = ({ currentSystem }) => {
         {opened ?? <div className="planetStats"></div>}
       </div>
       <div className="planetButtons">
-        <icon>zoom_out_map</icon>
         {zoomed ? (
           <button
             className="zoomBtn"
             onClick={() => {
-              zoomOut();
+              zoomOut(area, stars, starBx);
               setZoomed(false);
             }}
           >
@@ -151,7 +136,7 @@ const StarBox = ({ currentSystem }) => {
           <button
             className="zoomBtn"
             onClick={() => {
-              zoomIn();
+              zoomIn(area, stars, svg);
               setZoomed(true);
             }}
           >
@@ -173,9 +158,9 @@ const StarBox = ({ currentSystem }) => {
             Open
           </button>
         )}
-        <icon className="closeIcon" onClick={() => dismissBtn()}>
+        <button className="closeIcon" onClick={() => dismissBtn()}>
           close
-        </icon>
+        </button>
       </div>
     </div>
   );

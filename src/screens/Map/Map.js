@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import StarBox from "./components/StarBox";
 import { gsap } from "gsap";
 import { all, getIndexes, getPlanets, getX, getY, printPlanets } from "./utilities/mapFunctions";
 import "./map.css";
 
 const Map = () => {
-  const [currentSystem, setCurrentSystem] = useState({});
+  const [currentSystem, setCurrentSystem] = useState([]);
   const [loading, setLoading] = useState(true);
   const [dimensions, setDimensions] = useState({
     width: window.innerWidth,
@@ -13,12 +13,14 @@ const Map = () => {
   });
   const [dragPosition, setDragPosition] = useState({ x: 0, y: 0 });
   const [stars, setStars] = useState([]);
+  const allStars = useRef(null);
+  const starBx = useRef(null);
+  const svgRef = useRef(null);
   const area = `0 0 ${dimensions.width} ${dimensions.height}`;
 
   useEffect(() => {
     const loadListen = (setLoading) => {
       let loader;
-      const svg = document.querySelector("#svg");
       const container = document.querySelector(".container");
       loader = setInterval(() => {
         setLoading(false);
@@ -41,8 +43,6 @@ const Map = () => {
 
   return (
     <>
-      {/* <StarBox /> */}
-
       {loading === true ? (
         <div className="spinner">
           <h2>Loading the Milky Way...</h2>
@@ -50,6 +50,7 @@ const Map = () => {
       ) : (
         <div className="container">
           <svg
+            ref={svgRef}
             height={dimensions.height}
             width={dimensions.width}
             viewBox={area}
@@ -76,6 +77,7 @@ const Map = () => {
                   className="stars"
                   id="star"
                   r="0.5%"
+                  ref={allStars}
                   name={star.pl_hostname}
                   onClick={(e) => {
                     e.preventDefault();
@@ -84,13 +86,23 @@ const Map = () => {
                       e,
                       setCurrentSystem,
                       dragPosition,
-                      setDragPosition
+                      setDragPosition,
+                      starBx.current
                     );
                   }}
                 />
               );
             })}
           </svg>
+          {currentSystem.length > 0 && (
+            <StarBox
+              area={area}
+              currentSystem={currentSystem}
+              stars={allStars.current}
+              starBx={starBx}
+              svg={svg ? svgRef.current : null}
+            />
+          )}
         </div>
       )}
     </>
